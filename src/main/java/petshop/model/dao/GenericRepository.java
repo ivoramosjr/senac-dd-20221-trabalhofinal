@@ -1,10 +1,12 @@
-package model.dao;
+package petshop.model.dao;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 @Transactional
+@RequestScoped
 public class GenericRepository {
 	
 	@Inject
