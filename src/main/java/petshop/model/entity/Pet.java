@@ -32,6 +32,8 @@ public class Pet {
 	
 	@Enumerated(EnumType.STRING)
 	private TipoAnimal tipoAnimal;
+	
+	private int pontosFidelidade;
 
 	public Pet() {
 	}
@@ -82,6 +84,14 @@ public class Pet {
 
 	public void setTipoAnimal(TipoAnimal tipoAnimal) {
 		this.tipoAnimal = tipoAnimal;
+	}
+
+	public int getPontosFidelidade() {
+		return pontosFidelidade;
+	}
+
+	public void setPontosFidelidade(int pontosFidelidade) {
+		this.pontosFidelidade = pontosFidelidade;
 	}
 
 }
