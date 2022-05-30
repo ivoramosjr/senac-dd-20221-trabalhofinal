@@ -1,4 +1,4 @@
-package model.entity;
+package petshop.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

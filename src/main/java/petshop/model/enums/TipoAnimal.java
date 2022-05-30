@@ -1,4 +1,4 @@
-package model.enums;
+package petshop.model.enums;
 
 public enum TipoAnimal {
 	

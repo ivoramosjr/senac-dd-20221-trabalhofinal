@@ -1,4 +1,4 @@
-package model.entity;
+package petshop.model.entity;
 
 import java.time.LocalDate;
 
@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import model.enums.TipoAnimal;
+import petshop.model.enums.TipoAnimal;
 
 @Entity
 public class Pet {
