@@ -3,7 +3,11 @@
   <groupId>br.com.senac</groupId>
   <artifactId>petshop</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>PetShop</name>
+	<properties>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+	</properties>
+	<name>PetShop</name>
   
 	<dependencies>
 	
@@ -47,6 +51,13 @@
             <artifactId>hibernate-validator</artifactId>
             <version>6.2.0.Final</version>
         </dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.miglayout/miglayout-swing -->
+		<dependency>
+			<groupId>com.miglayout</groupId>
+			<artifactId>miglayout-swing</artifactId>
+			<version>11.0</version>
+		</dependency>
 
 	</dependencies>
 </project>
