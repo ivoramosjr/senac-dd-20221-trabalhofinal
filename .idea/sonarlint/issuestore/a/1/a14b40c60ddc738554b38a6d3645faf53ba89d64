@@ -1,0 +1,7 @@
+
+c
+java:S3008"NRename this field "LOG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Þזֳ
+~
+java:S1450"\Remove the "entityManager" field and declare it as a local variable in the relevant methods.(וםותÿÿÿÿ8ֲ¦קˆ0
+S
+java:S1068"1Remove this unused "entityManager" private field.(וםותÿÿÿÿ8ָ¦קˆ0
