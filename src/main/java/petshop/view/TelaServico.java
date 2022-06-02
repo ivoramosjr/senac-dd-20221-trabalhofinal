@@ -14,8 +14,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class TelaServico extends JPanel {
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField nameField;
+	private JTextField valueField;
 
 	/**
 	 * Create the panel.
@@ -54,20 +54,20 @@ public class TelaServico extends JPanel {
 		lblNewLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		add(lblNewLabel, "2, 4, fill, top");
 		
-		textField = new JTextField();
-		add(textField, "2, 6, fill, top");
-		textField.setColumns(10);
+		nameField = new JTextField();
+		add(nameField, "2, 6, fill, top");
+		nameField.setColumns(10);
 		
-		JTextPane textPane = new JTextPane();
-		add(textPane, "4, 6, 1, 5, fill, fill");
+		JTextPane descriptionField = new JTextPane();
+		add(descriptionField, "4, 6, 1, 5, fill, fill");
 		
 		JLabel lblNewLabel_1 = new JLabel("Valor do servi\u00E7o:");
 		lblNewLabel_1.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		add(lblNewLabel_1, "2, 8, fill, top");
 		
-		textField_1 = new JTextField();
-		add(textField_1, "2, 10, fill, top");
-		textField_1.setColumns(10);
+		valueField = new JTextField();
+		add(valueField, "2, 10, fill, top");
+		valueField.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Descri\u00E7\u00E3o do servi\u00E7o:");
 		lblNewLabel_2.setFont(new Font("SansSerif", Font.PLAIN, 12));
