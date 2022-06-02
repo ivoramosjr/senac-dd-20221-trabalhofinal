@@ -6,11 +6,15 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
 
 public class MainView extends JFrame {
 
 	private JFrame frame;
+	private JPanel panel;
 	private JMenuBar menuBar;
+	private JMenu petsMenu;
 
 	/**
 	 * Launch the application.
@@ -34,11 +38,15 @@ public class MainView extends JFrame {
 	MainView() {
 		initialize();
 		
+		panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.CENTER);
+		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
-		JMenu petsMenu = new JMenu("Pets");
+		petsMenu = new JMenu("Pets");
 		menuBar.add(petsMenu);
+		
+		
 		
 	}
 
