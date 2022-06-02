@@ -10,10 +10,8 @@ public class Application {
 
 	private static Logger LOG = LogManager.getLogger(Application.class);
 	
-	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		LOG.info("Iniciando a aplicação");
-		EntityManager entityManager = new JpaConnectionFactory().getEntityManager();
 	}
 
 }
