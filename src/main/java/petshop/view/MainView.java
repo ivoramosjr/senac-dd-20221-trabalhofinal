@@ -3,10 +3,14 @@ package petshop.view;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class MainView extends JFrame {
 
 	private JFrame frame;
+	private JMenuBar menuBar;
 
 	/**
 	 * Launch the application.
@@ -29,6 +33,12 @@ public class MainView extends JFrame {
 	 */
 	MainView() {
 		initialize();
+		
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu petsMenu = new JMenu("Pets");
+		menuBar.add(petsMenu);
 		
 	}
 
