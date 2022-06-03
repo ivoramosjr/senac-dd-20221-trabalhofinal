@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import petshop.connection.JpaConnectionFactory;
+import petshop.views.MainView;
 
 public class Application {
 
@@ -12,6 +13,7 @@ public class Application {
 	
 	public static void main(String[] args) {
 		LOG.info("Iniciando a aplicação");
+		MainView.showScreen();
 	}
 
 }
