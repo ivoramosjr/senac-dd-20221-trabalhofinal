@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Thu Jun 02 18:11:44 BRT 2022
  */
 
-package petshop.views;
+package petshop.views.ListagemServico;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -44,7 +44,7 @@ public class TelaListagemServico extends JPanel {
         labelNome = new JLabel();
         labelOrdemValor = new JLabel();
         textFieldNome = new JTextField();
-        comboBoxOrdemValor = new JComboBox();
+        comboBoxOrdemValor = new JComboBox<>();
         buttonFiltrar = new JButton();
         scrollPaneListaServicos = new JScrollPane();
         tableServicos = new JTable();
@@ -65,32 +65,28 @@ public class TelaListagemServico extends JPanel {
 
         //---- labelListaServico ----
         labelListaServico.setText("Lista de servi\u00e7os");
-        labelListaServico.setFont(new Font("SansSerif", Font.BOLD, 22));
+        labelListaServico.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
         add(labelListaServico, "cell 1 0,align center center,grow 0 0");
 
         //---- buttonCriarServico ----
         buttonCriarServico.setText("Criar servi\u00e7o");
-        buttonCriarServico.setFont(new Font("SansSerif", Font.BOLD, 14));
-        buttonCriarServico.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                criarServico(e);
-            }
-        });
+        buttonCriarServico.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+        buttonCriarServico.addActionListener(e -> criarServico(e));
         add(buttonCriarServico, "cell 2 1,align right center,grow 0 0");
 
         //---- labelNome ----
         labelNome.setText("Nome:");
-        labelNome.setFont(new Font("SansSerif", Font.BOLD, 12));
+        labelNome.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
         add(labelNome, "cell 0 2,alignx left,growx 0");
 
         //---- labelOrdemValor ----
         labelOrdemValor.setText("Ordem valor:");
-        labelOrdemValor.setFont(new Font("SansSerif", Font.BOLD, 12));
+        labelOrdemValor.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
         add(labelOrdemValor, "cell 1 2,alignx left,growx 0");
         add(textFieldNome, "cell 0 3,growx");
 
         //---- comboBoxOrdemValor ----
-        comboBoxOrdemValor.setModel(new DefaultComboBoxModel(new String[] {
+        comboBoxOrdemValor.setModel(new DefaultComboBoxModel<>(new String[] {
             "Crescente",
             "Descrescente"
         }));
@@ -98,12 +94,8 @@ public class TelaListagemServico extends JPanel {
 
         //---- buttonFiltrar ----
         buttonFiltrar.setText("Filtrar");
-        buttonFiltrar.setFont(new Font("SansSerif", Font.BOLD, 14));
-        buttonFiltrar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                filtrar(e);
-            }
-        });
+        buttonFiltrar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+        buttonFiltrar.addActionListener(e -> filtrar(e));
         add(buttonFiltrar, "cell 2 3,alignx left,growx 0");
 
         //======== scrollPaneListaServicos ========
@@ -142,7 +134,7 @@ public class TelaListagemServico extends JPanel {
     private JLabel labelNome;
     private JLabel labelOrdemValor;
     private JTextField textFieldNome;
-    private JComboBox comboBoxOrdemValor;
+    private JComboBox<String> comboBoxOrdemValor;
     private JButton buttonFiltrar;
     private JScrollPane scrollPaneListaServicos;
     private JTable tableServicos;

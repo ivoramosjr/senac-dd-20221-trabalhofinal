@@ -6,7 +6,7 @@ package petshop.views.MainView;
 
 import javax.swing.*;
 import net.miginfocom.swing.*;
-import petshop.views.TelaListagemServico;
+import petshop.views.ListagemServico.TelaListagemServico;
 
 /**
  * @author unknown

@@ -45,7 +45,7 @@ public class TelaRegistrarAtendimento extends JPanel {
 
         //---- label1 ----
         label1.setText("Registrar Atendimento");
-        label1.setFont(new Font("Serif", Font.BOLD, 24));
+        label1.setFont(new Font(Font.SERIF, Font.BOLD, 24));
         add(label1, "cell 1 0");
 
         //---- label2 ----
@@ -61,7 +61,7 @@ public class TelaRegistrarAtendimento extends JPanel {
         //---- label4 ----
         label4.setText("Valor R$50,00");
         label4.setHorizontalAlignment(SwingConstants.CENTER);
-        label4.setFont(new Font("Serif", Font.BOLD, 20));
+        label4.setFont(new Font(Font.SERIF, Font.BOLD, 20));
         add(label4, "cell 1 5");
 
         //---- button1 ----
