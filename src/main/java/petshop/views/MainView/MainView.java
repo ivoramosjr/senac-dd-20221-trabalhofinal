@@ -6,6 +6,7 @@ package petshop.views.MainView;
 
 import javax.swing.*;
 import net.miginfocom.swing.*;
+import petshop.views.AgendarAtendimento.TelaAgendarAtendimento;
 import petshop.views.TelaListagemServico;
 
 /**
@@ -15,12 +16,18 @@ public class MainView extends JFrame {
 
     public MainView() {
         initComponents();
-        renderizarListagemServico();
+        renderizarAgendarAtendimento();
     }
 
     private void renderizarListagemServico() {
         TelaListagemServico telaListagemServico = new TelaListagemServico();
         setContentPane(telaListagemServico);
+        revalidate();
+    }
+
+    private void renderizarAgendarAtendimento() {
+        TelaAgendarAtendimento telaAgendarAtendimento = new TelaAgendarAtendimento();
+        setContentPane(telaAgendarAtendimento);
         revalidate();
     }
 
