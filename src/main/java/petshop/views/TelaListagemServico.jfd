@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.5.4.420" Java: "11.0.14.1" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.5.4.420" Java: "11.0.15" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -69,9 +69,11 @@ new FormModel {
 					"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector, new java.util.Vector {
 						add( "Serviço" )
 						add( "Valor" )
+						add( "Descrição" )
 						add( "Editar" )
 						add( "Deletar" )
 					}, new java.util.Vector {
+						add( null )
 						add( null )
 						add( null )
 						add( null )
@@ -81,8 +83,10 @@ new FormModel {
 						add( null )
 						add( null )
 						add( null )
+						add( null )
 					}, new java.util.Vector {
 						add( new com.jformdesigner.model.SwingTableColumn( null, 0, 0, 0, false ) )
+						add( null )
 						add( null )
 						add( null )
 						add( null )
