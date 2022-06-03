@@ -1,0 +1,99 @@
+JFDML JFormDesigner: "7.0.5.4.420" Java: "11.0.15" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "hidemode 3"
+			"$columnConstraints": "[grow,fill]"
+			"$rowConstraints": "[][][][grow]"
+		} ) {
+			name: "this"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "labelListaAtendimentos"
+				"text": "Lista de atendimentos"
+				"font": new java.awt.Font( "SansSerif", 1, 22 )
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "buttonGerarRelatorio"
+				"text": "Gerar relatório"
+				"font": new java.awt.Font( "SansSerif", 1, 12 )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 1,alignx left,growx 0"
+			} )
+			add( new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "menuBarRealizadoAgendado"
+				add( new FormComponent( "javax.swing.JRadioButtonMenuItem" ) {
+					name: "radioButtonMenuItemAgendado"
+					"text": "Agendados"
+					"selected": true
+				} )
+				add( new FormComponent( "javax.swing.JRadioButtonMenuItem" ) {
+					name: "radioButtonMenuItemRealizados"
+					"text": "Realizados"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 1,alignx right,growx 0"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "hidemode 3"
+				"$columnConstraints": "[grow,fill][grow,fill][grow,fill][grow,fill]"
+				"$rowConstraints": "[grow][grow]"
+			} ) {
+				name: "panelEntradas"
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "labelNome"
+					"text": "Nome:"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0,alignx left,growx 0"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "labelRaca"
+					"text": "Raça:"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 0,alignx left,growx 0"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "labelOrdemData"
+					"text": "Ordem data:"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 0,alignx left,growx 0"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "textFieldNome"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1,growx"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "textFieldRaca"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 1"
+				} )
+				add( new FormComponent( "javax.swing.JComboBox" ) {
+					name: "comboBoxFiltro"
+					"model": new javax.swing.DefaultComboBoxModel {
+						selectedItem: "Crescente"
+						addElement( "Crescente" )
+						addElement( "Decrescente" )
+					}
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 1,alignx left,growx 0"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "buttonFiltrar"
+					"text": "Filtrar"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 3 1,alignx left,growx 0"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 2"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 600, 380 )
+		} )
+	}
+}
