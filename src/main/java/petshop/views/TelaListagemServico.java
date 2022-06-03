@@ -107,11 +107,11 @@ public class TelaListagemServico extends JPanel {
                 new Object[][] {
                 },
                 new String[] {
-                    "Servi\u00e7o", "Valor", "Editar", "Deletar"
+                    "Servi\u00e7o", "Valor", "Descri\u00e7\u00e3o", "Editar", "Deletar"
                 }
             ) {
                 boolean[] columnEditable = new boolean[] {
-                    false, true, true, true
+                    false, true, true, true, true
                 };
                 @Override
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
