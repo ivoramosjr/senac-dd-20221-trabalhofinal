@@ -5,7 +5,9 @@
 package petshop.views.ListagemAtendimentos;
 
 import java.awt.*;
+import java.util.*;
 import javax.swing.*;
+import javax.swing.table.*;
 import net.miginfocom.swing.*;
 
 /**
@@ -31,6 +33,8 @@ public class TelaListagemAtendimentos extends JPanel {
         textFieldRaca = new JTextField();
         comboBoxFiltro = new JComboBox<>();
         buttonFiltrar = new JButton();
+        scrollPaneTabela = new JScrollPane();
+        tableListaAtendimentos = new JTable();
 
         //======== this ========
         setLayout(new MigLayout(
@@ -107,6 +111,30 @@ public class TelaListagemAtendimentos extends JPanel {
             panelEntradas.add(buttonFiltrar, "cell 3 1,alignx left,growx 0");
         }
         add(panelEntradas, "cell 0 2");
+
+        //======== scrollPaneTabela ========
+        {
+
+            //---- tableListaAtendimentos ----
+            tableListaAtendimentos.setModel(new DefaultTableModel(
+                new Object[][] {
+                },
+                new String[] {
+                    "Nome", "Ra\u00e7a", "Servi\u00e7o", "Data", "Hor\u00e1rio", "Editar", "Apagar"
+                }
+            ) {
+                Class<?>[] columnTypes = new Class<?>[] {
+                    String.class, String.class, String.class, Date.class, String.class, Object.class, Object.class
+                };
+                @Override
+                public Class<?> getColumnClass(int columnIndex) {
+                    return columnTypes[columnIndex];
+                }
+            });
+            tableListaAtendimentos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            scrollPaneTabela.setViewportView(tableListaAtendimentos);
+        }
+        add(scrollPaneTabela, "cell 0 3,growx");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
@@ -124,5 +152,7 @@ public class TelaListagemAtendimentos extends JPanel {
     private JTextField textFieldRaca;
     private JComboBox<String> comboBoxFiltro;
     private JButton buttonFiltrar;
+    private JScrollPane scrollPaneTabela;
+    private JTable tableListaAtendimentos;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
