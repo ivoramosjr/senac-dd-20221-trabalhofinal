@@ -6,6 +6,7 @@ package petshop.views.MainView;
 
 import javax.swing.*;
 import net.miginfocom.swing.*;
+import petshop.views.CadastrarPet.CadastrarPet;
 import petshop.views.ListagemServico.TelaListagemServico;
 
 /**
@@ -19,7 +20,7 @@ public class MainView extends JFrame {
     }
 
     private void renderizarListagemServico() {
-        TelaListagemServico telaListagemServico = new TelaListagemServico();
+        CadastrarPet telaListagemServico = new CadastrarPet();
         setContentPane(telaListagemServico);
         revalidate();
     }
