@@ -32,10 +32,11 @@ public class Pet {
 	
 	@Enumerated(EnumType.STRING)
 	private TipoAnimal tipoAnimal;
-	
-	private Integer pontosFidelidade;
+
+	private Integer pontosFidelidade = 0;
 
 	public Pet() {
+		this.pontosFidelidade = 0;
 	}
 
 	public Long getIdPet() {
