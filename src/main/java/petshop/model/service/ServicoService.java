@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ServicoService {
 
-    private static Logger LOG = LogManager.getLogger(ServicoService.class);
+    private static final Logger LOG = LogManager.getLogger(ServicoService.class);
     private EntityManager entityManager = new JpaConnectionFactory().getEntityManager();
 
     private ServicoDAO servicoDAO;
@@ -21,26 +21,23 @@ public class ServicoService {
         this.servicoDAO = new ServicoDAO(this.entityManager);
     }
 
-    //TODO vai receber um ServicoDTO no lugar do servico
     public void save(Servico servico) {
-        //TODO validações
-
         try {
-            this.servicoDAO.getEntityManager().getTransaction().begin();
+            openTransaction();
             this.servicoDAO.save(servico);
-            this.servicoDAO.getEntityManager().getTransaction().commit();
+            commitTransaction();
         }catch (SQLException e) {
-            LOG.error("Deu ruim: "+e.getMessage());
+            LOG.error("Falha ao salvar serviço no banco: "+e.getMessage());
         }
     }
 
     public void delete(Servico servico) {
         try {
-            this.servicoDAO.getEntityManager().getTransaction().begin();
+            openTransaction();
             this.servicoDAO.delete(servico);
-            this.servicoDAO.getEntityManager().getTransaction().commit();
+            commitTransaction();
         } catch (SQLException e) {
-            LOG.error("Deu ruim: "+e.getMessage());
+            LOG.error("Falha ao deletar serviço no banco: "+e.getMessage());
         }
     }
 
@@ -48,9 +45,26 @@ public class ServicoService {
         try {
             return this.servicoDAO.findAll();
         } catch (Exception e) {
-            LOG.error("Deu ruim: "+e.getMessage());
+            LOG.error("Falha ao buscar serviços no banco: "+e.getMessage());
         }
         return null;
     }
 
+    public void update(Servico servico) {
+        try {
+            openTransaction();
+            this.servicoDAO.update(servico);
+            commitTransaction();
+        }catch (SQLException e) {
+            LOG.error("Falha ao atualizar serviço no banco: "+e.getMessage());
+        }
+    }
+
+    private void openTransaction() {
+        this.servicoDAO.getEntityManager().getTransaction().begin();
+    }
+
+    private void commitTransaction() {
+        this.servicoDAO.getEntityManager().getTransaction().commit();
+    }
 }

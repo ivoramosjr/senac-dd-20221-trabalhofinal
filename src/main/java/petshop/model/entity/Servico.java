@@ -1,5 +1,8 @@
 package petshop.model.entity;
 
+import org.hibernate.annotations.ColumnDefault;
+
+import javax.enterprise.inject.Default;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +22,8 @@ public class Servico {
 	private Double valor;
 	
 	private String descricao;
+
+	private Boolean ativo = true;
 
 	public Servico() {}
 
@@ -52,6 +57,14 @@ public class Servico {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
 	}
 	
 }
