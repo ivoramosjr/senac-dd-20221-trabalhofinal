@@ -1,12 +1,12 @@
-JFDML JFormDesigner: "7.0.5.4.420" Java: "11.0.14.1" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.5.4.420" Java: "11.0.15" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 			"$layoutConstraints": "hidemode 3"
-			"$columnConstraints": "[154,grow,center][127,grow,center][180,grow,center]"
-			"$rowConstraints": "[][][][][244]"
+			"$columnConstraints": "[154,grow,center][127,grow,center][fill][180,grow,center]"
+			"$rowConstraints": "[][][][][244][]"
 		} ) {
 			name: "this"
 			add( new FormComponent( "javax.swing.JLabel" ) {
@@ -22,7 +22,7 @@ new FormModel {
 				"font": new java.awt.Font( "SansSerif", 1, 14 )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "criarServico", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 2 1,align right center,grow 0 0"
+				"value": "cell 3 1,align right center,grow 0 0"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "labelNome"
@@ -34,9 +34,16 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "labelOrdemValor"
 				"text": "Ordem valor:"
-				"font": new java.awt.Font( "SansSerif", 1, 12 )
+				"font": &Font0 new java.awt.Font( "SansSerif", 1, 12 )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 1 2,alignx left,growx 0"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "labelOrdemValor2"
+				"text": "Ordem QTD atendimentos:"
+				"font": #Font0
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 2 2,alignx left,growx 0"
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "textFieldNome"
@@ -53,13 +60,23 @@ new FormModel {
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 1 3,growx"
 			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "comboBoxOrdemAtendimento"
+				"model": new javax.swing.DefaultComboBoxModel {
+					selectedItem: "Crescente"
+					addElement( "Crescente" )
+					addElement( "Descrescente" )
+				}
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 2 3"
+			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "buttonFiltrar"
 				"text": "Filtrar"
 				"font": new java.awt.Font( "SansSerif", 1, 14 )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "filtrar", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 2 3,alignx left,growx 0"
+				"value": "cell 3 3,alignx left,growx 0"
 			} )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 				name: "scrollPaneListaServicos"
@@ -69,7 +86,7 @@ new FormModel {
 					"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector, new java.util.Vector {
 						add( "Serviço" )
 						add( "Valor" )
-						add( "Descrição" )
+						add( "QTD atendimentos" )
 						add( "Editar" )
 						add( "Deletar" )
 					}, new java.util.Vector {
@@ -93,11 +110,11 @@ new FormModel {
 					} )
 				} )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 4 3 1,grow"
+				"value": "cell 0 4 4 1,grow"
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 280 )
-			"size": new java.awt.Dimension( 375, 172 )
+			"size": new java.awt.Dimension( 590, 170 )
 		} )
 	}
 }

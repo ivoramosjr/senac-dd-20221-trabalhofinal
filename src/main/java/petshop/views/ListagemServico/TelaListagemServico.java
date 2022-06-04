@@ -43,8 +43,10 @@ public class TelaListagemServico extends JPanel {
         buttonCriarServico = new JButton();
         labelNome = new JLabel();
         labelOrdemValor = new JLabel();
+        labelOrdemValor2 = new JLabel();
         textFieldNome = new JTextField();
         comboBoxOrdemValor = new JComboBox<>();
+        comboBoxOrdemAtendimento = new JComboBox<>();
         buttonFiltrar = new JButton();
         scrollPaneListaServicos = new JScrollPane();
         tableServicos = new JTable();
@@ -55,13 +57,15 @@ public class TelaListagemServico extends JPanel {
             // columns
             "[154,grow,center]" +
             "[127,grow,center]" +
+            "[fill]" +
             "[180,grow,center]",
             // rows
             "[]" +
             "[]" +
             "[]" +
             "[]" +
-            "[244]"));
+            "[244]" +
+            "[]"));
 
         //---- labelListaServico ----
         labelListaServico.setText("Lista de servi\u00e7os");
@@ -72,7 +76,7 @@ public class TelaListagemServico extends JPanel {
         buttonCriarServico.setText("Criar servi\u00e7o");
         buttonCriarServico.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
         buttonCriarServico.addActionListener(e -> criarServico(e));
-        add(buttonCriarServico, "cell 2 1,align right center,grow 0 0");
+        add(buttonCriarServico, "cell 3 1,align right center,grow 0 0");
 
         //---- labelNome ----
         labelNome.setText("Nome:");
@@ -83,6 +87,11 @@ public class TelaListagemServico extends JPanel {
         labelOrdemValor.setText("Ordem valor:");
         labelOrdemValor.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
         add(labelOrdemValor, "cell 1 2,alignx left,growx 0");
+
+        //---- labelOrdemValor2 ----
+        labelOrdemValor2.setText("Ordem QTD atendimentos:");
+        labelOrdemValor2.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+        add(labelOrdemValor2, "cell 2 2,alignx left,growx 0");
         add(textFieldNome, "cell 0 3,growx");
 
         //---- comboBoxOrdemValor ----
@@ -92,11 +101,18 @@ public class TelaListagemServico extends JPanel {
         }));
         add(comboBoxOrdemValor, "cell 1 3,growx");
 
+        //---- comboBoxOrdemAtendimento ----
+        comboBoxOrdemAtendimento.setModel(new DefaultComboBoxModel<>(new String[] {
+            "Crescente",
+            "Descrescente"
+        }));
+        add(comboBoxOrdemAtendimento, "cell 2 3");
+
         //---- buttonFiltrar ----
         buttonFiltrar.setText("Filtrar");
         buttonFiltrar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
         buttonFiltrar.addActionListener(e -> filtrar(e));
-        add(buttonFiltrar, "cell 2 3,alignx left,growx 0");
+        add(buttonFiltrar, "cell 3 3,alignx left,growx 0");
 
         //======== scrollPaneListaServicos ========
         {
@@ -107,7 +123,7 @@ public class TelaListagemServico extends JPanel {
                 new Object[][] {
                 },
                 new String[] {
-                    "Servi\u00e7o", "Valor", "Descri\u00e7\u00e3o", "Editar", "Deletar"
+                    "Servi\u00e7o", "Valor", "QTD atendimentos", "Editar", "Deletar"
                 }
             ) {
                 boolean[] columnEditable = new boolean[] {
@@ -124,7 +140,7 @@ public class TelaListagemServico extends JPanel {
             }
             scrollPaneListaServicos.setViewportView(tableServicos);
         }
-        add(scrollPaneListaServicos, "cell 0 4 3 1,grow");
+        add(scrollPaneListaServicos, "cell 0 4 4 1,grow");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
@@ -133,8 +149,10 @@ public class TelaListagemServico extends JPanel {
     private JButton buttonCriarServico;
     private JLabel labelNome;
     private JLabel labelOrdemValor;
+    private JLabel labelOrdemValor2;
     private JTextField textFieldNome;
     private JComboBox<String> comboBoxOrdemValor;
+    private JComboBox<String> comboBoxOrdemAtendimento;
     private JButton buttonFiltrar;
     private JScrollPane scrollPaneListaServicos;
     private JTable tableServicos;
