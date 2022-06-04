@@ -1,10 +1,10 @@
 package petshop.model.dao;
 
-import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
@@ -30,5 +30,13 @@ public class PetDAO extends GenericRepository{
 	public List<Pet> findAll(){
 		return this.getEntityManager().createQuery("SELECT p FROM Pet p").getResultList();
 	}
-	
+
+	public boolean petExists(Long idPet) {
+		try{
+			this.getEntityManager().find(Pet.class, idPet);
+			return true;
+		}catch (NoResultException e){
+			return false;
+		}
+	}
 }

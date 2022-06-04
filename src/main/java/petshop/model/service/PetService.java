@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import petshop.connection.JpaConnectionFactory;
 import petshop.exceptions.AtributosInvalidosException;
+import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.dao.PetDAO;
 import petshop.model.dtos.PetDTO;
 import petshop.model.entity.Pet;
@@ -40,32 +41,79 @@ public class PetService {
 
 		setAtributosPet(petDTO, pet);
 
-		this.petDAO.getEntityManager().getTransaction().begin();
+		abrirConexaoBanco();
 		this.petDAO.save(pet);
-		this.petDAO.getEntityManager().getTransaction().commit();
+		commitarTransacaoBanco();
+		LOG.info("Pet adicionado com sucesso!");
 	}
 
+	public void update(Long idPet, PetDTO petDTO) throws RegistroNaoEncontradoException {
+		LOG.info("Preparando para atualizar o Pet de id:"+idPet);
+
+		if(!petDAO.petExists(idPet)){
+			throw new RegistroNaoEncontradoException("Pet de ID: "+ idPet +" não encontrado na base de dados!");
+		}
+
+		Pet pet = petDAO.find(Pet.class, idPet);
+
+		setAtributosPet(petDTO, pet);
+
+		abrirConexaoBanco();
+		this.petDAO.merge(pet);
+		commitarTransacaoBanco();
+
+		LOG.info("Pet atualizado com sucesso!");
+	}
+
+	public List<PetDTO> listAll(){
+		LOG.info("Procurando todos os pets cadastrados");
+		List<Pet> petsEntity = this.petDAO.findAll();
+		List<PetDTO> pets = new ArrayList<>();
+
+		for(Pet pet : petsEntity){
+			pets.add(new PetDTO(pet));
+		}
+
+		LOG.info("Foram encontrados "+pets.size()+" pets.");
+
+		return pets;
+	}
+
+	//TODO fazer delete lógico do pet
+
 	private void setAtributosPet(PetDTO petDTO, Pet pet) {
-		pet.setNome(petDTO.getNome());
-		pet.setDataNascimento(petDTO.getDataNascimento());
-		pet.setNomeDono(petDTO.getNomeDono());
-		pet.setRaca(petDTO.getRaca());
-		pet.setTipoAnimal(petDTO.getTipoAnimal());
+		if(petDTO.getNome() != null)
+			pet.setNome(petDTO.getNome());
+
+		if(petDTO.getDataNascimento() != null)
+			pet.setDataNascimento(petDTO.getDataNascimento());
+
+		if(petDTO.getNomeDono() != null)
+			pet.setNomeDono(petDTO.getNomeDono());
+
+		if(petDTO.getRaca() != null)
+			pet.setRaca(petDTO.getRaca());
+
+		if(petDTO.getTipoAnimal() != null)
+			pet.setTipoAnimal(petDTO.getTipoAnimal());
+
+		if(petDTO.getPontosFidelidade() > 0)
+			pet.setPontosFidelidade(petDTO.getPontosFidelidade());
 	}
 
 	private void validarAtributos(PetDTO pet) throws AtributosInvalidosException {
 		LOG.info("Validando os atributos do Pet");
 		List<String> messages = new ArrayList<>();
 
-		if(pet.getNome().isBlank()){
+		if(pet.getNome().isBlank() || pet.getNome() == null){
 			messages.add("Nome não pode estar em branco ou nulo!");
 		}
 
 		if(pet.getDataNascimento() == null){
-			messages.add("A data de nascimento não pode estar nula!");
+			messages.add("Informe a data de nascimento!");
 		}
 
-		if(pet.getRaca().isBlank()){
+		if(pet.getRaca().isBlank() || pet.getRaca() == null){
 			messages.add("Raça não pode estar em branco ou nulo!");
 		}
 
@@ -77,6 +125,14 @@ public class PetService {
 			LOG.error("Erro ao validar os atributos. Algum atributo inválido!");
 			throw new AtributosInvalidosException(messages.toString());
 		}
+	}
+
+	private void commitarTransacaoBanco() {
+		this.petDAO.getEntityManager().getTransaction().commit();
+	}
+
+	private void abrirConexaoBanco() {
+		this.petDAO.getEntityManager().getTransaction().begin();
 	}
 
 }
