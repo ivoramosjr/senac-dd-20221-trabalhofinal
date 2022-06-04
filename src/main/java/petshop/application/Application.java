@@ -4,9 +4,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Scanner;
+
+import petshop.model.entity.Atendimento;
 import petshop.model.entity.Pet;
+import petshop.model.entity.Servico;
+import petshop.model.enums.StatusAtendimentoEnum;
 import petshop.model.enums.TipoAnimal;
+import petshop.model.service.AtendimentoService;
 import petshop.model.service.PetService;
 
 public class Application {
@@ -29,6 +35,21 @@ public class Application {
 		pet.setTipoAnimal(TipoAnimal.CACHORRO);
 		
 		servicePet.save(pet);
+
+		Atendimento atendimento = new Atendimento();
+
+		Servico servico = new Servico();
+
+		servico.setNome("Banho");
+		servico.setDescricao("Banho com espuma");
+		servico.setDescricao("Pedir para gabrielle dar banho no doguinho");
+
+//		atendimento.setDataAtendimento(LocalDateTime.parse("2000-30-10 00:00:00"));
+		atendimento.setStatusAtendimento(StatusAtendimentoEnum.DESMARCADO);
+		atendimento.setPet(pet);
+		atendimento.setServico(servico);
+		AtendimentoService atendimentoService = new AtendimentoService();
+		atendimentoService.save(atendimento);
 		
 		scan.nextLine();
 		
