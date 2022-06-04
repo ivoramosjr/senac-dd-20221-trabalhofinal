@@ -28,7 +28,7 @@ public class MainView extends JFrame {
     }
 
     private void renderizarListagemServico() {
-        CadastrarPet telaListagemServico = new CadastrarPet();
+        TelaListagemServico telaListagemServico = new TelaListagemServico();
         setContentPane(telaListagemServico);
         revalidate();
     }
