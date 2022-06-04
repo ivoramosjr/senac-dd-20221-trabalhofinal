@@ -4,12 +4,14 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import org.jetbrains.annotations.NotNull;
+import petshop.model.dtos.FiltroPetDTO;
 import petshop.model.entity.Pet;
 
 @Transactional
@@ -32,11 +34,53 @@ public class PetDAO extends GenericRepository{
 	}
 
 	public boolean petExists(Long idPet) {
-		try{
-			this.getEntityManager().find(Pet.class, idPet);
-			return true;
-		}catch (NoResultException e){
+		Pet pet = this.getEntityManager().find(Pet.class, idPet);
+
+		if(pet == null)
 			return false;
+
+		return true;
+	}
+
+	public List<Pet> findWithFilter(FiltroPetDTO filtro) {
+		String hql = geracaoHQL(filtro);
+
+		Query query = this.getEntityManager().createQuery(hql, Pet.class);
+
+		montandoQuery(filtro, query);
+
+		return query.getResultList();
+	}
+
+	private void montandoQuery(FiltroPetDTO filtro, Query query) {
+		if(filtro.getNome() != null && !filtro.getNome().isEmpty()){
+			String nome = "%"+filtro.getNome().toLowerCase()+"%";
+			query.setParameter("nome", nome);
 		}
+
+		if(filtro.getNomeRaca() != null && !filtro.getNomeRaca().isEmpty()){
+			String nome = "%"+filtro.getNomeRaca().toLowerCase()+"%";
+			query.setParameter("nomeRaca", nome);
+		}
+	}
+
+	@NotNull
+	private String geracaoHQL(FiltroPetDTO filtro) {
+		String hql = "SELECT p FROM Pet p ";
+
+		String andOrWhere = "WHERE ";
+
+		if(filtro.getNome() != null && !filtro.getNome().isEmpty()){
+			hql = hql.concat(andOrWhere).concat("LOWER(p.nome) LIKE :nome ");
+			andOrWhere = "AND ";
+		}
+
+		if(filtro.getNomeRaca() != null && !filtro.getNomeRaca().isEmpty()){
+			hql = hql.concat(andOrWhere).concat("LOWER(p.raca) LIKE :nomeRaca ");
+			andOrWhere = "AND ";
+		}
+
+		hql = hql.concat("ORDER BY p.pontosFidelidade ").concat(filtro.getOrdemFidelidade().getDescricao());
+		return hql;
 	}
 }
