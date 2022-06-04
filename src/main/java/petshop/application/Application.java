@@ -3,11 +3,10 @@ package petshop.application;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
-import petshop.model.entity.Pet;
-import petshop.model.enums.TipoAnimal;
-import petshop.model.service.PetService;
+import petshop.model.entity.Servico;
+import petshop.model.service.ServicoService;
 
 public class Application {
 
@@ -18,21 +17,21 @@ public class Application {
 	public static void main(String[] args) {
 		//EXEMPLO DE INSERÇÃO E VISUALIZAÇÃO
 		LOG.info("Iniciando a aplicação");
-		PetService servicePet = new PetService();
+		ServicoService servicoService = new ServicoService();
 		
 		//EXEMPLO UTILIZAR DTO NO LUGAR DA ENTIDADE
-		Pet pet = new Pet();
-		pet.setNome("Jorge");
-		pet.setNomeDono("Jorjão");
-		pet.setDataNascimento(LocalDate.now());
-		pet.setRaca("Pastor Alemão");
-		pet.setTipoAnimal(TipoAnimal.CACHORRO);
-		
-		servicePet.save(pet);
+		Servico servico = new Servico();
+		servico.setNome("Banho e tosa");
+		servico.setDescricao("Banho e tosa com bônus de patas feitas");
+		servico.setValor(89.90);
+
+		servicoService.save(servico);
+		List<Servico> servicoList = servicoService.findAll();
+		servicoService.delete(servicoList.get(0));
 		
 		scan.nextLine();
-		
-		System.out.println(pet.getIdPet());
+		servicoList = servicoService.findAll();
+		System.out.println(servicoList.size());
 		
 		scan.nextLine();
 	}
