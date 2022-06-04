@@ -4,13 +4,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import petshop.model.dtos.FiltroServicoDTO;
 import petshop.model.dtos.ServicoDTO;
-import petshop.model.entity.Pet;
 import petshop.model.entity.Servico;
+import petshop.model.enums.OrdemPesquisa;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
+import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,7 @@ public class ServicoDAO extends GenericRepository{
         super(entityManager);
     }
 
-    public void save(Servico servico){
+    public void save(Servico servico) throws SQLException {
         LOG.info("Salvando serviço: "+servico.getNome());
         this.getEntityManager().persist(servico);
     }
@@ -57,14 +59,27 @@ public class ServicoDAO extends GenericRepository{
                 .collect(Collectors.toList());
         for(ServicoDTO servico : servicos){
             servico.setQuantidadeAtendimentos(
-                    this.getQuantidadeAtendimentosServico(servico.getIdServico())
+                    this.getQuantidadeAtendimentosServico(servico.getIdServico()).intValue()
             );
+        }
+
+        if(filtro.getOrdemQuantidadeAtendimentos().equals(OrdemPesquisa.DESC)){
+            servicos = servicos.stream()
+                    .sorted(Comparator
+                            .comparingInt(ServicoDTO::getQuantidadeAtendimentos)
+                            .reversed())
+                    .collect(Collectors.toList());
+        }else{
+            servicos = servicos.stream()
+                    .sorted(Comparator
+                            .comparingInt(ServicoDTO::getQuantidadeAtendimentos))
+                    .collect(Collectors.toList());
         }
 
         return servicos;
     }
 
-    public Integer getQuantidadeAtendimentosServico(Long idServico){
+    public BigInteger getQuantidadeAtendimentosServico(Long idServico){
         String sql = "SELECT COUNT(s.ID_SERVICO) " +
                 "FROM servico s " +
                 "INNER JOIN atendimento a ON " +
@@ -72,7 +87,7 @@ public class ServicoDAO extends GenericRepository{
 
         Query query = this.getEntityManager().createNativeQuery(sql);
 
-        return (Integer) query.getSingleResult();
+        return (BigInteger) query.getSingleResult();
     }
 
     private void montandoQuery(FiltroServicoDTO filtro, Query query) {

@@ -18,6 +18,8 @@ public class ServicoDTO {
     @NotBlank(message = "Descrição não pode estar em branco ou nula.")
     private String descricao;
 
+    private Integer quantidadeAtendimentos;
+
     public ServicoDTO() {
     }
 
@@ -58,5 +60,13 @@ public class ServicoDTO {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Integer getQuantidadeAtendimentos() {
+        return quantidadeAtendimentos;
+    }
+
+    public void setQuantidadeAtendimentos(Integer quantidadeAtendimentos) {
+        this.quantidadeAtendimentos = quantidadeAtendimentos;
     }
 }

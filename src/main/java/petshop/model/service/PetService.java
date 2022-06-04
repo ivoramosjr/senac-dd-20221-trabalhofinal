@@ -87,7 +87,9 @@ public class PetService {
 
 		List<Pet> petsEntity = this.petDAO.findWithFilter(filtro);
 
-		List<PetDTO> pets = petsEntity.stream().map(p -> new PetDTO(p)).collect(Collectors.toList());
+		List<PetDTO> pets = petsEntity.stream()
+				.map(p -> new PetDTO(p))
+				.collect(Collectors.toList());
 
 		return pets;
 	}
@@ -116,27 +118,27 @@ public class PetService {
 
 	private void validarAtributos(PetDTO pet) throws AtributosInvalidosException {
 		LOG.info("Validando os atributos do Pet");
-		List<String> messages = new ArrayList<>();
+		String messages = "";
 
 		if(pet.getNome() == null || pet.getNome().isBlank()){
-			messages.add("Nome não pode estar em branco ou nulo!");
+			messages = messages.concat("Nome não pode estar em branco ou nulo!\n");
 		}
 
 		if(pet.getDataNascimento() == null){
-			messages.add("Informe a data de nascimento!");
+			messages = messages.concat("Informe a data de nascimento!\n");
 		}
 
 		if(pet.getRaca() == null || pet.getRaca().isBlank()){
-			messages.add("Raça não pode estar em branco ou nulo!");
+			messages = messages.concat("Raça não pode estar em branco ou nulo!\n");
 		}
 
 		if(pet.getTipoAnimal() == null){
-			messages.add("O tipo de animal deve ser selecionado!");
+			messages = messages.concat("O tipo de animal deve ser selecionado!\n");
 		}
 
 		if(!messages.isEmpty()){
-			LOG.error("Erro ao validar os atributos. Algum atributo inválido!");
-			throw new AtributosInvalidosException(messages.toString());
+			LOG.error("Erro ao validar os atributos. Algum atributo inválido!\n");
+			throw new AtributosInvalidosException(messages);
 		}
 	}
 
