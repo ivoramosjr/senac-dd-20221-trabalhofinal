@@ -7,6 +7,7 @@ package petshop.views.CadastrarPet;
 import java.awt.*;
 import javax.swing.*;
 
+import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.DateTimePicker;
 import net.miginfocom.swing.*;
@@ -23,10 +24,14 @@ public class CadastrarPet extends JPanel {
         DatePickerSettings dateSettings = new DatePickerSettings();
         dateSettings.setAllowKeyboardEditing(false);
 
-        final DateTimePicker dataTeste = new DateTimePicker(dateSettings, null);
+        final DatePicker dataTeste = new DatePicker();
 
-        dataTeste.setBounds(2, 3, 500, 45);
+        dataTeste.setBounds(2, 3, 1, 1);
 
+        /*
+        * add(dataTeste,"cell 2 3, growx");
+        * Code to set datepicker *
+        * */
 
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         label1 = new JLabel();
@@ -75,6 +80,7 @@ public class CadastrarPet extends JPanel {
         label5.setText("Data de nascimento");
         add(label5, "cell 2 2");
         add(textField1, "cell 0 3,growx");
+        add(dataTeste,"cell 2 3, growx");
 
         //---- label3 ----
         label3.setText("Nome do dono");
