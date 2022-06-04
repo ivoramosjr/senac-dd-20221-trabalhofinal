@@ -26,6 +26,9 @@ public class TelaAgendarAtendimento extends JPanel {
         final DateTimePicker dataTeste = new DateTimePicker(dateSettings, null);
 
         dataTeste.setBounds(2, 3, 540, 45);
+        dataTeste.setBackground(new java.awt.Color(60, 63, 65));
+        dataTeste.setForeground(new java.awt.Color(187, 187, 187));
+
 
 
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -84,9 +87,9 @@ public class TelaAgendarAtendimento extends JPanel {
 
         //---- button1 ----
         button1.setText("Agendar");
-        add(button1, "cell 1 8");
+        add(button1, "cell 0 8 3 1,alignx center,growx 0");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
-
+        add(dataTeste, "cell 2 3");
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
