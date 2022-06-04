@@ -33,7 +33,7 @@ public class Pet {
 	@Enumerated(EnumType.STRING)
 	private TipoAnimal tipoAnimal;
 	
-	private int pontosFidelidade;
+	private Integer pontosFidelidade;
 
 	public Pet() {
 	}
