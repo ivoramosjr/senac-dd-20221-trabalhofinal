@@ -4,9 +4,11 @@ import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +19,7 @@ import petshop.connection.JpaConnectionFactory;
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.dao.PetDAO;
+import petshop.model.dtos.FiltroPetDTO;
 import petshop.model.dtos.PetDTO;
 import petshop.model.entity.Pet;
 
@@ -79,6 +82,16 @@ public class PetService {
 		return pets;
 	}
 
+	public List<PetDTO> findWithFilter(FiltroPetDTO filtro){
+		LOG.info("Preparando para pesquisar os pets com filtro");
+
+		List<Pet> petsEntity = this.petDAO.findWithFilter(filtro);
+
+		List<PetDTO> pets = petsEntity.stream().map(p -> new PetDTO(p)).collect(Collectors.toList());
+
+		return pets;
+	}
+
 	//TODO fazer delete lógico do pet
 
 	private void setAtributosPet(PetDTO petDTO, Pet pet) {
@@ -105,7 +118,7 @@ public class PetService {
 		LOG.info("Validando os atributos do Pet");
 		List<String> messages = new ArrayList<>();
 
-		if(pet.getNome().isBlank() || pet.getNome() == null){
+		if(pet.getNome() == null || pet.getNome().isBlank()){
 			messages.add("Nome não pode estar em branco ou nulo!");
 		}
 
@@ -113,7 +126,7 @@ public class PetService {
 			messages.add("Informe a data de nascimento!");
 		}
 
-		if(pet.getRaca().isBlank() || pet.getRaca() == null){
+		if(pet.getRaca() == null || pet.getRaca().isBlank()){
 			messages.add("Raça não pode estar em branco ou nulo!");
 		}
 
