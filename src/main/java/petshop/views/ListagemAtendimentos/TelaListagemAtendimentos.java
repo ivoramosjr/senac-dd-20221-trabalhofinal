@@ -45,7 +45,7 @@ public class TelaListagemAtendimentos extends JPanel {
             "[]" +
             "[]" +
             "[]" +
-            "[grow]"));
+            "[grow,top]"));
 
         //---- labelListaAtendimentos ----
         labelListaAtendimentos.setText("Lista de atendimentos");
@@ -104,7 +104,7 @@ public class TelaListagemAtendimentos extends JPanel {
                 "Crescente",
                 "Decrescente"
             }));
-            panelEntradas.add(comboBoxFiltro, "cell 2 1,alignx left,growx 0");
+            panelEntradas.add(comboBoxFiltro, "cell 2 1,growx");
 
             //---- buttonFiltrar ----
             buttonFiltrar.setText("Filtrar");
