@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Transactional
@@ -98,5 +99,14 @@ public class AtendimentoDAO extends GenericRepository{
         sql = sql.concat("ORDER BY a.dataatendimento ").concat(filtro.getOrdemData().getDescricao());
 
         return sql;
+    }
+
+    public boolean horarioEstaMarcado(LocalDateTime dataAtendimento) {
+        String sql = "SELECT COUNT(ID_ATENDIMENTO) FROM Atendimento " +
+                "WHERE dataAtendimento = :dataAtendimento ";
+
+        Query query = this.getEntityManager().createNativeQuery(sql).setParameter("dataAtendimento", dataAtendimento);
+
+        return query.getResultList().size() > 0? true: false;
     }
 }
