@@ -11,7 +11,7 @@ public class FiltroAtendimentoDTO {
 
     private OrdemPesquisa ordemData;
 
-    private StatusAtendimentoEnum statusAntedimento = StatusAtendimentoEnum.AGENDADO;
+    private StatusAtendimentoEnum statusAntedimento;
 
     public FiltroAtendimentoDTO(String nome, String nomeRaca, OrdemPesquisa ordemData, StatusAtendimentoEnum statusAntedimento){
         this.nome = nome;
