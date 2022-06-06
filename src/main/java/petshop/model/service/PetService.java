@@ -1,7 +1,7 @@
 package petshop.model.service;
 
 import java.sql.SQLException;
-
+import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 
@@ -35,6 +35,14 @@ public class PetService {
     	}catch (SQLException e) {
     		LOG.error("Deu ruim: "+e.getMessage());
 		}
+	}
+
+	public List<Pet> listAll(){
+		return this.petDAO.findAll();
+	}
+
+	public Pet getPetById(Long id){
+		return this.petDAO.find(Pet.class,id);
 	}
 
 }

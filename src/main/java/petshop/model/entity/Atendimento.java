@@ -13,6 +13,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import petshop.model.enums.StatusAtendimentoEnum;
 
@@ -25,13 +28,13 @@ public class Atendimento {
 	private Long idAtendimento;
 	
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	@JoinColumn(name = "ID_PET")
+	@JoinColumn(name = "ID_PET", nullable=false,referencedColumnName = "ID_PET")
 	private Pet pet;
 	
 	private LocalDateTime dataAtendimento;
 	
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	@JoinColumn(name = "ID_SERVICO")
+	@JoinColumn(name = "ID_SERVICO", nullable=false,referencedColumnName = "ID_SERVICO")
 	private Servico servico;
 	
 	@Enumerated(EnumType.STRING)

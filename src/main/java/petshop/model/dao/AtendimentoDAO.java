@@ -18,7 +18,7 @@ public class AtendimentoDAO extends  GenericRepository{
     }
 
     public void save(Atendimento atendimento) throws SQLException {
-        LOG.info("Salvando PET: "+atendimento.getServico());
+        LOG.info("Salvando Atendimento: "+atendimento.getServico());
         this.getEntityManager().persist(atendimento);
     }
 
