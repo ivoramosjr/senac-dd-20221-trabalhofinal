@@ -13,6 +13,7 @@ import javax.swing.table.*;
 import net.miginfocom.swing.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.dtos.ServicoDTO;
 import petshop.model.service.ServicoService;
 
@@ -39,32 +40,6 @@ public class TelaListagemServico extends JPanel {
         });
     }
 
-    private void verifyRowToEnableEditAndDeleteButtons() {
-        if(tableServicos.getSelectedRow() >= 0) {
-            editButton.setEnabled(true);
-            deleteButton.setEnabled(true);
-        } else {
-            editButton.setEnabled(false);
-            deleteButton.setEnabled(false);
-        }
-    }
-
-    public JButton getButtonCreateService() {
-        return buttonCriarServico;
-    }
-
-    public JButton getButtonEditService() {
-        return editButton;
-    }
-
-    public ServicoDTO getSelectedService() {
-        return getServiceFromRow(tableServicos.getSelectedRow());
-    }
-
-    private ServicoDTO getServiceFromRow(int index) {
-        return servicesList.get(index);
-    }
-
     private void filtrar(ActionEvent e) {
         // TODO add your code here
         LOG.info("Filtrando serviço");
@@ -73,9 +48,25 @@ public class TelaListagemServico extends JPanel {
     private void loadServices() {
         servicesList = servicoService.listAll();
         DefaultTableModel tableModel = (DefaultTableModel) tableServicos.getModel();
+        tableModel.setRowCount(0);
 
         for(ServicoDTO servico : servicesList) {
             tableModel.addRow(new Object[]{(servico.getNome()), (servico.getValor()), (servico.getQuantidadeAtendimentos())});
+        }
+    }
+
+    private void deleteService(ActionEvent e)  {
+        ServicoDTO service = getSelectedService();
+        try {
+            int option = JOptionPane.showConfirmDialog(null, "Deseja realmente deletar este serviço?", "Deletar serviço", JOptionPane.YES_NO_OPTION);
+            if(option == 0) {
+                servicoService.delete(service.getIdServico(), service);
+                servicesList.clear();
+                loadServices();
+            }
+            JOptionPane.showMessageDialog(null, "Serviço deletado com sucesso", "Deletar serviço.",JOptionPane.INFORMATION_MESSAGE);
+        } catch (RegistroNaoEncontradoException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Deletar serviço.",JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -196,6 +187,7 @@ public class TelaListagemServico extends JPanel {
         //---- deleteButton ----
         deleteButton.setText("Deletar");
         deleteButton.setEnabled(false);
+        deleteButton.addActionListener(e -> deleteService(e));
         add(deleteButton, "cell 0 7 4 1,alignx center,growx 0");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
@@ -215,4 +207,31 @@ public class TelaListagemServico extends JPanel {
     private JButton editButton;
     private JButton deleteButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
+
+    private void verifyRowToEnableEditAndDeleteButtons() {
+        if(tableServicos.getSelectedRow() >= 0) {
+            editButton.setEnabled(true);
+            deleteButton.setEnabled(true);
+        } else {
+            editButton.setEnabled(false);
+            deleteButton.setEnabled(false);
+        }
+    }
+
+    public JButton getButtonCreateService() {
+        return buttonCriarServico;
+    }
+
+    public JButton getButtonEditService() {
+        return editButton;
+    }
+
+    public ServicoDTO getSelectedService() {
+        return getServiceFromRow(tableServicos.getSelectedRow());
+    }
+
+    private ServicoDTO getServiceFromRow(int index) {
+        return servicesList.get(index);
+    }
+
 }

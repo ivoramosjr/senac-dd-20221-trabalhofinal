@@ -20,6 +20,8 @@ public class ServicoDTO {
 
     private Integer quantidadeAtendimentos;
 
+    private Boolean status;
+
     public ServicoDTO() {
     }
 
@@ -68,5 +70,13 @@ public class ServicoDTO {
 
     public void setQuantidadeAtendimentos(Integer quantidadeAtendimentos) {
         this.quantidadeAtendimentos = quantidadeAtendimentos;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }
