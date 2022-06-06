@@ -98,10 +98,10 @@ public class ServicoDAO extends GenericRepository{
     }
 
     private String geracaoHQL(FiltroServicoDTO filtro) {
-        String hql = "SELECT s FROM Servico s ";
+        String hql = "SELECT s FROM Servico s WHERE s.status = true ";
 
         if(filtro.getNome() != null && !filtro.getNome().isEmpty()){
-            hql = hql.concat("WHERE ").concat("LOWER(s.nome) LIKE :nome ");
+            hql = hql.concat("AND LOWER(s.nome) LIKE :nome ");
         }
 
         hql = hql.concat("ORDER BY s.valor ").concat(filtro.getOrdemValor().getDescricao());
@@ -109,7 +109,4 @@ public class ServicoDAO extends GenericRepository{
         return hql;
     }
 
-    public void delete(ServicoDTO servicoDTO) {
-
-    }
 }
