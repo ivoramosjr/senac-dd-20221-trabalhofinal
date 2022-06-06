@@ -35,16 +35,33 @@ public class CadastrarPet extends JPanel {
         pet.setTipoAnimal((TipoAnimal) animalsComboBox.getSelectedItem());
         pet.setDataNascimento(dataTeste.getDate());
 
-        PetService petService = new PetService();
-
         try {
             petService.save(pet);
+            JOptionPane.showMessageDialog(null,"Cadastrado com sucesso!");
+
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         } catch (AtributosInvalidosException ex) {
             JOptionPane.showMessageDialog(null,ex.getMessage());
         }
 
+    }
+
+    private void petNameField(ActionEvent e) {
+        // TODO add your code here
+    }
+
+    private void petNameFieldKeyPressed(KeyEvent e) {
+
+        petNameField.setText(petService.validarTamanhoMaximo(petNameField.getText(),100));
+    }
+
+    private void ownerNameFieldKeyPressed(KeyEvent e) {
+        ownerNameField.setText(petService.validarTamanhoMaximo(ownerNameField.getText(),100));
+    }
+
+    private void breedKeyPressed(KeyEvent e) {
+        breed.setText(petService.validarTamanhoMaximo(breed.getText(),50));
     }
 
     private void initComponents() {
@@ -105,6 +122,15 @@ public class CadastrarPet extends JPanel {
         //---- label5 ----
         label5.setText("Data de nascimento");
         add(label5, "cell 2 2");
+
+        //---- petNameField ----
+        petNameField.addActionListener(e -> petNameField(e));
+        petNameField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                petNameFieldKeyPressed(e);
+            }
+        });
         add(petNameField, "cell 0 3,growx");
 
         //---- label3 ----
@@ -114,7 +140,23 @@ public class CadastrarPet extends JPanel {
         //---- label7 ----
         label7.setText("Ra\u00e7a");
         add(label7, "cell 2 4");
+
+        //---- ownerNameField ----
+        ownerNameField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                ownerNameFieldKeyPressed(e);
+            }
+        });
         add(ownerNameField, "cell 0 5,growx");
+
+        //---- breed ----
+        breed.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                breedKeyPressed(e);
+            }
+        });
         add(breed, "cell 2 5,growx");
 
         //---- label4 ----
@@ -149,4 +191,6 @@ public class CadastrarPet extends JPanel {
     private JButton registerBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
     private DatePicker dataTeste = new DatePicker();
+
+    private PetService petService = new PetService();
 }

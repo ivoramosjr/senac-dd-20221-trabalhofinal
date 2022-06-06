@@ -30,6 +30,8 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "petNameField"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "petNameField", true ) )
+				addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "petNameFieldKeyPressed", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 3,growx"
 			} )
@@ -47,11 +49,13 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "ownerNameField"
+				addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "ownerNameFieldKeyPressed", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 5,growx"
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "breed"
+				addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "breedKeyPressed", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 2 5,growx"
 			} )
