@@ -38,6 +38,7 @@ public class CadastrarPet extends JPanel {
         try {
             petService.save(pet);
             JOptionPane.showMessageDialog(null,"Cadastrado com sucesso!");
+            limparCampos();
 
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
@@ -175,6 +176,13 @@ public class CadastrarPet extends JPanel {
         animalsComboBox.addItem(TipoAnimal.GATO);
         animalsComboBox.addItem(TipoAnimal.LONTRA);
         animalsComboBox.addItem(TipoAnimal.RATO);
+    }
+
+    private void limparCampos(){
+        petNameField.setText("");
+        ownerNameField.setText("");
+        breed.setText("");
+        dataTeste.clear();
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
