@@ -29,6 +29,11 @@ public class MainView extends JFrame {
 
     private void renderizarListagemServico() {
         TelaListagemServico telaListagemServico = new TelaListagemServico();
+
+        telaListagemServico.getButtonCriarServico().addActionListener(e -> {
+            renderizarCriarServico();
+        });
+
         setContentPane(telaListagemServico);
         revalidate();
     }
