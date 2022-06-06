@@ -7,6 +7,7 @@ package petshop.views.MainView;
 import java.awt.event.*;
 import javax.swing.*;
 import net.miginfocom.swing.*;
+import petshop.model.dtos.PetDTO;
 import petshop.views.CadastrarPet.CadastrarPet;
 import petshop.views.CriarServico.CriarServico;
 import petshop.views.EditarAtendimento.TelaEditarAtendimento;
@@ -51,14 +52,14 @@ public class MainView extends JFrame {
         revalidate();
     }
 
-    private void renderizarEditarPet() {
-        EditarPet editarPet = new EditarPet();
-        setContentPane(editarPet);
-        revalidate();
-    }
-
     private void renderizarListagemPet() {
         ListagemPet listagemPet = new ListagemPet();
+        listagemPet.getEditarBtn().addActionListener(e1 ->{
+            PetDTO petDTO = (listagemPet.getSelectedPet());
+            EditarPet editarPet = new EditarPet(petDTO);
+            setContentPane(editarPet);
+            revalidate();
+        });
         setContentPane(listagemPet);
         revalidate();
     }

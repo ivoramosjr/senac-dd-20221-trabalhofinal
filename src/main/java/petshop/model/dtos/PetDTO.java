@@ -96,4 +96,17 @@ public class PetDTO {
     public void setPontosFidelidade(int pontosFidelidade) {
         this.pontosFidelidade = pontosFidelidade;
     }
+
+    @Override
+    public String toString() {
+        return "PetDTO{" +
+                "idPet=" + idPet +
+                ", nome='" + nome + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", nomeDono='" + nomeDono + '\'' +
+                ", raca='" + raca + '\'' +
+                ", tipoAnimal=" + tipoAnimal +
+                ", pontosFidelidade=" + pontosFidelidade +
+                '}';
+    }
 }

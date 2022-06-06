@@ -8,7 +8,7 @@ new FormModel {
 			"$columnConstraints": "[grow][fill][grow,fill]"
 			"$rowConstraints": "[][][][][][][][][][][][]"
 		} ) {
-			name: "this2"
+			name: "this"
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label1"
 				"text": "Editar pet"
@@ -29,7 +29,7 @@ new FormModel {
 				"value": "cell 2 2"
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
-				name: "textField1"
+				name: "petNameField"
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 3,growx"
 			} )
@@ -46,12 +46,12 @@ new FormModel {
 				"value": "cell 2 4"
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
-				name: "textField3"
+				name: "ownerNameField"
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 5,growx"
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
-				name: "textField5"
+				name: "breedField"
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 2 5,growx"
 			} )
@@ -62,13 +62,14 @@ new FormModel {
 				"value": "cell 0 6"
 			} )
 			add( new FormComponent( "javax.swing.JComboBox" ) {
-				name: "comboBox1"
+				name: "animalsComboBox"
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 7,growx"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button1"
 				"text": "Editar"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "button1", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 11 3 1,alignx center,growx 0,wmin 150"
 			} )
