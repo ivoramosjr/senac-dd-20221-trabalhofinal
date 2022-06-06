@@ -95,4 +95,16 @@ public class Pet {
 		this.pontosFidelidade = pontosFidelidade;
 	}
 
+	@Override
+	public String toString() {
+		return "Pet{" +
+				"idPet=" + idPet +
+				", nome='" + nome + '\'' +
+				", dataNascimento=" + dataNascimento +
+				", nomeDono='" + nomeDono + '\'' +
+				", raca='" + raca + '\'' +
+				", tipoAnimal=" + tipoAnimal +
+				", pontosFidelidade=" + pontosFidelidade +
+				'}';
+	}
 }

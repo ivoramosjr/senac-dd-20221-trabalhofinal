@@ -115,6 +115,10 @@ public class PetService {
 			pet.setPontosFidelidade(petDTO.getPontosFidelidade());
 	}
 
+	public String validarTamanhoMaximo(String texto,Integer tamanhoMaximo){
+		return texto.length() <= tamanhoMaximo ? texto : texto.substring(0, tamanhoMaximo);
+	}
+
 	private void validarAtributos(PetDTO pet) throws AtributosInvalidosException {
 		LOG.info("Validando os atributos do Pet");
 		String messages = "";
