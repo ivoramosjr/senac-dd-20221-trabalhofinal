@@ -5,16 +5,64 @@
 package petshop.views.CriarServico;
 
 import java.awt.*;
+import java.awt.event.*;
+import java.beans.*;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import javax.swing.*;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
+import javax.swing.text.NumberFormatter;
+
 import net.miginfocom.swing.*;
+import petshop.exceptions.AtributosInvalidosException;
+import petshop.model.dtos.ServicoDTO;
+import petshop.model.service.ServicoService;
 
 /**
  * @author unknown
  */
 public class CriarServico extends JPanel {
+
+    ServicoDTO servicoDTO = new ServicoDTO();
+    ServicoService servicoService = new ServicoService();
+    String regex = "^(\\d+(\\.?\\d{0,2})?|\\.\\d{1,2})$";
     public CriarServico() {
         initComponents();
     }
+
+    private void createService(ActionEvent e) {
+        try {
+            servicoDTO.setNome(nameServiceField.getText());
+
+            if(valueServiceField.getText().isEmpty()) {
+                servicoDTO.setValor(null);
+            } else {
+                servicoDTO.setValor(Double.parseDouble(valueServiceField.getText()));
+            }
+
+            servicoDTO.setDescricao(descriptionServiceField.getText());
+            servicoService.save(servicoDTO);
+
+        } catch (SQLException | AtributosInvalidosException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro ao salvar serviço.",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void valueServiceFieldKeyReleased(KeyEvent e) {
+        String text = valueServiceField.getText();
+        if(text.matches(regex)) {
+            e.consume();
+        } else {
+            if(valueServiceField.getText().length() > 0) {
+                String previousText = valueServiceField.getText().substring(0, valueServiceField.getText().length() - 1);
+                valueServiceField.setText(previousText);
+            }
+        }
+    }
+
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -22,13 +70,13 @@ public class CriarServico extends JPanel {
         vSpacer1 = new JPanel(null);
         label2 = new JLabel();
         label3 = new JLabel();
-        textField1 = new JTextField();
+        nameServiceField = new JTextField();
         scrollPane1 = new JScrollPane();
-        textArea1 = new JTextArea();
+        descriptionServiceField = new JTextArea();
         label4 = new JLabel();
-        textField2 = new JTextField();
+        valueServiceField = new JTextField();
         vSpacer2 = new JPanel(null);
-        button1 = new JButton();
+        createButton = new JButton();
 
         //======== this ========
         setLayout(new MigLayout(
@@ -66,23 +114,32 @@ public class CriarServico extends JPanel {
         //---- label3 ----
         label3.setText("Descri\u00e7\u00e3o do servi\u00e7o");
         add(label3, "cell 3 2");
-        add(textField1, "cell 1 3");
+        add(nameServiceField, "cell 1 3");
 
         //======== scrollPane1 ========
         {
-            scrollPane1.setViewportView(textArea1);
+            scrollPane1.setViewportView(descriptionServiceField);
         }
         add(scrollPane1, "cell 3 3 1 3,growy");
 
         //---- label4 ----
         label4.setText("Valor do servi\u00e7o");
         add(label4, "cell 1 4");
-        add(textField2, "cell 1 5");
+
+        //---- valueServiceField ----
+        valueServiceField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                valueServiceFieldKeyReleased(e);
+            }
+        });
+        add(valueServiceField, "cell 1 5");
         add(vSpacer2, "cell 2 6 1 2");
 
-        //---- button1 ----
-        button1.setText("Registrar");
-        add(button1, "cell 1 11 4 1,alignx center,growx 0,wmin 150");
+        //---- createButton ----
+        createButton.setText("Criar");
+        createButton.addActionListener(e -> createService(e));
+        add(createButton, "cell 1 11 4 1,alignx center,growx 0,wmin 150");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
@@ -91,12 +148,12 @@ public class CriarServico extends JPanel {
     private JPanel vSpacer1;
     private JLabel label2;
     private JLabel label3;
-    private JTextField textField1;
+    private JTextField nameServiceField;
     private JScrollPane scrollPane1;
-    private JTextArea textArea1;
+    private JTextArea descriptionServiceField;
     private JLabel label4;
-    private JTextField textField2;
+    private JTextField valueServiceField;
     private JPanel vSpacer2;
-    private JButton button1;
+    private JButton createButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
