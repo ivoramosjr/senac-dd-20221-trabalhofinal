@@ -41,12 +41,14 @@ public class ServicoService {
         LOG.info("Serviço adicionado com sucesso!");
     }
 
-    public void update(Long idServico, ServicoDTO servicoDTO) throws RegistroNaoEncontradoException{
+    public void update(Long idServico, ServicoDTO servicoDTO) throws RegistroNaoEncontradoException, AtributosInvalidosException {
         LOG.info("Preparando para atualizar o serviço de id: "+idServico);
 
         if(!servicoDAO.servicoExists(idServico)){
             throw new RegistroNaoEncontradoException("Serviço de ID: "+ idServico +" não encontrado na base de dados!");
         }
+
+        validarAtributos(servicoDTO);
 
         Servico servico = servicoDAO.find(Servico.class, idServico);
 

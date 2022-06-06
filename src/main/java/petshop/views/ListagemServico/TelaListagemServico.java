@@ -28,10 +28,41 @@ public class TelaListagemServico extends JPanel {
     public TelaListagemServico() {
         initComponents();
         loadServices();
+
+        tableServicos.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                System.out.println(tableServicos.getSelectedRow());
+                verifyRowToEnableEditAndDeleteButtons();
+            }
+        });
     }
 
-    public JButton getButtonCriarServico() {
+    private void verifyRowToEnableEditAndDeleteButtons() {
+        if(tableServicos.getSelectedRow() >= 0) {
+            editButton.setEnabled(true);
+            deleteButton.setEnabled(true);
+        } else {
+            editButton.setEnabled(false);
+            deleteButton.setEnabled(false);
+        }
+    }
+
+    public JButton getButtonCreateService() {
         return buttonCriarServico;
+    }
+
+    public JButton getButtonEditService() {
+        return editButton;
+    }
+
+    public ServicoDTO getSelectedService() {
+        return getServiceFromRow(tableServicos.getSelectedRow());
+    }
+
+    private ServicoDTO getServiceFromRow(int index) {
+        return servicesList.get(index);
     }
 
     private void filtrar(ActionEvent e) {
@@ -62,8 +93,8 @@ public class TelaListagemServico extends JPanel {
         buttonFiltrar = new JButton();
         scrollPaneListaServicos = new JScrollPane();
         tableServicos = new JTable();
-        button1 = new JButton();
-        button2 = new JButton();
+        editButton = new JButton();
+        deleteButton = new JButton();
 
         //======== this ========
         setLayout(new MigLayout(
@@ -157,13 +188,15 @@ public class TelaListagemServico extends JPanel {
         }
         add(scrollPaneListaServicos, "cell 0 5 4 1,grow");
 
-        //---- button1 ----
-        button1.setText("Editar");
-        add(button1, "cell 0 7 4 1");
+        //---- editButton ----
+        editButton.setText("Editar");
+        editButton.setEnabled(false);
+        add(editButton, "cell 0 7 4 1");
 
-        //---- button2 ----
-        button2.setText("Deletar");
-        add(button2, "cell 0 7 4 1,alignx center,growx 0");
+        //---- deleteButton ----
+        deleteButton.setText("Deletar");
+        deleteButton.setEnabled(false);
+        add(deleteButton, "cell 0 7 4 1,alignx center,growx 0");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
@@ -179,7 +212,7 @@ public class TelaListagemServico extends JPanel {
     private JButton buttonFiltrar;
     private JScrollPane scrollPaneListaServicos;
     private JTable tableServicos;
-    private JButton button1;
-    private JButton button2;
+    private JButton editButton;
+    private JButton deleteButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

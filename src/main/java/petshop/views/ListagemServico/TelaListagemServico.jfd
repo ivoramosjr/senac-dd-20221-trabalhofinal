@@ -104,14 +104,16 @@ new FormModel {
 				"value": "cell 0 5 4 1,grow"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "button1"
+				name: "editButton"
 				"text": "Editar"
+				"enabled": false
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 7 4 1"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "button2"
+				name: "deleteButton"
 				"text": "Deletar"
+				"enabled": false
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 7 4 1,alignx center,growx 0"
 			} )
