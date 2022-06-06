@@ -6,15 +6,8 @@ package petshop.views.CriarServico;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.*;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import javax.swing.*;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
-import javax.swing.text.NumberFormatter;
 
 import net.miginfocom.swing.*;
 import petshop.exceptions.AtributosInvalidosException;
@@ -46,9 +39,17 @@ public class CriarServico extends JPanel {
             servicoDTO.setDescricao(descriptionServiceField.getText());
             servicoService.save(servicoDTO);
 
+            JOptionPane.showMessageDialog(null, "Serviço cadastrado com sucesso", "Salvar serviço.",JOptionPane.INFORMATION_MESSAGE);
+            clearInputs();
         } catch (SQLException | AtributosInvalidosException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro ao salvar serviço.",JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void clearInputs() {
+        nameServiceField.setText("");
+        valueServiceField.setText("");
+        descriptionServiceField.setText("");
     }
 
     private void valueServiceFieldKeyReleased(KeyEvent e) {

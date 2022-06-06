@@ -41,12 +41,14 @@ public class ServicoService {
         LOG.info("Serviço adicionado com sucesso!");
     }
 
-    public void update(Long idServico, ServicoDTO servicoDTO) throws RegistroNaoEncontradoException{
+    public void update(Long idServico, ServicoDTO servicoDTO) throws RegistroNaoEncontradoException, AtributosInvalidosException {
         LOG.info("Preparando para atualizar o serviço de id: "+idServico);
 
         if(!servicoDAO.servicoExists(idServico)){
             throw new RegistroNaoEncontradoException("Serviço de ID: "+ idServico +" não encontrado na base de dados!");
         }
+
+        validarAtributos(servicoDTO);
 
         Servico servico = servicoDAO.find(Servico.class, idServico);
 
@@ -86,6 +88,26 @@ public class ServicoService {
 
     //TODO fazer delete lógico do serviço
 
+    public void delete(Long idServico, ServicoDTO servicoDTO) throws RegistroNaoEncontradoException {
+        LOG.info("Preparando para deletar o serviço de id: "+idServico);
+
+        if(!servicoDAO.servicoExists(idServico)){
+            throw new RegistroNaoEncontradoException("Serviço de ID: "+ idServico +" não encontrado na base de dados!");
+        }
+
+        Servico servico = servicoDAO.find(Servico.class, idServico);
+
+        servicoDTO.setStatus(false);
+
+        setAtributosServico(servicoDTO, servico);
+
+        abrirConexaoBanco();
+        this.servicoDAO.merge(servico);
+        commitarTransacaoBanco();
+
+        LOG.info("Serviço deletado com sucesso!");
+    }
+
     private void setAtributosServico(ServicoDTO servicoDTO, Servico servico) {
         if(servicoDTO.getNome() != null)
             servico.setNome(servicoDTO.getNome());
@@ -95,6 +117,9 @@ public class ServicoService {
 
         if(servicoDTO.getValor() != null)
             servico.setValor(servicoDTO.getValor());
+
+        if(servicoDTO.getStatus() != null)
+            servico.setStatus(servicoDTO.getStatus());
     }
 
     private void validarAtributos(ServicoDTO servico) throws AtributosInvalidosException {
