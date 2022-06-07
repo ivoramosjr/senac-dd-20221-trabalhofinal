@@ -5,35 +5,39 @@ import petshop.model.enums.StatusAtendimentoEnum;
 
 public class FiltroAtendimentoDTO {
 
-    private String nome;
+    private String nomePet;
 
-    private String nomeRaca;
+    private String nomeServico;
 
     private OrdemPesquisa ordemData;
 
     private StatusAtendimentoEnum statusAntedimento;
 
-    public FiltroAtendimentoDTO(String nome, String nomeRaca, OrdemPesquisa ordemData, StatusAtendimentoEnum statusAntedimento){
-        this.nome = nome;
-        this.nomeRaca = nomeRaca;
+    public FiltroAtendimentoDTO(){
+
+    }
+
+    public FiltroAtendimentoDTO(String nomePet, String nomeServico, OrdemPesquisa ordemData, StatusAtendimentoEnum statusAntedimento){
+        this.nomePet = nomePet;
+        this.nomeServico = nomeServico;
         this.ordemData = ordemData;
         this.statusAntedimento = statusAntedimento;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomePet() {
+        return nomePet;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomePet(String nomePet) {
+        this.nomePet = nomePet;
     }
 
-    public String getNomeRaca() {
-        return nomeRaca;
+    public String getNomeServico() {
+        return nomeServico;
     }
 
-    public void setNomeRaca(String nomeRaca) {
-        this.nomeRaca = nomeRaca;
+    public void setNomeServico(String nomeServico) {
+        this.nomeServico = nomeServico;
     }
 
     public OrdemPesquisa getOrdemData() {

@@ -7,10 +7,14 @@ import petshop.model.entity.Atendimento;
 import petshop.model.enums.StatusAtendimentoEnum;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Transactional
@@ -33,7 +37,7 @@ public class AtendimentoDAO extends GenericRepository{
                 .getResultList();
     }
 
-    public boolean atendimentoExixst(Long idAtendimento){
+    public boolean atendimentoExist(Long idAtendimento){
         Atendimento atendimento = this.find(Atendimento.class, idAtendimento);
 
         if(atendimento == null)
@@ -63,34 +67,35 @@ public class AtendimentoDAO extends GenericRepository{
     }
 
     private void montandoQuery(FiltroAtendimentoDTO filtro, Query query) {
-        if(filtro.getNome() != null && !filtro.getNome().isEmpty()){
-            String nome = "%"+ filtro.getNome().toLowerCase()+"%";
-            query.setParameter("nome", nome);
+        if(filtro.getNomePet() != null && !filtro.getNomePet().isEmpty()){
+            String nome = "%"+ filtro.getNomePet().toLowerCase()+"%";
+            query.setParameter("nomePet", nome);
         }
 
-        if(filtro.getNomeRaca() != null && !filtro.getNomeRaca().isEmpty()){
-            String nome = "%"+ filtro.getNomeRaca().toLowerCase()+"%";
-            query.setParameter("nomeRaca", nome);
+        if(filtro.getNomeServico() != null && !filtro.getNomeServico().isEmpty()){
+            String nome = "%"+ filtro.getNomeServico().toLowerCase()+"%";
+            query.setParameter("nomeServico", nome);
         }
 
         query.setParameter("statusAtendimento", filtro.getStatusAntedimento().getNome().toLowerCase());
     }
 
     private String geracaoSQL(FiltroAtendimentoDTO filtro) {
-        String sql = "SELECT * FROM Antedimento a INNER JOIN Pet p ON " +
+        String sql = "SELECT * FROM Atendimento a " +
+                "INNER JOIN Pet p ON " +
                 "a.ID_PET = p.ID_PET " +
                 "INNER JOIN Servico s ON " +
                 "a.ID_SERVICO = s.ID_SERVICO ";
 
         String andOrWhere = "WHERE ";
 
-        if(filtro.getNome() != null && !filtro.getNome().isEmpty()){
-            sql = sql.concat(andOrWhere).concat("LOWER(p.nome) = :nome ");
+        if(filtro.getNomePet() != null && !filtro.getNomePet().isEmpty()){
+            sql = sql.concat(andOrWhere).concat("LOWER(p.nome) like :nomePet ");
             andOrWhere = "AND ";
         }
 
-        if(filtro.getNomeRaca() != null && !filtro.getNomeRaca().isEmpty()){
-            sql = sql.concat(andOrWhere).concat("LOWER(p.raca) = :nomeRaca ");
+        if(filtro.getNomeServico() != null && !filtro.getNomeServico().isEmpty()){
+            sql = sql.concat(andOrWhere).concat("LOWER(s.nome) like :nomeServico ");
             andOrWhere = "AND ";
         }
 
@@ -101,12 +106,33 @@ public class AtendimentoDAO extends GenericRepository{
         return sql;
     }
 
-    public boolean horarioEstaMarcado(LocalDateTime dataAtendimento) {
-        String sql = "SELECT COUNT(ID_ATENDIMENTO) FROM Atendimento " +
+    public boolean horarioEstaMarcado(Long idAtendimento, LocalDateTime dataAtendimento) {
+        String sql = "SELECT ID_ATENDIMENTO FROM Atendimento " +
                 "WHERE dataAtendimento = :dataAtendimento ";
 
-        Query query = this.getEntityManager().createNativeQuery(sql).setParameter("dataAtendimento", dataAtendimento);
+        if(idAtendimento != null)
+            sql = sql.concat("AND ID_ATENDIMENTO = :idAtendimento");
 
-        return query.getResultList().size() > 0? true: false;
+        Query query = this.getEntityManager()
+                .createNativeQuery(sql)
+                .setParameter("dataAtendimento", dataAtendimento);
+
+        if(idAtendimento != null)
+            query.setParameter("idAtendimento", idAtendimento);
+
+        try {
+            BigInteger id = (BigInteger) query.getSingleResult();
+
+            if(idAtendimento != null && idAtendimento == id.longValue())
+                return false;
+
+            return true;
+        }catch (NoResultException e){
+            return false;
+        }
+    }
+
+    public boolean horarioNaoPertenceAtendimento(Long idAtendimento, LocalDateTime dataAtendimento) {
+        return false;
     }
 }
