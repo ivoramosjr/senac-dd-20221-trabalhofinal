@@ -5,12 +5,19 @@
 package petshop.views.CadastrarPet;
 
 import java.awt.*;
+import java.awt.event.*;
+import java.sql.SQLException;
 import javax.swing.*;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.DateTimePicker;
 import net.miginfocom.swing.*;
+import petshop.exceptions.AtributosInvalidosException;
+import petshop.model.dtos.PetDTO;
+import petshop.model.entity.Pet;
+import petshop.model.enums.TipoAnimal;
+import petshop.model.service.PetService;
 
 /**
  * @author unknown
@@ -20,11 +27,48 @@ public class CadastrarPet extends JPanel {
         initComponents();
     }
 
+    private void registerBtn(ActionEvent e) {
+        PetDTO pet = new PetDTO();
+        pet.setNome(petNameField.getText().toString());
+        pet.setNomeDono(ownerNameField.getText().toString());
+        pet.setRaca(breed.getText().toString());
+        pet.setTipoAnimal((TipoAnimal) animalsComboBox.getSelectedItem());
+        pet.setDataNascimento(dataTeste.getDate());
+
+        try {
+            petService.save(pet);
+            JOptionPane.showMessageDialog(null,"Cadastrado com sucesso!");
+            limparCampos();
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        } catch (AtributosInvalidosException ex) {
+            JOptionPane.showMessageDialog(null,ex.getMessage());
+        }
+
+    }
+
+    private void petNameField(ActionEvent e) {
+        // TODO add your code here
+    }
+
+    private void petNameFieldKeyPressed(KeyEvent e) {
+
+        petNameField.setText(petService.validarTamanhoMaximo(petNameField.getText(),100));
+    }
+
+    private void ownerNameFieldKeyPressed(KeyEvent e) {
+        ownerNameField.setText(petService.validarTamanhoMaximo(ownerNameField.getText(),100));
+    }
+
+    private void breedKeyPressed(KeyEvent e) {
+        breed.setText(petService.validarTamanhoMaximo(breed.getText(),50));
+    }
+
     private void initComponents() {
         DatePickerSettings dateSettings = new DatePickerSettings();
         dateSettings.setAllowKeyboardEditing(false);
 
-        final DatePicker dataTeste = new DatePicker();
 
         dataTeste.setBounds(2, 3, 1, 1);
 
@@ -37,14 +81,14 @@ public class CadastrarPet extends JPanel {
         label1 = new JLabel();
         label2 = new JLabel();
         label5 = new JLabel();
-        textField1 = new JTextField();
+        petNameField = new JTextField();
         label3 = new JLabel();
         label7 = new JLabel();
-        textField3 = new JTextField();
-        textField5 = new JTextField();
+        ownerNameField = new JTextField();
+        breed = new JTextField();
         label4 = new JLabel();
-        comboBox1 = new JComboBox();
-        button1 = new JButton();
+        animalsComboBox = new JComboBox();
+        registerBtn = new JButton();
 
         //======== this ========
         setLayout(new MigLayout(
@@ -79,8 +123,16 @@ public class CadastrarPet extends JPanel {
         //---- label5 ----
         label5.setText("Data de nascimento");
         add(label5, "cell 2 2");
-        add(textField1, "cell 0 3,growx");
-        add(dataTeste,"cell 2 3, growx");
+
+        //---- petNameField ----
+        petNameField.addActionListener(e -> petNameField(e));
+        petNameField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                petNameFieldKeyPressed(e);
+            }
+        });
+        add(petNameField, "cell 0 3,growx");
 
         //---- label3 ----
         label3.setText("Nome do dono");
@@ -89,31 +141,64 @@ public class CadastrarPet extends JPanel {
         //---- label7 ----
         label7.setText("Ra\u00e7a");
         add(label7, "cell 2 4");
-        add(textField3, "cell 0 5,growx");
-        add(textField5, "cell 2 5,growx");
+
+        //---- ownerNameField ----
+        ownerNameField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                ownerNameFieldKeyPressed(e);
+            }
+        });
+        add(ownerNameField, "cell 0 5,growx");
+
+        //---- breed ----
+        breed.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                breedKeyPressed(e);
+            }
+        });
+        add(breed, "cell 2 5,growx");
 
         //---- label4 ----
         label4.setText("Animal");
         add(label4, "cell 0 6");
-        add(comboBox1, "cell 0 7,growx");
+        add(animalsComboBox, "cell 0 7,growx");
 
-        //---- button1 ----
-        button1.setText("Cadastrar");
-        add(button1, "cell 0 11 3 1,alignx center,growx 0,wmin 150");
+        //---- registerBtn ----
+        registerBtn.setText("Cadastrar");
+        registerBtn.addActionListener(e -> registerBtn(e));
+        add(registerBtn, "cell 0 11 3 1,alignx center,growx 0,wmin 150");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
+        add(dataTeste,"cell 2 3, growx");
+        animalsComboBox.addItem(TipoAnimal.CACHORRO);
+        animalsComboBox.addItem(TipoAnimal.FURAO);
+        animalsComboBox.addItem(TipoAnimal.GATO);
+        animalsComboBox.addItem(TipoAnimal.LONTRA);
+        animalsComboBox.addItem(TipoAnimal.RATO);
+    }
+
+    private void limparCampos(){
+        petNameField.setText("");
+        ownerNameField.setText("");
+        breed.setText("");
+        dataTeste.clear();
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private JLabel label1;
     private JLabel label2;
     private JLabel label5;
-    private JTextField textField1;
+    private JTextField petNameField;
     private JLabel label3;
     private JLabel label7;
-    private JTextField textField3;
-    private JTextField textField5;
+    private JTextField ownerNameField;
+    private JTextField breed;
     private JLabel label4;
-    private JComboBox comboBox1;
-    private JButton button1;
+    private JComboBox animalsComboBox;
+    private JButton registerBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
+    private DatePicker dataTeste = new DatePicker();
+
+    private PetService petService = new PetService();
 }

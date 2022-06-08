@@ -7,6 +7,8 @@ package petshop.views.MainView;
 import java.awt.event.*;
 import javax.swing.*;
 import net.miginfocom.swing.*;
+import petshop.model.dtos.ServicoDTO;
+import petshop.model.dtos.PetDTO;
 import petshop.views.CadastrarPet.CadastrarPet;
 import petshop.views.CriarServico.CriarServico;
 import petshop.views.EditarAtendimento.TelaEditarAtendimento;
@@ -29,6 +31,16 @@ public class MainView extends JFrame {
 
     private void renderizarListagemServico() {
         TelaListagemServico telaListagemServico = new TelaListagemServico();
+
+        telaListagemServico.getButtonEditService().addActionListener(e -> {
+            ServicoDTO servico = telaListagemServico.getSelectedService();
+            renderizarEditarServico(servico);
+        });
+
+        telaListagemServico.getButtonCreateService().addActionListener(e -> {
+            renderizarCriarServico();
+        });
+
         setContentPane(telaListagemServico);
         revalidate();
     }
@@ -39,8 +51,8 @@ public class MainView extends JFrame {
         revalidate();
     }
 
-    private void renderizarEditarServico() {
-        EditarServico editarServico = new EditarServico();
+    private void renderizarEditarServico(ServicoDTO servico) {
+        EditarServico editarServico = new EditarServico(servico);
         setContentPane(editarServico);
         revalidate();
     }
@@ -51,14 +63,18 @@ public class MainView extends JFrame {
         revalidate();
     }
 
-    private void renderizarEditarPet() {
-        EditarPet editarPet = new EditarPet();
+    private void renderizarEditarPet(PetDTO petDTO) {
+        EditarPet editarPet = new EditarPet(petDTO);
         setContentPane(editarPet);
         revalidate();
     }
 
     private void renderizarListagemPet() {
         ListagemPet listagemPet = new ListagemPet();
+        listagemPet.getEditarBtn().addActionListener(e1 ->{
+            PetDTO petDTO = (listagemPet.getSelectedPet());
+            renderizarEditarPet(petDTO);
+        });
         setContentPane(listagemPet);
         revalidate();
     }

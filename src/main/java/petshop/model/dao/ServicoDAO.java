@@ -30,7 +30,7 @@ public class ServicoDAO extends GenericRepository{
     }
 
     public List<Servico> findAll(){
-        return this.getEntityManager().createQuery("SELECT s FROM Servico s").getResultList();
+        return this.getEntityManager().createQuery("SELECT s FROM Servico s WHERE s.status = true").getResultList();
     }
 
     public boolean servicoExists(Long idServico){
@@ -98,14 +98,15 @@ public class ServicoDAO extends GenericRepository{
     }
 
     private String geracaoHQL(FiltroServicoDTO filtro) {
-        String hql = "SELECT s FROM Servico s ";
+        String hql = "SELECT s FROM Servico s WHERE s.status = true ";
 
         if(filtro.getNome() != null && !filtro.getNome().isEmpty()){
-            hql = hql.concat("WHERE ").concat("LOWER(s.nome) LIKE :nome ");
+            hql = hql.concat("AND LOWER(s.nome) LIKE :nome ");
         }
 
         hql = hql.concat("ORDER BY s.valor ").concat(filtro.getOrdemValor().getDescricao());
 
         return hql;
     }
+
 }

@@ -20,6 +20,8 @@ public class Servico {
 	
 	private String descricao;
 
+	private Boolean status = true;
+
 	public Servico() {}
 
 	public Long getIdServico() {
@@ -53,5 +55,12 @@ public class Servico {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
 }

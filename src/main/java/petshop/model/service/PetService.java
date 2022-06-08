@@ -112,20 +112,28 @@ public class PetService {
 			pet.setPontosFidelidade(petDTO.getPontosFidelidade());
 	}
 
+	public String validarTamanhoMaximo(String texto,Integer tamanhoMaximo){
+		return texto.length() <= tamanhoMaximo ? texto : texto.substring(0, tamanhoMaximo);
+	}
+
 	private void validarAtributos(PetDTO pet) throws AtributosInvalidosException {
 		LOG.info("Validando os atributos do Pet");
 		String messages = "";
 
-		if(pet.getNome() == null || pet.getNome().isBlank()){
-			messages = messages.concat("Nome não pode estar em branco ou nulo!\n");
+		if(pet.getNome() == null || pet.getNome().isBlank() || pet.getNome().length() > 100){
+			messages = messages.concat("Nome não pode estar em branco,nulo ou maior que 100 caracteres!\n");
+		}
+
+		if(pet.getNomeDono() == null || pet.getNomeDono().isBlank() || pet.getNomeDono().length() > 100){
+			messages = messages.concat("Nome do dono não pode estar em branco,nulo ou maior que 100 caracteres!\n");
 		}
 
 		if(pet.getDataNascimento() == null){
 			messages = messages.concat("Informe a data de nascimento!\n");
 		}
 
-		if(pet.getRaca() == null || pet.getRaca().isBlank()){
-			messages = messages.concat("Raça não pode estar em branco ou nulo!\n");
+		if(pet.getRaca() == null || pet.getRaca().isBlank() || pet.getRaca().length() > 50){
+			messages = messages.concat("Raça não pode estar em branco,nulo ou maior que 50 caracteres!!\n");
 		}
 
 		if(pet.getTipoAnimal() == null){

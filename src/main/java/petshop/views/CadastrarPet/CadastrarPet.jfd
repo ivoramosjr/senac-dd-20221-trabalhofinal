@@ -29,7 +29,9 @@ new FormModel {
 				"value": "cell 2 2"
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
-				name: "textField1"
+				name: "petNameField"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "petNameField", true ) )
+				addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "petNameFieldKeyPressed", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 3,growx"
 			} )
@@ -46,12 +48,14 @@ new FormModel {
 				"value": "cell 2 4"
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
-				name: "textField3"
+				name: "ownerNameField"
+				addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "ownerNameFieldKeyPressed", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 5,growx"
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
-				name: "textField5"
+				name: "breed"
+				addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "breedKeyPressed", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 2 5,growx"
 			} )
@@ -62,13 +66,14 @@ new FormModel {
 				"value": "cell 0 6"
 			} )
 			add( new FormComponent( "javax.swing.JComboBox" ) {
-				name: "comboBox1"
+				name: "animalsComboBox"
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 7,growx"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "button1"
+				name: "registerBtn"
 				"text": "Cadastrar"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "registerBtn", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 11 3 1,alignx center,growx 0,wmin 150"
 			} )
