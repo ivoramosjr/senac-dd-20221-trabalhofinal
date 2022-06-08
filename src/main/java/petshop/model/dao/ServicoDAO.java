@@ -20,8 +20,8 @@ public class ServicoDAO extends GenericRepository{
 
     private static Logger LOG = LogManager.getLogger(ServicoDAO.class);
 
-    public ServicoDAO(EntityManager entityManager) {
-        super(entityManager);
+    public ServicoDAO() {
+        super();
     }
 
     public void save(Servico servico) throws SQLException {

@@ -13,9 +13,9 @@ import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import net.miginfocom.swing.*;
 import petshop.exceptions.AtributosInvalidosException;
+import petshop.model.controllers.PetController;
 import petshop.model.dtos.PetDTO;
 import petshop.model.enums.TipoAnimal;
-import petshop.model.business.PetBusiness;
 
 /**
  * @author unknown
@@ -34,7 +34,7 @@ public class CadastrarPet extends JPanel {
         pet.setDataNascimento(dataTeste.getDate());
 
         try {
-            petBusiness.save(pet);
+            petController.save(pet);
             JOptionPane.showMessageDialog(null,"Cadastrado com sucesso!");
             limparCampos();
 
@@ -51,16 +51,15 @@ public class CadastrarPet extends JPanel {
     }
 
     private void petNameFieldKeyPressed(KeyEvent e) {
-
-        petNameField.setText(petBusiness.validarTamanhoMaximo(petNameField.getText(),100));
+        petNameField.setText(petController.validarTamanhoMaximo(petNameField.getText(),100));
     }
 
     private void ownerNameFieldKeyPressed(KeyEvent e) {
-        ownerNameField.setText(petBusiness.validarTamanhoMaximo(ownerNameField.getText(),100));
+        ownerNameField.setText(petController.validarTamanhoMaximo(ownerNameField.getText(),100));
     }
 
     private void breedKeyPressed(KeyEvent e) {
-        breed.setText(petBusiness.validarTamanhoMaximo(breed.getText(),50));
+        breed.setText(petController.validarTamanhoMaximo(breed.getText(),50));
     }
 
     private void initComponents() {
@@ -198,5 +197,5 @@ public class CadastrarPet extends JPanel {
     // JFormDesigner - End of variables declaration  //GEN-END:variables
     private DatePicker dataTeste = new DatePicker();
 
-    private PetBusiness petBusiness = new PetBusiness();
+    private PetController petController = new PetController();
 }

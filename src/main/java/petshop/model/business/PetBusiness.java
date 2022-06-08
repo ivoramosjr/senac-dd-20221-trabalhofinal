@@ -6,12 +6,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import petshop.connection.JpaConnectionFactory;
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.dao.PetDAO;
@@ -23,13 +21,11 @@ import petshop.model.entity.Pet;
 public class PetBusiness {
 	
 	private static Logger LOG = LogManager.getLogger(PetBusiness.class);
-
-	private EntityManager entityManager = new JpaConnectionFactory().getEntityManager();
 	
 	private PetDAO petDAO;
 	
 	public PetBusiness() {
-		this.petDAO = new PetDAO(this.entityManager);
+		this.petDAO = new PetDAO();
 	}
 
 	public void save(PetDTO petDTO) throws SQLException, AtributosInvalidosException {
@@ -110,10 +106,6 @@ public class PetBusiness {
 
 		if(petDTO.getPontosFidelidade() > 0)
 			pet.setPontosFidelidade(petDTO.getPontosFidelidade());
-	}
-
-	public String validarTamanhoMaximo(String texto,Integer tamanhoMaximo){
-		return texto.length() <= tamanhoMaximo ? texto : texto.substring(0, tamanhoMaximo);
 	}
 
 	private void validarAtributos(PetDTO pet) throws AtributosInvalidosException {

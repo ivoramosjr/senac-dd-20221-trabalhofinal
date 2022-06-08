@@ -1,16 +1,16 @@
 package petshop.model.dao;
 
+import petshop.connection.JpaConnectionFactory;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 public class GenericRepository {
 
 	@PersistenceContext(unitName = "petshop")
-	private EntityManager entityManager;
+	private EntityManager entityManager = new JpaConnectionFactory().getEntityManager();
 	
-	public GenericRepository(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
+	public GenericRepository() {}
 	
 	public <T> T find(Class<T> clazz, Object pk) {
         return entityManager.find(clazz, pk);

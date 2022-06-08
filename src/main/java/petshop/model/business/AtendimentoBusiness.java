@@ -28,8 +28,6 @@ public class AtendimentoBusiness {
 
     private static Logger LOG = LogManager.getLogger(AtendimentoBusiness.class);
 
-    private EntityManager entityManager = new JpaConnectionFactory().getEntityManager();
-
     private AtendimentoDAO atendimentoDAO;
 
     private PetDAO petDAO;
@@ -37,9 +35,9 @@ public class AtendimentoBusiness {
     private ServicoDAO servicoDAO;
 
     public AtendimentoBusiness(){
-        this.atendimentoDAO = new AtendimentoDAO(entityManager);
-        this.petDAO = new PetDAO(entityManager);
-        this.servicoDAO = new ServicoDAO(entityManager);
+        this.atendimentoDAO = new AtendimentoDAO();
+        this.petDAO = new PetDAO();
+        this.servicoDAO = new ServicoDAO();
     }
 
     public void save(AtendimentoDTO atendimentoDTO) throws SQLException, AtributosInvalidosException, RegistroNaoEncontradoException, HorarioJaMarcadoException {

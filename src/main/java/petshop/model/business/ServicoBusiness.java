@@ -10,7 +10,6 @@ import petshop.model.dtos.FiltroServicoDTO;
 import petshop.model.dtos.ServicoDTO;
 import petshop.model.entity.Servico;
 
-import javax.persistence.EntityManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +18,10 @@ public class ServicoBusiness {
 
     private static Logger LOG = LogManager.getLogger(ServicoBusiness.class);
 
-    private EntityManager entityManager = new JpaConnectionFactory().getEntityManager();
-
     private ServicoDAO servicoDAO;
 
     public ServicoBusiness(){
-        this.servicoDAO = new ServicoDAO(this.entityManager);
+        this.servicoDAO = new ServicoDAO();
     }
 
     public void save(ServicoDTO servicoDTO) throws SQLException, AtributosInvalidosException {
@@ -88,7 +85,7 @@ public class ServicoBusiness {
 
     //TODO fazer delete lógico do serviço
 
-    public void delete(Long idServico, ServicoDTO servicoDTO) throws RegistroNaoEncontradoException {
+    public void delete(Long idServico) throws RegistroNaoEncontradoException {
         LOG.info("Preparando para deletar o serviço de id: "+idServico);
 
         if(!servicoDAO.servicoExists(idServico)){
@@ -97,9 +94,7 @@ public class ServicoBusiness {
 
         Servico servico = servicoDAO.find(Servico.class, idServico);
 
-        servicoDTO.setStatus(false);
-
-        setAtributosServico(servicoDTO, servico);
+        servico.setStatus(false);
 
         abrirConexaoBanco();
         this.servicoDAO.merge(servico);
