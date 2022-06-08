@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import petshop.connection.JpaConnectionFactory;
 import petshop.model.dtos.FiltroPetDTO;
 import petshop.model.entity.Pet;
 
@@ -17,9 +18,9 @@ import petshop.model.entity.Pet;
 public class PetDAO extends GenericRepository{
 
 	private static Logger LOG = LogManager.getLogger(PetDAO.class);
-	
-	public PetDAO(EntityManager entityManager) {
-		super(entityManager);
+
+	public PetDAO() {
+		super();
 	}
 	
 	public void save(Pet pet) throws SQLException{

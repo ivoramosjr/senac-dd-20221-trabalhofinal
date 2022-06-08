@@ -13,6 +13,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.*;
+import petshop.model.controllers.PetController;
 import petshop.model.dtos.PetDTO;
 import petshop.model.business.PetBusiness;
 
@@ -135,9 +136,7 @@ public class ListagemPet extends JPanel {
         add(deletBtn, "cell 2 5");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
 
-        PetBusiness petBusiness = new PetBusiness();
-
-        pets = petBusiness.listAll();
+        pets = petController.listAll();
         petTable.setDefaultEditor(Object.class, null);
         petTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         DefaultTableModel tableModel = (DefaultTableModel) petTable.getModel();
@@ -184,6 +183,7 @@ public class ListagemPet extends JPanel {
     private JButton deletBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
     List<PetDTO> pets;
+    PetController petController = new PetController();
 
     public JButton getEditarBtn() {
         return editarBtn;

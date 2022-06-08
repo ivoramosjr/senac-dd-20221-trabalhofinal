@@ -22,8 +22,8 @@ public class AtendimentoDAO extends GenericRepository{
 
     private static Logger LOG = LogManager.getLogger(AtendimentoDAO.class);
 
-    public AtendimentoDAO(EntityManager entityManager) {
-        super(entityManager);
+    public AtendimentoDAO() {
+        super();
     }
 
     public void save(Atendimento atendimento) throws SQLException {
@@ -132,7 +132,4 @@ public class AtendimentoDAO extends GenericRepository{
         }
     }
 
-    public boolean horarioNaoPertenceAtendimento(Long idAtendimento, LocalDateTime dataAtendimento) {
-        return false;
-    }
 }

@@ -11,15 +11,15 @@ import javax.swing.*;
 import net.miginfocom.swing.*;
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.RegistroNaoEncontradoException;
+import petshop.model.controllers.ServicoController;
 import petshop.model.dtos.ServicoDTO;
-import petshop.model.business.ServicoBusiness;
 
 /**
  * @author unknown
  */
 public class EditarServico extends JPanel {
 
-    ServicoBusiness servicoBusiness = new ServicoBusiness();
+    ServicoController servicoController = new ServicoController();
     ServicoDTO servicoEdit = new ServicoDTO();
     String regex = "^(\\d+(\\.?\\d{0,2})?|\\.\\d{1,2})$";
 
@@ -54,7 +54,7 @@ public class EditarServico extends JPanel {
             }
 
             servicoEdit.setDescricao(descriptionServiceField.getText());
-            servicoBusiness.update(servicoEdit.getIdServico(), servicoEdit);
+            servicoController.update(servicoEdit.getIdServico(), servicoEdit);
 
             JOptionPane.showMessageDialog(null, "Serviço editado com sucesso", "Editar serviço.",JOptionPane.INFORMATION_MESSAGE);
         } catch (RegistroNaoEncontradoException | AtributosInvalidosException ex) {

@@ -15,10 +15,10 @@ import net.miginfocom.swing.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import petshop.exceptions.RegistroNaoEncontradoException;
+import petshop.model.controllers.ServicoController;
 import petshop.model.dtos.FiltroServicoDTO;
 import petshop.model.dtos.ServicoDTO;
 import petshop.model.enums.OrdemPesquisa;
-import petshop.model.business.ServicoBusiness;
 
 /**
  * @author unknown
@@ -26,7 +26,7 @@ import petshop.model.business.ServicoBusiness;
 public class TelaListagemServico extends JPanel {
     private static Logger LOG = LogManager.getLogger(TelaListagemServico.class);
 
-    ServicoBusiness servicoBusiness = new ServicoBusiness();
+    ServicoController servicoController = new ServicoController();
     List<ServicoDTO> servicesList = new ArrayList<>();
 
     public TelaListagemServico() {
@@ -57,7 +57,7 @@ public class TelaListagemServico extends JPanel {
             filtroServicoDTO.setOrdemQuantidadeAtendimentos(OrdemPesquisa.DESC);
         }
 
-        servicesList = servicoBusiness.findWithFilter(filtroServicoDTO);
+        servicesList = servicoController.findWithFilter(filtroServicoDTO);
         DefaultTableModel tableModel = (DefaultTableModel) tableServicos.getModel();
         tableModel.setRowCount(0);
 
@@ -67,7 +67,7 @@ public class TelaListagemServico extends JPanel {
     }
 
     private void loadServices() {
-        servicesList = servicoBusiness.listAll();
+        servicesList = servicoController.listAll();
         DefaultTableModel tableModel = (DefaultTableModel) tableServicos.getModel();
         tableModel.setRowCount(0);
 
@@ -81,7 +81,7 @@ public class TelaListagemServico extends JPanel {
         try {
             int option = JOptionPane.showConfirmDialog(null, "Deseja realmente deletar este serviço?", "Deletar serviço", JOptionPane.YES_NO_OPTION);
             if(option == 0) {
-                servicoBusiness.delete(service.getIdServico(), service);
+                servicoController.delete(service.getIdServico());
                 servicesList.clear();
                 loadServices();
             }
