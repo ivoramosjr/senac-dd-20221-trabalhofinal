@@ -10,7 +10,6 @@ import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import org.jetbrains.annotations.NotNull;
 import petshop.model.dtos.FiltroPetDTO;
 import petshop.model.entity.Pet;
 
@@ -64,7 +63,6 @@ public class PetDAO extends GenericRepository{
 		}
 	}
 
-	@NotNull
 	private String geracaoHQL(FiltroPetDTO filtro) {
 		String hql = "SELECT p FROM Pet p ";
 
