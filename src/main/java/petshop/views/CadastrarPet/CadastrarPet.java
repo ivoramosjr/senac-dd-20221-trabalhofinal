@@ -11,13 +11,11 @@ import javax.swing.*;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
-import com.github.lgooddatepicker.components.DateTimePicker;
 import net.miginfocom.swing.*;
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.model.dtos.PetDTO;
-import petshop.model.entity.Pet;
 import petshop.model.enums.TipoAnimal;
-import petshop.model.service.PetService;
+import petshop.model.business.PetBusiness;
 
 /**
  * @author unknown
@@ -36,7 +34,7 @@ public class CadastrarPet extends JPanel {
         pet.setDataNascimento(dataTeste.getDate());
 
         try {
-            petService.save(pet);
+            petBusiness.save(pet);
             JOptionPane.showMessageDialog(null,"Cadastrado com sucesso!");
             limparCampos();
 
@@ -54,15 +52,15 @@ public class CadastrarPet extends JPanel {
 
     private void petNameFieldKeyPressed(KeyEvent e) {
 
-        petNameField.setText(petService.validarTamanhoMaximo(petNameField.getText(),100));
+        petNameField.setText(petBusiness.validarTamanhoMaximo(petNameField.getText(),100));
     }
 
     private void ownerNameFieldKeyPressed(KeyEvent e) {
-        ownerNameField.setText(petService.validarTamanhoMaximo(ownerNameField.getText(),100));
+        ownerNameField.setText(petBusiness.validarTamanhoMaximo(ownerNameField.getText(),100));
     }
 
     private void breedKeyPressed(KeyEvent e) {
-        breed.setText(petService.validarTamanhoMaximo(breed.getText(),50));
+        breed.setText(petBusiness.validarTamanhoMaximo(breed.getText(),50));
     }
 
     private void initComponents() {
@@ -200,5 +198,5 @@ public class CadastrarPet extends JPanel {
     // JFormDesigner - End of variables declaration  //GEN-END:variables
     private DatePicker dataTeste = new DatePicker();
 
-    private PetService petService = new PetService();
+    private PetBusiness petBusiness = new PetBusiness();
 }

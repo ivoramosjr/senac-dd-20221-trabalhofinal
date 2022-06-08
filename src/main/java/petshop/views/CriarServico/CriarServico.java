@@ -12,7 +12,7 @@ import javax.swing.*;
 import net.miginfocom.swing.*;
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.model.dtos.ServicoDTO;
-import petshop.model.service.ServicoService;
+import petshop.model.business.ServicoBusiness;
 
 /**
  * @author unknown
@@ -20,7 +20,7 @@ import petshop.model.service.ServicoService;
 public class CriarServico extends JPanel {
 
     ServicoDTO servicoDTO = new ServicoDTO();
-    ServicoService servicoService = new ServicoService();
+    ServicoBusiness servicoBusiness = new ServicoBusiness();
     String regex = "^(\\d+(\\.?\\d{0,2})?|\\.\\d{1,2})$";
     public CriarServico() {
         initComponents();
@@ -37,7 +37,7 @@ public class CriarServico extends JPanel {
             }
 
             servicoDTO.setDescricao(descriptionServiceField.getText());
-            servicoService.save(servicoDTO);
+            servicoBusiness.save(servicoDTO);
 
             JOptionPane.showMessageDialog(null, "Serviço cadastrado com sucesso", "Salvar serviço.",JOptionPane.INFORMATION_MESSAGE);
             clearInputs();

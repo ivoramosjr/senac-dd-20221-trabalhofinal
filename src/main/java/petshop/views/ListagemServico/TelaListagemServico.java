@@ -18,7 +18,7 @@ import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.dtos.FiltroServicoDTO;
 import petshop.model.dtos.ServicoDTO;
 import petshop.model.enums.OrdemPesquisa;
-import petshop.model.service.ServicoService;
+import petshop.model.business.ServicoBusiness;
 
 /**
  * @author unknown
@@ -26,7 +26,7 @@ import petshop.model.service.ServicoService;
 public class TelaListagemServico extends JPanel {
     private static Logger LOG = LogManager.getLogger(TelaListagemServico.class);
 
-    ServicoService servicoService = new ServicoService();
+    ServicoBusiness servicoBusiness = new ServicoBusiness();
     List<ServicoDTO> servicesList = new ArrayList<>();
 
     public TelaListagemServico() {
@@ -57,7 +57,7 @@ public class TelaListagemServico extends JPanel {
             filtroServicoDTO.setOrdemQuantidadeAtendimentos(OrdemPesquisa.DESC);
         }
 
-        servicesList = servicoService.findWithFilter(filtroServicoDTO);
+        servicesList = servicoBusiness.findWithFilter(filtroServicoDTO);
         DefaultTableModel tableModel = (DefaultTableModel) tableServicos.getModel();
         tableModel.setRowCount(0);
 
@@ -67,7 +67,7 @@ public class TelaListagemServico extends JPanel {
     }
 
     private void loadServices() {
-        servicesList = servicoService.listAll();
+        servicesList = servicoBusiness.listAll();
         DefaultTableModel tableModel = (DefaultTableModel) tableServicos.getModel();
         tableModel.setRowCount(0);
 
@@ -81,7 +81,7 @@ public class TelaListagemServico extends JPanel {
         try {
             int option = JOptionPane.showConfirmDialog(null, "Deseja realmente deletar este serviço?", "Deletar serviço", JOptionPane.YES_NO_OPTION);
             if(option == 0) {
-                servicoService.delete(service.getIdServico(), service);
+                servicoBusiness.delete(service.getIdServico(), service);
                 servicesList.clear();
                 loadServices();
             }

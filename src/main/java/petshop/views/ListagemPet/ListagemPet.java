@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.*;
 import petshop.model.dtos.PetDTO;
-import petshop.model.service.PetService;
+import petshop.model.business.PetBusiness;
 
 /**
  * @author unknown
@@ -135,9 +135,9 @@ public class ListagemPet extends JPanel {
         add(deletBtn, "cell 2 5");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
 
-        PetService petService = new PetService();
+        PetBusiness petBusiness = new PetBusiness();
 
-        pets = petService.listAll();
+        pets = petBusiness.listAll();
         petTable.setDefaultEditor(Object.class, null);
         petTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         DefaultTableModel tableModel = (DefaultTableModel) petTable.getModel();

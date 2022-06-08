@@ -1,4 +1,4 @@
-package petshop.model.service;
+package petshop.model.business;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,15 +15,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServicoService {
+public class ServicoBusiness {
 
-    private static Logger LOG = LogManager.getLogger(ServicoService.class);
+    private static Logger LOG = LogManager.getLogger(ServicoBusiness.class);
 
     private EntityManager entityManager = new JpaConnectionFactory().getEntityManager();
 
     private ServicoDAO servicoDAO;
 
-    public ServicoService(){
+    public ServicoBusiness(){
         this.servicoDAO = new ServicoDAO(this.entityManager);
     }
 

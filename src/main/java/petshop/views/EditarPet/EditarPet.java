@@ -6,17 +6,15 @@ package petshop.views.EditarPet;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.SQLException;
 import javax.swing.*;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import net.miginfocom.swing.*;
-import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.dtos.PetDTO;
 import petshop.model.enums.TipoAnimal;
-import petshop.model.service.PetService;
+import petshop.model.business.PetBusiness;
 
 /**
  * @author unknown
@@ -42,7 +40,7 @@ public class EditarPet extends JPanel {
         pet.setDataNascimento(dataTeste.getDate());
 
         try {
-            petService.update(petId, pet);
+            petBusiness.update(petId, pet);
             JOptionPane.showMessageDialog(null, "Alterado com sucesso!");
             limparCampos();
 
@@ -145,7 +143,7 @@ public class EditarPet extends JPanel {
     private JComboBox animalsComboBox;
     private JButton button1;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
-    private PetService petService = new PetService();
+    private PetBusiness petBusiness = new PetBusiness();
     private DatePicker dataTeste = new DatePicker();
 
     private Long petId;

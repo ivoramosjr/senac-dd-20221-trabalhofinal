@@ -1,4 +1,4 @@
-package petshop.model.service;
+package petshop.model.business;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-public class AtendimentoService {
+public class AtendimentoBusiness {
 
-    private static Logger LOG = LogManager.getLogger(AtendimentoService.class);
+    private static Logger LOG = LogManager.getLogger(AtendimentoBusiness.class);
 
     private EntityManager entityManager = new JpaConnectionFactory().getEntityManager();
 
@@ -36,7 +36,7 @@ public class AtendimentoService {
 
     private ServicoDAO servicoDAO;
 
-    public AtendimentoService(){
+    public AtendimentoBusiness(){
         this.atendimentoDAO = new AtendimentoDAO(entityManager);
         this.petDAO = new PetDAO(entityManager);
         this.servicoDAO = new ServicoDAO(entityManager);

@@ -1,4 +1,4 @@
-package petshop.model.service;
+package petshop.model.business;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,15 +20,15 @@ import petshop.model.dtos.PetDTO;
 import petshop.model.entity.Pet;
 
 @ApplicationScoped
-public class PetService {
+public class PetBusiness {
 	
-	private static Logger LOG = LogManager.getLogger(PetService.class);
+	private static Logger LOG = LogManager.getLogger(PetBusiness.class);
 
 	private EntityManager entityManager = new JpaConnectionFactory().getEntityManager();
 	
 	private PetDAO petDAO;
 	
-	public PetService() {
+	public PetBusiness() {
 		this.petDAO = new PetDAO(this.entityManager);
 	}
 
