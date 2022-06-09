@@ -6,6 +6,7 @@ package petshop.views.ListagemServico;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +26,8 @@ import petshop.model.enums.OrdemPesquisa;
  */
 public class TelaListagemServico extends JPanel {
     private static Logger LOG = LogManager.getLogger(TelaListagemServico.class);
+
+    private static DecimalFormat df = new DecimalFormat("R$ 0.00");
 
     ServicoController servicoController = new ServicoController();
     List<ServicoDTO> servicesList = new ArrayList<>();
@@ -62,7 +65,7 @@ public class TelaListagemServico extends JPanel {
         tableModel.setRowCount(0);
 
         for(ServicoDTO servico : servicesList) {
-            tableModel.addRow(new Object[]{(servico.getNome()), (servico.getValor()), (servico.getQuantidadeAtendimentos())});
+            tableModel.addRow(new Object[]{(servico.getNome()), df.format((servico.getValor())), (servico.getQuantidadeAtendimentos())});
         }
     }
 
@@ -72,7 +75,7 @@ public class TelaListagemServico extends JPanel {
         tableModel.setRowCount(0);
 
         for(ServicoDTO servico : servicesList) {
-            tableModel.addRow(new Object[]{(servico.getNome()), (servico.getValor()), (servico.getQuantidadeAtendimentos())});
+            tableModel.addRow(new Object[]{(servico.getNome()), df.format((servico.getValor())), (servico.getQuantidadeAtendimentos())});
         }
     }
 

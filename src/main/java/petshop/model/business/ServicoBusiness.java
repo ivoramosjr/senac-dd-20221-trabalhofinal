@@ -2,7 +2,6 @@ package petshop.model.business;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import petshop.connection.JpaConnectionFactory;
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.dao.ServicoDAO;
@@ -11,12 +10,11 @@ import petshop.model.dtos.ServicoDTO;
 import petshop.model.entity.Servico;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ServicoBusiness {
 
-    private static Logger LOG = LogManager.getLogger(ServicoBusiness.class);
+    private static final Logger LOG = LogManager.getLogger(ServicoBusiness.class);
 
     private ServicoDAO servicoDAO;
 
@@ -60,27 +58,12 @@ public class ServicoBusiness {
 
     public List<ServicoDTO> listAll(){
         LOG.info("Procurando todos os serviços cadastrados");
-        List<Servico> servicosEntity = this.servicoDAO.findAll();
-        List<ServicoDTO> servicos = new ArrayList<>();
-
-        for(Servico servico : servicosEntity){
-            ServicoDTO servicoDTO = new ServicoDTO(servico);
-            servicoDTO
-                    .setQuantidadeAtendimentos(this.servicoDAO
-                            .getQuantidadeAtendimentosServico(servico.getIdServico()).intValue());
-            servicos.add(servicoDTO);
-        }
-
-        LOG.info("Foram encontrados "+servicos.size()+" serviços.");
-        return servicos;
+        return this.servicoDAO.findAll();
     }
 
     public List<ServicoDTO> findWithFilter(FiltroServicoDTO filtro){
         LOG.info("Preparando para pesquisar os serviços com filtro");
-
-        List<ServicoDTO> servicos = this.servicoDAO.findWithFilter(filtro);
-
-        return servicos;
+        return this.servicoDAO.findWithFilter(filtro);
     }
 
     //TODO fazer delete lógico do serviço
@@ -113,8 +96,6 @@ public class ServicoBusiness {
         if(servicoDTO.getValor() != null)
             servico.setValor(servicoDTO.getValor());
 
-        if(servicoDTO.getStatus() != null)
-            servico.setStatus(servicoDTO.getStatus());
     }
 
     private void validarAtributos(ServicoDTO servico) throws AtributosInvalidosException {

@@ -1,7 +1,5 @@
 package petshop.model.dtos;
 
-import petshop.model.entity.Servico;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -18,18 +16,17 @@ public class ServicoDTO {
     @NotBlank(message = "Descrição não pode estar em branco ou nula.")
     private String descricao;
 
-    private Integer quantidadeAtendimentos;
-
-    private Boolean status;
+    private Long quantidadeAtendimentos;
 
     public ServicoDTO() {
     }
 
-    public ServicoDTO(Servico servico){
-        this.idServico = servico.getIdServico();
-        this.nome = servico.getNome();
-        this.valor = servico.getValor();
-        this.descricao = servico.getDescricao();
+    public ServicoDTO(Long idServico, String nome, Double valor, String descricao, Number quantidadeAtendimentos){
+        this.idServico = idServico;
+        this.nome = nome;
+        this.valor = valor;
+        this.descricao = descricao;
+        this.quantidadeAtendimentos = quantidadeAtendimentos.longValue();
     }
 
     public Long getIdServico() {
@@ -64,19 +61,11 @@ public class ServicoDTO {
         this.descricao = descricao;
     }
 
-    public Integer getQuantidadeAtendimentos() {
+    public Long getQuantidadeAtendimentos() {
         return quantidadeAtendimentos;
     }
 
-    public void setQuantidadeAtendimentos(Integer quantidadeAtendimentos) {
-        this.quantidadeAtendimentos = quantidadeAtendimentos;
-    }
-
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public void setQuantidadeAtendimentos(Number quantidadeAtendimentos) {
+        this.quantidadeAtendimentos = quantidadeAtendimentos.longValue();
     }
 }

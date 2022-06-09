@@ -28,7 +28,7 @@ public class AtendimentoDTO {
         this.idAtendimento = atendimento.getIdAtendimento();
         this.dataAtendimento = atendimento.getDataAtendimento();
         this.pet = new PetDTO(atendimento.getPet());
-        this.servico = new ServicoDTO(atendimento.getServico());
+        //this.servico = new ServicoDTO(atendimento.getServico());
         this.statusAtendimento = atendimento.getStatusAtendimento();
     }
 
