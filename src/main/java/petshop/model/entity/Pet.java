@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import petshop.model.enums.SexoEnum;
 import petshop.model.enums.TipoAnimal;
 
 @Entity
@@ -32,6 +33,9 @@ public class Pet {
 	
 	@Enumerated(EnumType.STRING)
 	private TipoAnimal tipoAnimal;
+
+	@Enumerated(EnumType.STRING)
+	private SexoEnum sexo;
 
 	private Integer pontosFidelidade = 0;
 
@@ -92,6 +96,18 @@ public class Pet {
 	}
 
 	public void setPontosFidelidade(int pontosFidelidade) {
+		this.pontosFidelidade = pontosFidelidade;
+	}
+
+	public SexoEnum getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(SexoEnum sexo) {
+		this.sexo = sexo;
+	}
+
+	public void setPontosFidelidade(Integer pontosFidelidade) {
 		this.pontosFidelidade = pontosFidelidade;
 	}
 
