@@ -12,14 +12,14 @@ import javax.swing.*;
 import net.miginfocom.swing.*;
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.model.controllers.ServicoController;
-import petshop.model.dtos.ServicoDTO;
+import petshop.model.dtos.request.ServicoRequestDTO;
 
 /**
  * @author unknown
  */
 public class CriarServico extends JPanel {
 
-    ServicoDTO servicoDTO = new ServicoDTO();
+    ServicoRequestDTO servicoRequest = new ServicoRequestDTO();
     ServicoController servicoController = new ServicoController();
     String regex = "^(\\d+(\\.?\\d{0,2})?|\\.\\d{1,2})$";
     public CriarServico() {
@@ -28,16 +28,16 @@ public class CriarServico extends JPanel {
 
     private void createService(ActionEvent e) {
         try {
-            servicoDTO.setNome(nameServiceField.getText());
+            servicoRequest.setNome(nameServiceField.getText());
 
             if(valueServiceField.getText().isEmpty()) {
-                servicoDTO.setValor(null);
+                servicoRequest.setValor(null);
             } else {
-                servicoDTO.setValor(Double.parseDouble(valueServiceField.getText()));
+                servicoRequest.setValor(Double.parseDouble(valueServiceField.getText()));
             }
 
-            servicoDTO.setDescricao(descriptionServiceField.getText());
-            servicoController.save(servicoDTO);
+            servicoRequest.setDescricao(descriptionServiceField.getText());
+            servicoController.save(servicoRequest);
 
             JOptionPane.showMessageDialog(null, "Serviço cadastrado com sucesso", "Salvar serviço.",JOptionPane.INFORMATION_MESSAGE);
             clearInputs();

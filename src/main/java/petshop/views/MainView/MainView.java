@@ -7,7 +7,6 @@ package petshop.views.MainView;
 import java.awt.event.*;
 import javax.swing.*;
 import net.miginfocom.swing.*;
-import petshop.model.dtos.ServicoDTO;
 import petshop.model.dtos.PetDTO;
 import petshop.views.CadastrarPet.CadastrarPet;
 import petshop.views.CriarServico.CriarServico;
@@ -33,8 +32,8 @@ public class MainView extends JFrame {
         TelaListagemServico telaListagemServico = new TelaListagemServico();
 
         telaListagemServico.getButtonEditService().addActionListener(e -> {
-            ServicoDTO servico = telaListagemServico.getSelectedService();
-            renderizarEditarServico(servico);
+            Long idServico = telaListagemServico.getSelectedService();
+           renderizarEditarServico(idServico);
         });
 
         telaListagemServico.getButtonCreateService().addActionListener(e -> {
@@ -51,8 +50,8 @@ public class MainView extends JFrame {
         revalidate();
     }
 
-    private void renderizarEditarServico(ServicoDTO servico) {
-        EditarServico editarServico = new EditarServico(servico);
+    private void renderizarEditarServico(Long idServico) {
+        EditarServico editarServico = new EditarServico(idServico);
         setContentPane(editarServico);
         revalidate();
     }

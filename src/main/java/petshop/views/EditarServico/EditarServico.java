@@ -12,7 +12,7 @@ import net.miginfocom.swing.*;
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.controllers.ServicoController;
-import petshop.model.dtos.ServicoDTO;
+import petshop.model.dtos.request.ServicoRequestDTO;
 
 /**
  * @author unknown
@@ -20,12 +20,20 @@ import petshop.model.dtos.ServicoDTO;
 public class EditarServico extends JPanel {
 
     ServicoController servicoController = new ServicoController();
-    ServicoDTO servicoEdit = new ServicoDTO();
+    ServicoRequestDTO servicoEdit = new ServicoRequestDTO();
     String regex = "^(\\d+(\\.?\\d{0,2})?|\\.\\d{1,2})$";
 
-    public EditarServico(ServicoDTO servico) {
+    public EditarServico(Long idServico) {
         initComponents();
-        servicoEdit = servico;
+        try {
+            servicoEdit = servicoController.findByIdToEdit(idServico);
+        } catch (AtributosInvalidosException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            servicoEdit = new ServicoRequestDTO();
+        }catch (RegistroNaoEncontradoException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            servicoEdit = new ServicoRequestDTO();
+        }
         nameServiceField.setText(servicoEdit.getNome());
         valueServiceField.setText(servicoEdit.getValor().toString());
         descriptionServiceField.setText(servicoEdit.getDescricao());

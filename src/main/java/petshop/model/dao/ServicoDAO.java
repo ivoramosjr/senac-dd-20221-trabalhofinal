@@ -3,7 +3,8 @@ package petshop.model.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import petshop.filtros.FiltroServico;
-import petshop.model.dtos.ServicoDTO;
+import petshop.model.dtos.request.ServicoRequestDTO;
+import petshop.model.dtos.response.ServicoResponseDTO;
 import petshop.model.entity.Servico;
 import petshop.model.enums.OrdemPesquisa;
 
@@ -26,9 +27,9 @@ public class ServicoDAO extends GenericRepository{
         this.getEntityManager().persist(servico);
     }
 
-    public List<ServicoDTO> findAll(){
+    public List<ServicoResponseDTO> findAll(){
         String hql = generateBaseHQL();
-        List<ServicoDTO> servicos = this.getEntityManager().createQuery(hql, ServicoDTO.class).getResultList();
+        List<ServicoResponseDTO> servicos = this.getEntityManager().createQuery(hql, ServicoResponseDTO.class).getResultList();
         return servicos;
     }
 
@@ -41,29 +42,37 @@ public class ServicoDAO extends GenericRepository{
         return true;
     }
 
-    public List<ServicoDTO> findWithFilter(FiltroServico filtro){
+    public List<ServicoResponseDTO> findWithFilter(FiltroServico filtro){
         String hql = geracaoHQL(filtro);
 
-        Query query = this.getEntityManager().createQuery(hql, ServicoDTO.class);
+        Query query = this.getEntityManager().createQuery(hql, ServicoResponseDTO.class);
 
         montandoQuery(filtro, query);
 
-        List<ServicoDTO> servicos = query.getResultList();
+        List<ServicoResponseDTO> servicos = query.getResultList();
 
         if(filtro.getOrdemQuantidadeAtendimentos().equals(OrdemPesquisa.DESC)){
             servicos = servicos.stream()
                     .sorted(Comparator
-                            .comparingLong(ServicoDTO::getQuantidadeAtendimentos)
+                            .comparingLong(ServicoResponseDTO::getQuantidadeAtendimentos)
                             .reversed())
                     .collect(Collectors.toList());
         }else{
             servicos = servicos.stream()
                     .sorted(Comparator
-                            .comparingLong(ServicoDTO::getQuantidadeAtendimentos))
+                            .comparingLong(ServicoResponseDTO::getQuantidadeAtendimentos))
                     .collect(Collectors.toList());
         }
 
         return servicos;
+    }
+
+    public ServicoRequestDTO findByIdToEdit(Long idServico) {
+        String hql = "SELECT new petshop.model.dtos.request.ServicoRequestDTO(s.idServico, s.nome, s.valor, s.descricao) " +
+                "FROM Servico s WHERE s.idServico = :idServico ";
+        Query query = this.getEntityManager().createQuery(hql, ServicoRequestDTO.class).setParameter("idServico",idServico);
+
+        return (ServicoRequestDTO) query.getSingleResult();
     }
 
     private void montandoQuery(FiltroServico filtro, Query query) {
@@ -86,10 +95,9 @@ public class ServicoDAO extends GenericRepository{
     }
 
     private String generateBaseHQL() {
-        return "SELECT new petshop.model.dtos.ServicoDTO(s.id, s.nome, s.valor, s.descricao, " +
+        return "SELECT new petshop.model.dtos.response.ServicoResponseDTO(s.id, s.nome, s.valor, " +
                 "(SELECT COUNT(a.idAtendimento) AS QTD_ATENDIMENTOS FROM Atendimento a WHERE a.servico.idServico = s.idServico)) " +
                 "FROM Servico s " +
                 "WHERE s.status = true ";
     }
-
 }

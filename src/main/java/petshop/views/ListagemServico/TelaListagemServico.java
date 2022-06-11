@@ -6,7 +6,6 @@ package petshop.views.ListagemServico;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -18,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.controllers.ServicoController;
 import petshop.filtros.FiltroServico;
-import petshop.model.dtos.ServicoDTO;
+import petshop.model.dtos.response.ServicoResponseDTO;
 import petshop.model.enums.OrdemPesquisa;
 
 /**
@@ -27,10 +26,8 @@ import petshop.model.enums.OrdemPesquisa;
 public class TelaListagemServico extends JPanel {
     private static Logger LOG = LogManager.getLogger(TelaListagemServico.class);
 
-    private static DecimalFormat df = new DecimalFormat("R$ 0.00");
-
     ServicoController servicoController = new ServicoController();
-    List<ServicoDTO> servicesList = new ArrayList<>();
+    List<ServicoResponseDTO> servicesList = new ArrayList<>();
 
     public TelaListagemServico() {
         initComponents();
@@ -64,8 +61,8 @@ public class TelaListagemServico extends JPanel {
         DefaultTableModel tableModel = (DefaultTableModel) tableServicos.getModel();
         tableModel.setRowCount(0);
 
-        for(ServicoDTO servico : servicesList) {
-            tableModel.addRow(new Object[]{(servico.getNome()), df.format((servico.getValor())), (servico.getQuantidadeAtendimentos())});
+        for(ServicoResponseDTO servico : servicesList) {
+            tableModel.addRow(new Object[]{(servico.getNome()), servico.getValor(), (servico.getQuantidadeAtendimentos())});
         }
     }
 
@@ -74,21 +71,21 @@ public class TelaListagemServico extends JPanel {
         DefaultTableModel tableModel = (DefaultTableModel) tableServicos.getModel();
         tableModel.setRowCount(0);
 
-        for(ServicoDTO servico : servicesList) {
-            tableModel.addRow(new Object[]{(servico.getNome()), df.format((servico.getValor())), (servico.getQuantidadeAtendimentos())});
+        for(ServicoResponseDTO servico : servicesList) {
+            tableModel.addRow(new Object[]{(servico.getNome()), (servico.getValor()), (servico.getQuantidadeAtendimentos())});
         }
     }
 
     private void deleteService(ActionEvent e)  {
-        ServicoDTO service = getSelectedService();
+        Long idService = getSelectedService();
         try {
             int option = JOptionPane.showConfirmDialog(null, "Deseja realmente deletar este serviço?", "Deletar serviço", JOptionPane.YES_NO_OPTION);
             if(option == 0) {
-                servicoController.delete(service.getIdServico());
+                servicoController.delete(idService);
                 servicesList.clear();
                 loadServices();
+                JOptionPane.showMessageDialog(null, "Serviço deletado com sucesso", "Deletar serviço.",JOptionPane.INFORMATION_MESSAGE);
             }
-            JOptionPane.showMessageDialog(null, "Serviço deletado com sucesso", "Deletar serviço.",JOptionPane.INFORMATION_MESSAGE);
         } catch (RegistroNaoEncontradoException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Deletar serviço.",JOptionPane.ERROR_MESSAGE);
         }
@@ -250,12 +247,12 @@ public class TelaListagemServico extends JPanel {
         return editButton;
     }
 
-    public ServicoDTO getSelectedService() {
+    public Long getSelectedService() {
         return getServiceFromRow(tableServicos.getSelectedRow());
     }
 
-    private ServicoDTO getServiceFromRow(int index) {
-        return servicesList.get(index);
+    private Long getServiceFromRow(int index) {
+        return servicesList.get(index).getIdServico();
     }
 
 }
