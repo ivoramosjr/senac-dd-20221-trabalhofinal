@@ -52,11 +52,11 @@ public class AtendimentoBusiness {
 
         abrirConexaoBanco();
 
-        Pet pet = petDAO.find(Pet.class, atendimentoDTO.getPet().getIdPet());
-        Servico servico = servicoDAO.find(Servico.class, atendimentoDTO.getServico().getIdServico());
-
-        atendimento.setPet(pet);
-        atendimento.setServico(servico);
+//        Pet pet = petDAO.find(Pet.class, atendimentoDTO.getPet().getIdPet());
+//        Servico servico = servicoDAO.find(Servico.class, atendimentoDTO.getServico().getIdServico());
+//
+//        atendimento.setPet(pet);
+//        atendimento.setServico(servico);
         atendimentoDAO.save(atendimento);
         commitarTransacaoBanco();
 
@@ -80,11 +80,11 @@ public class AtendimentoBusiness {
 
         abrirConexaoBanco();
 
-        Pet pet = petDAO.find(Pet.class, atendimentoDTO.getPet().getIdPet());
-        Servico servico = servicoDAO.find(Servico.class, atendimentoDTO.getServico().getIdServico());
-
-        atendimento.setPet(pet);
-        atendimento.setServico(servico);
+//        Pet pet = petDAO.find(Pet.class, atendimentoDTO.getPet().getIdPet());
+//        Servico servico = servicoDAO.find(Servico.class, atendimentoDTO.getServico().getIdServico());
+//
+//        atendimento.setPet(pet);
+//        atendimento.setServico(servico);
         atendimentoDAO.merge(atendimento);
         commitarTransacaoBanco();
 
@@ -136,30 +136,30 @@ public class AtendimentoBusiness {
 
     private void verificarPetServico(AtendimentoDTO atendimentoDTO) throws RegistroNaoEncontradoException {
         LOG.info("Verificando se o Pet e o Serviço existem na base de dados");
-        if(!petDAO.petExists(atendimentoDTO.getPet().getIdPet())){
-            throw new RegistroNaoEncontradoException("Pet com ID "
-                    +petDAO.petExists(atendimentoDTO.getPet().getIdPet())
-                    +" não existe na base de dados!");
-        }
-
-        if(!servicoDAO.servicoExists(atendimentoDTO.getServico().getIdServico())){
-            throw new RegistroNaoEncontradoException("Serviço com ID "
-                    +servicoDAO.servicoExists(atendimentoDTO.getServico().getIdServico())
-                    +" não existe na base de dados!");
-        }
+//        if(!petDAO.petExists(atendimentoDTO.getPet().getIdPet())){
+//            throw new RegistroNaoEncontradoException("Pet com ID "
+//                    +petDAO.petExists(atendimentoDTO.getPet().getIdPet())
+//                    +" não existe na base de dados!");
+//        }
+//
+//        if(!servicoDAO.servicoExists(atendimentoDTO.getServico().getIdServico())){
+//            throw new RegistroNaoEncontradoException("Serviço com ID "
+//                    +servicoDAO.servicoExists(atendimentoDTO.getServico().getIdServico())
+//                    +" não existe na base de dados!");
+//        }
     }
 
     private void validarAtributos(AtendimentoDTO atendimentoDTO) throws AtributosInvalidosException {
         LOG.info("Validando os atributos do Atendimento");
         String messages = "";
 
-        if(atendimentoDTO.getPet() == null || atendimentoDTO.getPet().getIdPet() == null){
-            messages = messages.concat("Por favor selecione um pet!\n");
-        }
-
-        if(atendimentoDTO.getServico() == null || atendimentoDTO.getServico().getIdServico() == null){
-            messages = messages.concat("Por favor selecione um serviço!\n");
-        }
+//        if(atendimentoDTO.getPet() == null || atendimentoDTO.getPet().getIdPet() == null){
+//            messages = messages.concat("Por favor selecione um pet!\n");
+//        }
+//
+//        if(atendimentoDTO.getServico() == null || atendimentoDTO.getServico().getIdServico() == null){
+//            messages = messages.concat("Por favor selecione um serviço!\n");
+//        }
 
         if(atendimentoDTO.getDataAtendimento() == null || atendimentoDTO.getDataAtendimento().isBefore(LocalDateTime.now())){
             messages = messages.concat("Por favor selecione uma data e horário válida!");

@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.5.4.420" Java: "11.0.15" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.5.4.420" Java: "11.0.14.1" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -24,7 +24,7 @@ new FormModel {
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 				"$layoutConstraints": "hidemode 3"
-				"$columnConstraints": "[grow][grow,fill][grow,fill][fill]"
+				"$columnConstraints": "[grow][grow,fill][grow,fill][fill][fill]"
 				"$rowConstraints": "[][]"
 			} ) {
 				name: "panel1"
@@ -46,6 +46,12 @@ new FormModel {
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 2 0"
 				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label2"
+					"text": "Sexo"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 3 0"
+				} )
 				add( new FormComponent( "javax.swing.JTextField" ) {
 					name: "nameField"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
@@ -58,14 +64,31 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JComboBox" ) {
 					name: "fidelityFilterBox"
+					"model": new javax.swing.DefaultComboBoxModel {
+						selectedItem: "Crescente"
+						addElement( "Crescente" )
+						addElement( "Descrescente" )
+					}
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 2 1"
+				} )
+				add( new FormComponent( "javax.swing.JComboBox" ) {
+					name: "sexComboBox"
+					"model": new javax.swing.DefaultComboBoxModel {
+						selectedItem: "Ambos"
+						addElement( "Ambos" )
+						addElement( "Macho" )
+						addElement( "Fêmea" )
+					}
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 3 1"
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "filterPet"
 					"text": "Filtrar"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "filterPet", true ) )
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 3 1"
+					"value": "cell 4 1"
 				} )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 2 3 2,growx"
@@ -77,23 +100,9 @@ new FormModel {
 					"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector, new java.util.Vector {
 						add( "Nome" )
 						add( "Raça" )
-						add( "Data Nascimento" )
-						add( "Fidelidade" )
+						add( "Sexo" )
 						add( "Dono" )
-						add( "Editar" )
-						add( "Deletar" )
 					}, new java.util.Vector {
-						add( null )
-						add( null )
-						add( null )
-						add( null )
-						add( null )
-						add( null )
-						add( null )
-					}, new java.util.Vector {
-						add( null )
-						add( null )
-						add( null )
 						add( null )
 						add( null )
 						add( null )
@@ -102,6 +111,8 @@ new FormModel {
 						add( null )
 						add( null )
 						add( null )
+						add( null )
+					}, new java.util.Vector {
 						add( null )
 						add( null )
 						add( null )
@@ -121,6 +132,13 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "deletBtn"
 				"text": "Deletar"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "delete", true ) )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 2 5"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "buttonMaisInformacoes"
+				"text": "+ Informações"
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 2 5"
 			} )

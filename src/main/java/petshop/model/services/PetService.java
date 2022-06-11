@@ -4,7 +4,8 @@ import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.business.PetBusiness;
 import petshop.filtros.FiltroPet;
-import petshop.model.dtos.PetDTO;
+import petshop.model.dtos.request.PetRequestDTO;
+import petshop.model.dtos.response.PetResponseListagemDTO;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,19 +18,31 @@ public class PetService {
         petBusiness = new PetBusiness();
     }
 
-    public void save(PetDTO petDTO) throws SQLException, AtributosInvalidosException {
+    public void save(PetRequestDTO petDTO) throws SQLException, AtributosInvalidosException {
         petBusiness.save(petDTO);
     }
 
-    public void update(Long idPet, PetDTO petDTO) throws RegistroNaoEncontradoException {
+    public void update(Long idPet, PetRequestDTO petDTO) throws RegistroNaoEncontradoException {
         petBusiness.update(idPet, petDTO);
     }
 
-    public List<PetDTO> listAll(){
+    public List<PetResponseListagemDTO> listAll(){
         return petBusiness.listAll();
     }
 
-    public List<PetDTO> findWithFilter(FiltroPet filtro){
+    public List<PetResponseListagemDTO> findWithFilter(FiltroPet filtro){
         return petBusiness.findWithFilter(filtro);
+    }
+
+    public PetRequestDTO findByIdToEdit(Long idPet) throws AtributosInvalidosException, RegistroNaoEncontradoException {
+        return petBusiness.findByIdToEdit(idPet);
+    }
+
+    public List<String> getRacas() {
+        return petBusiness.getRacas();
+    }
+
+    public void delete(Long idPet) throws RegistroNaoEncontradoException {
+        petBusiness.delete(idPet);
     }
 }

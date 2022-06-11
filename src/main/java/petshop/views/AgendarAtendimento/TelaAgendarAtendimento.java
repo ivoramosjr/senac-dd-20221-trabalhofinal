@@ -23,11 +23,11 @@ public class TelaAgendarAtendimento extends JPanel {
         DatePickerSettings dateSettings = new DatePickerSettings();
         dateSettings.setAllowKeyboardEditing(false);
 
-        final DateTimePicker dataTeste = new DateTimePicker(dateSettings, null);
+        data = new DateTimePicker(dateSettings, null);
 
-        dataTeste.setBounds(2, 3, 540, 45);
-        dataTeste.setBackground(new java.awt.Color(60, 63, 65));
-        dataTeste.setForeground(new java.awt.Color(187, 187, 187));
+        data.setBounds(2, 3, 540, 45);
+        data.setBackground(new java.awt.Color(60, 63, 65));
+        data.setForeground(new java.awt.Color(187, 187, 187));
 
 
 
@@ -35,12 +35,11 @@ public class TelaAgendarAtendimento extends JPanel {
         label1 = new JLabel();
         label2 = new JLabel();
         label3 = new JLabel();
-        comboBox1 = new JComboBox();
         label4 = new JLabel();
+        comboPet = new JComboBox();
         label5 = new JLabel();
-        comboBox3 = new JComboBox();
-        comboBox4 = new JComboBox();
-        button1 = new JButton();
+        comboBoxServico = new JComboBox();
+        buttonAgendar = new JButton();
 
         //======== this ========
         setLayout(new MigLayout(
@@ -48,8 +47,11 @@ public class TelaAgendarAtendimento extends JPanel {
             // columns
             "[193,grow,fill]" +
             "[fill]" +
-            "[193,grow,fill]",
+            "[193,grow,fill]" +
+            "[fill]",
             // rows
+            "[]" +
+            "[]" +
             "[]" +
             "[]" +
             "[]" +
@@ -67,40 +69,39 @@ public class TelaAgendarAtendimento extends JPanel {
         add(label1, "cell 0 0 3 1,alignx center,growx 0");
 
         //---- label2 ----
-        label2.setText("Selecionar pet");
+        label2.setText("Selecione um Pet");
         add(label2, "cell 0 2");
 
         //---- label3 ----
         label3.setText("Data de atendimento");
         add(label3, "cell 2 2");
-        add(comboBox1, "cell 0 3,growx");
 
         //---- label4 ----
-        label4.setText("Selecionar hor\u00e1rio");
-        add(label4, "cell 0 5");
+        label4.setText("Hora atendimento");
+        add(label4, "cell 2 2");
+        add(comboPet, "cell 0 3,growx");
 
         //---- label5 ----
-        label5.setText("Servi\u00e7o");
-        add(label5, "cell 2 5");
-        add(comboBox3, "cell 0 6,growx");
-        add(comboBox4, "cell 2 6");
+        label5.setText("Selecione um Servi\u00e7o");
+        add(label5, "cell 0 5");
+        add(comboBoxServico, "cell 0 6");
 
-        //---- button1 ----
-        button1.setText("Agendar");
-        add(button1, "cell 0 8 3 1,alignx center,growx 0");
+        //---- buttonAgendar ----
+        buttonAgendar.setText("Agendar");
+        add(buttonAgendar, "cell 0 9 4 1,align center bottom,grow 0 0");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
-        add(dataTeste, "cell 2 3");
+        add(data, "cell 2 3");
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private JLabel label1;
     private JLabel label2;
     private JLabel label3;
-    private JComboBox comboBox1;
     private JLabel label4;
+    private JComboBox comboPet;
     private JLabel label5;
-    private JComboBox comboBox3;
-    private JComboBox comboBox4;
-    private JButton button1;
+    private JComboBox comboBoxServico;
+    private JButton buttonAgendar;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
+    DateTimePicker data;
 }

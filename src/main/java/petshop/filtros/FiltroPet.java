@@ -1,6 +1,7 @@
 package petshop.filtros;
 
 import petshop.model.enums.OrdemPesquisa;
+import petshop.model.enums.SexoEnum;
 
 public class FiltroPet {
 
@@ -8,15 +9,26 @@ public class FiltroPet {
 
     private String nomeRaca;
 
+    private SexoEnum sexoEnum;
+
     private OrdemPesquisa ordemFidelidade;
 
     public FiltroPet() {
     }
 
-    public FiltroPet(String nome, String nomeRaca, OrdemPesquisa ordemFidelidade) {
+    public FiltroPet(String nome, String nomeRaca, SexoEnum sexo, OrdemPesquisa ordemFidelidade) {
         this.nome = nome;
         this.nomeRaca = nomeRaca;
+        this.sexoEnum = sexo;
         this.ordemFidelidade = ordemFidelidade;
+    }
+
+    public SexoEnum getSexoEnum() {
+        return sexoEnum;
+    }
+
+    public void setSexoEnum(SexoEnum sexoEnum) {
+        this.sexoEnum = sexoEnum;
     }
 
     public String getNome() {

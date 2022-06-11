@@ -67,8 +67,6 @@ public class ServicoBusiness {
         return this.servicoDAO.findWithFilter(filtro);
     }
 
-    //TODO fazer delete lógico do serviço
-
     public void delete(Long idServico) throws RegistroNaoEncontradoException {
         LOG.info("Preparando para deletar o serviço de id: "+idServico);
 

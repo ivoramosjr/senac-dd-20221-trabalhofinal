@@ -37,6 +37,8 @@ public class Pet {
 	@Enumerated(EnumType.STRING)
 	private SexoEnum sexo;
 
+	private boolean ativo = true;
+
 	private Integer pontosFidelidade = 0;
 
 	public Pet() {
@@ -109,6 +111,14 @@ public class Pet {
 
 	public void setPontosFidelidade(Integer pontosFidelidade) {
 		this.pontosFidelidade = pontosFidelidade;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 
 	@Override
