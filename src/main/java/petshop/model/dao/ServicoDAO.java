@@ -2,16 +2,13 @@ package petshop.model.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import petshop.model.dtos.FiltroServicoDTO;
+import petshop.filtros.FiltroServico;
 import petshop.model.dtos.ServicoDTO;
 import petshop.model.entity.Servico;
 import petshop.model.enums.OrdemPesquisa;
 
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.math.BigInteger;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,7 +41,7 @@ public class ServicoDAO extends GenericRepository{
         return true;
     }
 
-    public List<ServicoDTO> findWithFilter(FiltroServicoDTO filtro){
+    public List<ServicoDTO> findWithFilter(FiltroServico filtro){
         String hql = geracaoHQL(filtro);
 
         Query query = this.getEntityManager().createQuery(hql, ServicoDTO.class);
@@ -69,14 +66,14 @@ public class ServicoDAO extends GenericRepository{
         return servicos;
     }
 
-    private void montandoQuery(FiltroServicoDTO filtro, Query query) {
+    private void montandoQuery(FiltroServico filtro, Query query) {
         if(filtro.getNome() != null && !filtro.getNome().isEmpty()){
             String nome = "%"+filtro.getNome().toLowerCase()+"%";
             query.setParameter("nome", nome);
         }
     }
 
-    private String geracaoHQL(FiltroServicoDTO filtro) {
+    private String geracaoHQL(FiltroServico filtro) {
         String hql = generateBaseHQL();
 
         if(filtro.getNome() != null && !filtro.getNome().isEmpty()){

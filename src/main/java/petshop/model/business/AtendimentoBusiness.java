@@ -2,7 +2,6 @@ package petshop.model.business;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import petshop.connection.JpaConnectionFactory;
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.HorarioJaMarcadoException;
 import petshop.exceptions.RegistroNaoEncontradoException;
@@ -10,13 +9,12 @@ import petshop.model.dao.AtendimentoDAO;
 import petshop.model.dao.PetDAO;
 import petshop.model.dao.ServicoDAO;
 import petshop.model.dtos.AtendimentoDTO;
-import petshop.model.dtos.FiltroAtendimentoDTO;
+import petshop.filtros.FiltroAtendimento;
 import petshop.model.entity.Atendimento;
 import petshop.model.entity.Pet;
 import petshop.model.entity.Servico;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -105,7 +103,7 @@ public class AtendimentoBusiness {
         return atendimentos;
     }
 
-    public List<AtendimentoDTO> findWithFilter(FiltroAtendimentoDTO filtro){
+    public List<AtendimentoDTO> findWithFilter(FiltroAtendimento filtro){
         LOG.info("Preparando para pesquisar os atendimentos com filtro");
 
         List<Atendimento> atendimentosEntity = this.atendimentoDAO.findWithFilter(filtro);

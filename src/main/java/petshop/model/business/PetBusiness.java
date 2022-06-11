@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.dao.PetDAO;
-import petshop.model.dtos.FiltroPetDTO;
+import petshop.filtros.FiltroPet;
 import petshop.model.dtos.PetDTO;
 import petshop.model.entity.Pet;
 
@@ -74,7 +74,7 @@ public class PetBusiness {
 		return pets;
 	}
 
-	public List<PetDTO> findWithFilter(FiltroPetDTO filtro){
+	public List<PetDTO> findWithFilter(FiltroPet filtro){
 		LOG.info("Preparando para pesquisar os pets com filtro");
 
 		List<Pet> petsEntity = this.petDAO.findWithFilter(filtro);

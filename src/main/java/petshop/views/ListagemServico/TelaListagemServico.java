@@ -17,7 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.controllers.ServicoController;
-import petshop.model.dtos.FiltroServicoDTO;
+import petshop.filtros.FiltroServico;
 import petshop.model.dtos.ServicoDTO;
 import petshop.model.enums.OrdemPesquisa;
 
@@ -47,20 +47,20 @@ public class TelaListagemServico extends JPanel {
     }
 
     private void filtrar(ActionEvent e) {
-        FiltroServicoDTO filtroServicoDTO = new FiltroServicoDTO();
-        filtroServicoDTO.setNome(textFieldNome.getText());
+        FiltroServico filtroServico = new FiltroServico();
+        filtroServico.setNome(textFieldNome.getText());
         if(Objects.equals(comboBoxOrdemValor.getSelectedItem(), "Crescente")) {
-            filtroServicoDTO.setOrdemValor(OrdemPesquisa.ASC);
+            filtroServico.setOrdemValor(OrdemPesquisa.ASC);
         } else {
-            filtroServicoDTO.setOrdemValor(OrdemPesquisa.DESC);
+            filtroServico.setOrdemValor(OrdemPesquisa.DESC);
         }
         if(Objects.equals(comboBoxOrdemAtendimento.getSelectedItem(), "Crescente")) {
-            filtroServicoDTO.setOrdemQuantidadeAtendimentos(OrdemPesquisa.ASC);
+            filtroServico.setOrdemQuantidadeAtendimentos(OrdemPesquisa.ASC);
         } else {
-            filtroServicoDTO.setOrdemQuantidadeAtendimentos(OrdemPesquisa.DESC);
+            filtroServico.setOrdemQuantidadeAtendimentos(OrdemPesquisa.DESC);
         }
 
-        servicesList = servicoController.findWithFilter(filtroServicoDTO);
+        servicesList = servicoController.findWithFilter(filtroServico);
         DefaultTableModel tableModel = (DefaultTableModel) tableServicos.getModel();
         tableModel.setRowCount(0);
 

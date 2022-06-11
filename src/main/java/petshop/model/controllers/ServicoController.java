@@ -2,7 +2,7 @@ package petshop.model.controllers;
 
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.RegistroNaoEncontradoException;
-import petshop.model.dtos.FiltroServicoDTO;
+import petshop.filtros.FiltroServico;
 import petshop.model.dtos.ServicoDTO;
 import petshop.model.services.ServicoService;
 
@@ -29,7 +29,7 @@ public class ServicoController {
         return this.servicoService.listAll();
     }
 
-    public List<ServicoDTO> findWithFilter(FiltroServicoDTO filtro){
+    public List<ServicoDTO> findWithFilter(FiltroServico filtro){
         return this.servicoService.findWithFilter(filtro);
     }
 

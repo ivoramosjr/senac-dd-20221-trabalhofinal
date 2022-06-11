@@ -2,19 +2,16 @@ package petshop.model.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import petshop.model.dtos.FiltroAtendimentoDTO;
+import petshop.filtros.FiltroAtendimento;
 import petshop.model.entity.Atendimento;
 import petshop.model.enums.StatusAtendimentoEnum;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 
 @Transactional
@@ -56,7 +53,7 @@ public class AtendimentoDAO extends GenericRepository{
         this.merge(atendimento);
     }
 
-    public List<Atendimento> findWithFilter(FiltroAtendimentoDTO filtro){
+    public List<Atendimento> findWithFilter(FiltroAtendimento filtro){
         String sql = geracaoSQL(filtro);
 
         Query query = this.getEntityManager().createNativeQuery(sql, Atendimento.class);
@@ -66,7 +63,7 @@ public class AtendimentoDAO extends GenericRepository{
         return query.getResultList();
     }
 
-    private void montandoQuery(FiltroAtendimentoDTO filtro, Query query) {
+    private void montandoQuery(FiltroAtendimento filtro, Query query) {
         if(filtro.getNomePet() != null && !filtro.getNomePet().isEmpty()){
             String nome = "%"+ filtro.getNomePet().toLowerCase()+"%";
             query.setParameter("nomePet", nome);
@@ -80,7 +77,7 @@ public class AtendimentoDAO extends GenericRepository{
         query.setParameter("statusAtendimento", filtro.getStatusAntedimento().getNome().toLowerCase());
     }
 
-    private String geracaoSQL(FiltroAtendimentoDTO filtro) {
+    private String geracaoSQL(FiltroAtendimento filtro) {
         String sql = "SELECT * FROM Atendimento a " +
                 "INNER JOIN Pet p ON " +
                 "a.ID_PET = p.ID_PET " +

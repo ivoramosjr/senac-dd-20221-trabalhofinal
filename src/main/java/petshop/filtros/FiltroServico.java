@@ -1,8 +1,8 @@
-package petshop.model.dtos;
+package petshop.filtros;
 
 import petshop.model.enums.OrdemPesquisa;
 
-public class FiltroServicoDTO {
+public class FiltroServico {
 
     private String nome;
 
@@ -10,10 +10,10 @@ public class FiltroServicoDTO {
 
     private OrdemPesquisa ordemQuantidadeAtendimentos;
 
-    public FiltroServicoDTO() {
+    public FiltroServico() {
     }
 
-    public FiltroServicoDTO(String nome, OrdemPesquisa ordemValor, OrdemPesquisa ordemQuantidadeAtendimentos) {
+    public FiltroServico(String nome, OrdemPesquisa ordemValor, OrdemPesquisa ordemQuantidadeAtendimentos) {
         this.nome = nome;
         this.ordemValor = ordemValor;
         this.ordemQuantidadeAtendimentos = ordemQuantidadeAtendimentos;

@@ -3,15 +3,13 @@ package petshop.model.dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import petshop.connection.JpaConnectionFactory;
-import petshop.model.dtos.FiltroPetDTO;
+import petshop.filtros.FiltroPet;
 import petshop.model.entity.Pet;
 
 @Transactional
@@ -42,7 +40,7 @@ public class PetDAO extends GenericRepository{
 		return true;
 	}
 
-	public List<Pet> findWithFilter(FiltroPetDTO filtro) {
+	public List<Pet> findWithFilter(FiltroPet filtro) {
 		String hql = geracaoHQL(filtro);
 
 		Query query = this.getEntityManager().createQuery(hql, Pet.class);
@@ -52,7 +50,7 @@ public class PetDAO extends GenericRepository{
 		return query.getResultList();
 	}
 
-	private void montandoQuery(FiltroPetDTO filtro, Query query) {
+	private void montandoQuery(FiltroPet filtro, Query query) {
 		if(filtro.getNome() != null && !filtro.getNome().isEmpty()){
 			String nome = "%"+filtro.getNome().toLowerCase()+"%";
 			query.setParameter("nome", nome);
@@ -64,7 +62,7 @@ public class PetDAO extends GenericRepository{
 		}
 	}
 
-	private String geracaoHQL(FiltroPetDTO filtro) {
+	private String geracaoHQL(FiltroPet filtro) {
 		String hql = "SELECT p FROM Pet p ";
 
 		String andOrWhere = "WHERE ";

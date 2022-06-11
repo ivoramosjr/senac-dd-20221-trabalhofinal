@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.dao.ServicoDAO;
-import petshop.model.dtos.FiltroServicoDTO;
+import petshop.filtros.FiltroServico;
 import petshop.model.dtos.ServicoDTO;
 import petshop.model.entity.Servico;
 
@@ -61,7 +61,7 @@ public class ServicoBusiness {
         return this.servicoDAO.findAll();
     }
 
-    public List<ServicoDTO> findWithFilter(FiltroServicoDTO filtro){
+    public List<ServicoDTO> findWithFilter(FiltroServico filtro){
         LOG.info("Preparando para pesquisar os serviços com filtro");
         return this.servicoDAO.findWithFilter(filtro);
     }

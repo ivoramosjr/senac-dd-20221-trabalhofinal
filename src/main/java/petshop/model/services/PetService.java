@@ -3,7 +3,7 @@ package petshop.model.services;
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.business.PetBusiness;
-import petshop.model.dtos.FiltroPetDTO;
+import petshop.filtros.FiltroPet;
 import petshop.model.dtos.PetDTO;
 
 import java.sql.SQLException;
@@ -29,7 +29,7 @@ public class PetService {
         return petBusiness.listAll();
     }
 
-    public List<PetDTO> findWithFilter(FiltroPetDTO filtro){
+    public List<PetDTO> findWithFilter(FiltroPet filtro){
         return petBusiness.findWithFilter(filtro);
     }
 }
