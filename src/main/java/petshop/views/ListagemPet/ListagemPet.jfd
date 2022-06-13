@@ -6,7 +6,7 @@ new FormModel {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 			"$layoutConstraints": "hidemode 3"
 			"$columnConstraints": "[175,grow][fill][grow,fill]"
-			"$rowConstraints": "[][][][][][]"
+			"$rowConstraints": "[][][][][][][]"
 		} ) {
 			name: "this"
 			add( new FormComponent( "javax.swing.JLabel" ) {
@@ -15,6 +15,13 @@ new FormModel {
 				"font": new java.awt.Font( "SansSerif", 1, 24 )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 0 3 1,alignx center,growx 0"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "gerarRelatorioBtn"
+				"text": "Gerar relatório"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "gerarRelatorioBtn", true ) )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 1,alignx left,growx 0"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "newPet"

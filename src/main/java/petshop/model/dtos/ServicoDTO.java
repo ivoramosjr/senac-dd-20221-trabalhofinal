@@ -30,6 +30,7 @@ public class ServicoDTO {
         this.nome = servico.getNome();
         this.valor = servico.getValor();
         this.descricao = servico.getDescricao();
+        this.status = servico.getStatus();
     }
 
     public Long getIdServico() {
@@ -73,7 +74,7 @@ public class ServicoDTO {
     }
 
     public Boolean getStatus() {
-        return status;
+        return this.status;
     }
 
     public void setStatus(Boolean status) {

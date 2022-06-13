@@ -6,7 +6,7 @@ new FormModel {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 			"$layoutConstraints": "hidemode 3"
 			"$columnConstraints": "[154,grow,center][127,grow,center][fill][180,grow,center]"
-			"$rowConstraints": "[][][][][][244][][]"
+			"$rowConstraints": "[][][][][][244][][][]"
 		} ) {
 			name: "this"
 			add( new FormComponent( "javax.swing.JLabel" ) {
@@ -17,9 +17,17 @@ new FormModel {
 				"value": "cell 0 0 4 1,align center center,grow 0 0"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "gerarRelatorioBtn"
+				"text": "Gerar relatório"
+				"font": &Font0 new java.awt.Font( "SansSerif", 1, 14 )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "gerarRelatorioBtn", true ) )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 2,alignx right,growx 0"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "buttonCriarServico"
 				"text": "Criar Serviço"
-				"font": new java.awt.Font( "SansSerif", 1, 14 )
+				"font": #Font0
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 3 2,alignx right,growx 0"
 			} )
@@ -33,14 +41,14 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "labelOrdemValor"
 				"text": "Ordem valor:"
-				"font": &Font0 new java.awt.Font( "SansSerif", 1, 12 )
+				"font": &Font1 new java.awt.Font( "SansSerif", 1, 12 )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 1 3,alignx left,growx 0"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "labelOrdemValor2"
 				"text": "Ordem QTD atendimentos:"
-				"font": #Font0
+				"font": #Font1
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 2 3,alignx left,growx 0"
 			} )

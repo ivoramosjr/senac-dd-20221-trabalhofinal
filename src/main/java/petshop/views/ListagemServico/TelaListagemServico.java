@@ -19,6 +19,7 @@ import petshop.model.controllers.ServicoController;
 import petshop.model.dtos.FiltroServicoDTO;
 import petshop.model.dtos.ServicoDTO;
 import petshop.model.enums.OrdemPesquisa;
+import petshop.model.services.PdfService;
 
 /**
  * @author unknown
@@ -91,10 +92,16 @@ public class TelaListagemServico extends JPanel {
         }
     }
 
+    private void gerarRelatorioBtn(ActionEvent e) {
+        PdfService pdfService = new PdfService();
+        pdfService.gerarRelatorioServicos();
+    }
+
     private void initComponents() {
         LOG.info("Abrindo a tela de listagem de serviços.");
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         labelListaServico = new JLabel();
+        gerarRelatorioBtn = new JButton();
         buttonCriarServico = new JButton();
         labelNome = new JLabel();
         labelOrdemValor = new JLabel();
@@ -124,12 +131,19 @@ public class TelaListagemServico extends JPanel {
             "[]" +
             "[244]" +
             "[]" +
+            "[]" +
             "[]"));
 
         //---- labelListaServico ----
         labelListaServico.setText("Lista de servi\u00e7os");
         labelListaServico.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
         add(labelListaServico, "cell 0 0 4 1,align center center,grow 0 0");
+
+        //---- gerarRelatorioBtn ----
+        gerarRelatorioBtn.setText("Gerar relat\u00f3rio");
+        gerarRelatorioBtn.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+        gerarRelatorioBtn.addActionListener(e -> gerarRelatorioBtn(e));
+        add(gerarRelatorioBtn, "cell 0 2,alignx right,growx 0");
 
         //---- buttonCriarServico ----
         buttonCriarServico.setText("Criar Servi\u00e7o");
@@ -215,6 +229,7 @@ public class TelaListagemServico extends JPanel {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private JLabel labelListaServico;
+    private JButton gerarRelatorioBtn;
     private JButton buttonCriarServico;
     private JLabel labelNome;
     private JLabel labelOrdemValor;

@@ -75,6 +75,23 @@ public class ServicoBusiness {
         return servicos;
     }
 
+    public List<ServicoDTO> getServices(){
+        LOG.info("Procurando todos os serviços cadastrados");
+        List<Servico> servicosEntity = this.servicoDAO.getServices();
+        List<ServicoDTO> servicos = new ArrayList<>();
+
+        for(Servico servico : servicosEntity){
+            ServicoDTO servicoDTO = new ServicoDTO(servico);
+            servicoDTO
+                    .setQuantidadeAtendimentos(this.servicoDAO
+                            .getQuantidadeAtendimentosServico(servico.getIdServico()).intValue());
+            servicos.add(servicoDTO);
+        }
+
+        LOG.info("Foram encontrados "+servicos.size()+" serviços.");
+        return servicos;
+    }
+
     public List<ServicoDTO> findWithFilter(FiltroServicoDTO filtro){
         LOG.info("Preparando para pesquisar os serviços com filtro");
 
