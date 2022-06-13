@@ -52,9 +52,6 @@ public class ServicoResponseDTO implements Serializable {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "(" +
-                "idServico = " + idServico + ", " +
-                "nome = " + nome + ", " +
-                "valor = " + valor + ")";
+        return "Nome: "+nome+" - valor: R$"+valor;
     }
 }

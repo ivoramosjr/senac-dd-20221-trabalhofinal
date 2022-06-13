@@ -59,10 +59,6 @@ public class PetResponseListagemDTO implements Serializable {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "(" +
-                "idPet = " + idPet + ", " +
-                "nome = " + nome + ", " +
-                "nomeDono = " + nomeDono + ", " +
-                "sexo = " + sexo + ")";
+        return "Nome: "+nome+" - Dono: "+nomeDono;
     }
 }

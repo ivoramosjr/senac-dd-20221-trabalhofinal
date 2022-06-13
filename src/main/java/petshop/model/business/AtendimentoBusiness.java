@@ -10,6 +10,7 @@ import petshop.model.dao.PetDAO;
 import petshop.model.dao.ServicoDAO;
 import petshop.model.dtos.AtendimentoDTO;
 import petshop.filtros.FiltroAtendimento;
+import petshop.model.dtos.request.AtendimentoRequestDTO;
 import petshop.model.entity.Atendimento;
 import petshop.model.entity.Pet;
 import petshop.model.entity.Servico;
@@ -38,7 +39,7 @@ public class AtendimentoBusiness {
         this.servicoDAO = new ServicoDAO();
     }
 
-    public void save(AtendimentoDTO atendimentoDTO) throws SQLException, AtributosInvalidosException, RegistroNaoEncontradoException, HorarioJaMarcadoException {
+    public void save(AtendimentoRequestDTO atendimentoDTO) throws SQLException, AtributosInvalidosException, RegistroNaoEncontradoException, HorarioJaMarcadoException {
         LOG.info("Preparando para salvar o atendimento");
 
         validarAtributos(atendimentoDTO);
@@ -52,18 +53,18 @@ public class AtendimentoBusiness {
 
         abrirConexaoBanco();
 
-//        Pet pet = petDAO.find(Pet.class, atendimentoDTO.getPet().getIdPet());
-//        Servico servico = servicoDAO.find(Servico.class, atendimentoDTO.getServico().getIdServico());
-//
-//        atendimento.setPet(pet);
-//        atendimento.setServico(servico);
+        Pet pet = petDAO.find(Pet.class, atendimentoDTO.getPetIdPet());
+        Servico servico = servicoDAO.find(Servico.class, atendimentoDTO.getServicoIdServico());
+
+        atendimento.setPet(pet);
+        atendimento.setServico(servico);
         atendimentoDAO.save(atendimento);
         commitarTransacaoBanco();
 
         LOG.info("Atendimento salvo com sucesso!");
     }
 
-    public void update(Long idAtendimento, AtendimentoDTO atendimentoDTO) throws RegistroNaoEncontradoException, HorarioJaMarcadoException, SQLException {
+    public void update(Long idAtendimento, AtendimentoRequestDTO atendimentoDTO) throws RegistroNaoEncontradoException, HorarioJaMarcadoException, SQLException {
         LOG.info("Preparando para atualizar o atendimento");
 
         if(!atendimentoDAO.atendimentoExist(idAtendimento)){
@@ -116,7 +117,7 @@ public class AtendimentoBusiness {
 
     }
 
-    private void verificarHorarioAtendimento(AtendimentoDTO atendimentoDTO) throws HorarioJaMarcadoException {
+    private void verificarHorarioAtendimento(AtendimentoRequestDTO atendimentoDTO) throws HorarioJaMarcadoException {
         LOG.info("Verificando se horário do atendimento é valido");
         boolean horarioJaSelecionada = atendimentoDAO.horarioEstaMarcado(atendimentoDTO.getIdAtendimento(),atendimentoDTO.getDataAtendimento());
 
@@ -124,17 +125,17 @@ public class AtendimentoBusiness {
             throw new HorarioJaMarcadoException(atendimentoDTO.getDataAtendimento());
     }
 
-    private void setAtributosAtendimento(AtendimentoDTO atendimentoDTO, Atendimento atendimento) {
+    private void setAtributosAtendimento(AtendimentoRequestDTO atendimentoDTO, Atendimento atendimento) {
         if(atendimentoDTO.getDataAtendimento() != null){
             atendimento.setDataAtendimento(atendimentoDTO.getDataAtendimento());
         }
 
-        if(atendimentoDTO.getStatusAtendimento() != null){
-            atendimento.setStatusAtendimento(atendimentoDTO.getStatusAtendimento());
+        if(atendimentoDTO.getStatusAtendimentoEnum() != null){
+            atendimento.setStatusAtendimento(atendimentoDTO.getStatusAtendimentoEnum());
         }
     }
 
-    private void verificarPetServico(AtendimentoDTO atendimentoDTO) throws RegistroNaoEncontradoException {
+    private void verificarPetServico(AtendimentoRequestDTO atendimentoDTO) throws RegistroNaoEncontradoException {
         LOG.info("Verificando se o Pet e o Serviço existem na base de dados");
 //        if(!petDAO.petExists(atendimentoDTO.getPet().getIdPet())){
 //            throw new RegistroNaoEncontradoException("Pet com ID "
@@ -149,7 +150,7 @@ public class AtendimentoBusiness {
 //        }
     }
 
-    private void validarAtributos(AtendimentoDTO atendimentoDTO) throws AtributosInvalidosException {
+    private void validarAtributos(AtendimentoRequestDTO atendimentoDTO) throws AtributosInvalidosException {
         LOG.info("Validando os atributos do Atendimento");
         String messages = "";
 
