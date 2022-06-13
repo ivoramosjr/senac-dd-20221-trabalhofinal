@@ -21,6 +21,7 @@ import petshop.model.controllers.PetController;
 import petshop.model.dtos.response.PetResponseListagemDTO;
 import petshop.model.enums.OrdemPesquisa;
 import petshop.model.enums.SexoEnum;
+import petshop.model.services.PdfService;
 
 /**
  * @author unknown
@@ -101,10 +102,16 @@ public class ListagemPet extends JPanel {
         habilitarBotoes(false);
     }
 
+    private void gerarRelatorioBtn(ActionEvent e) {
+        PdfService pdfService = new PdfService();
+        pdfService.gerarRelatorioPets();
+    }
+
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         label1 = new JLabel();
+        gerarRelatorioBtn = new JButton();
         newPet = new JButton();
         panel1 = new JPanel();
         label4 = new JLabel();
@@ -135,12 +142,18 @@ public class ListagemPet extends JPanel {
             "[]" +
             "[]" +
             "[]" +
+            "[]" +
             "[]"));
 
         //---- label1 ----
         label1.setText("Lista de pets");
         label1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
         add(label1, "cell 0 0 3 1,alignx center,growx 0");
+
+        //---- gerarRelatorioBtn ----
+        gerarRelatorioBtn.setText("Gerar relat\u00f3rio");
+        gerarRelatorioBtn.addActionListener(e -> gerarRelatorioBtn(e));
+        add(gerarRelatorioBtn, "cell 0 1,alignx left,growx 0");
 
         //---- newPet ----
         newPet.setText("Cadastrar novo pet");
@@ -271,6 +284,7 @@ public class ListagemPet extends JPanel {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private JLabel label1;
+    private JButton gerarRelatorioBtn;
     private JButton newPet;
     private JPanel panel1;
     private JLabel label4;

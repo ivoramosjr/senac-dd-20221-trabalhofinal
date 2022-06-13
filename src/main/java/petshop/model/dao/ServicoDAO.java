@@ -33,6 +33,10 @@ public class ServicoDAO extends GenericRepository{
         return servicos;
     }
 
+    public List<Servico> getServices(){
+        return this.getEntityManager().createQuery("SELECT s FROM Servico s").getResultList();
+    }
+
     public boolean servicoExists(Long idServico){
         Servico servico = this.getEntityManager().find(Servico.class, idServico);
 
