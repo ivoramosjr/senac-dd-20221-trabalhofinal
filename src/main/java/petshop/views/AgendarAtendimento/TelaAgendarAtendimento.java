@@ -19,6 +19,7 @@ import com.github.lgooddatepicker.components.DateTimePicker;
 import net.miginfocom.swing.*;
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.HorarioJaMarcadoException;
+import petshop.exceptions.ItemNaoSelecionadoException;
 import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.controllers.AtendimentoController;
 import petshop.model.controllers.PetController;
@@ -41,25 +42,40 @@ public class TelaAgendarAtendimento extends JPanel {
     }
 
     private void agendarAtendimento(ActionEvent e) {
-        AtendimentoRequestDTO atendimentoRequestDTO = new AtendimentoRequestDTO();
-        atendimentoRequestDTO.setStatusAtendimentoEnum(StatusAtendimentoEnum.AGENDADO);
-
-        PetResponseListagemDTO selectedPet = (PetResponseListagemDTO) comboPet.getSelectedItem();
-        ServicoResponseDTO selectedService = (ServicoResponseDTO) comboBoxServico.getSelectedItem();
-
-        atendimentoRequestDTO.setPetIdPet(selectedPet.getIdPet());
-        atendimentoRequestDTO.setServicoIdServico(selectedService.getIdServico());
-        LocalDate localDate = data.getDatePicker().getDate();
-        LocalTime localTime = data.getTimePicker().getTime();
-
-        LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
-        atendimentoRequestDTO.setDataAtendimento(localDateTime);
-
         try {
+            AtendimentoRequestDTO atendimentoRequestDTO = new AtendimentoRequestDTO();
+            atendimentoRequestDTO.setStatusAtendimentoEnum(StatusAtendimentoEnum.AGENDADO);
+
+            if(comboPet.getSelectedItem() == null) {
+                throw new ItemNaoSelecionadoException("Por favor selecione um pet.");
+            }
+            PetResponseListagemDTO selectedPet = (PetResponseListagemDTO) comboPet.getSelectedItem();
+
+            if(comboBoxServico.getSelectedItem() == null) {
+                throw new ItemNaoSelecionadoException("Por favor selecione um serviço.");
+            }
+            ServicoResponseDTO selectedService = (ServicoResponseDTO) comboBoxServico.getSelectedItem();
+
+            atendimentoRequestDTO.setPetIdPet(selectedPet.getIdPet());
+            atendimentoRequestDTO.setServicoIdServico(selectedService.getIdServico());
+
+            if(data.getDatePicker().toString().isEmpty()) {
+                throw new ItemNaoSelecionadoException("Por favor selecione uma data.");
+            }
+            LocalDate localDate = data.getDatePicker().getDate();
+
+            if(data.getTimePicker().toString().isEmpty()) {
+                throw new ItemNaoSelecionadoException("Por favor selecione uma hora.");
+            }
+            LocalTime localTime = data.getTimePicker().getTime();
+
+            LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
+            atendimentoRequestDTO.setDataAtendimento(localDateTime);
+
             atendimentoController.save(atendimentoRequestDTO);
             JOptionPane.showMessageDialog(null, "Atendimento agendado com sucesso", "Agendar atendimento.",JOptionPane.INFORMATION_MESSAGE);
             clearInputs();
-        } catch (SQLException | AtributosInvalidosException | HorarioJaMarcadoException | RegistroNaoEncontradoException ex) {
+        } catch (SQLException | AtributosInvalidosException | HorarioJaMarcadoException | RegistroNaoEncontradoException | ItemNaoSelecionadoException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro ao agendar atendimento.",JOptionPane.ERROR_MESSAGE);
         }
     }
