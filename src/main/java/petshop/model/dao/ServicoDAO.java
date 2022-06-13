@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import petshop.filtros.FiltroServico;
 import petshop.model.dtos.request.ServicoRequestDTO;
 import petshop.model.dtos.response.ServicoResponseDTO;
+import petshop.model.dtos.response.ServicoResponseRelatorioDTO;
 import petshop.model.entity.Servico;
 import petshop.model.enums.OrdemPesquisa;
 
@@ -33,8 +34,12 @@ public class ServicoDAO extends GenericRepository{
         return servicos;
     }
 
-    public List<Servico> getServices(){
-        return this.getEntityManager().createQuery("SELECT s FROM Servico s").getResultList();
+    public List<ServicoResponseRelatorioDTO> getServices(){
+        String sql = "SELECT new petshop.model.dtos.response.ServicoResponseRelatorioDTO(s) FROM Servico s";
+
+        Query query = this.getEntityManager().createQuery(sql, ServicoResponseRelatorioDTO.class);
+
+        return query.getResultList();
     }
 
     public boolean servicoExists(Long idServico){

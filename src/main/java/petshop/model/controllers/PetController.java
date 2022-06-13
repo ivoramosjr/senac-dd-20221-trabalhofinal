@@ -5,6 +5,8 @@ import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.filtros.FiltroPet;
 import petshop.model.dtos.request.PetRequestDTO;
 import petshop.model.dtos.response.PetResponseListagemDTO;
+import petshop.model.dtos.response.PetResponseRelatorioDTO;
+import petshop.model.dtos.response.ServicoResponseRelatorioDTO;
 import petshop.model.services.PetService;
 
 import java.sql.SQLException;
@@ -48,5 +50,9 @@ public class PetController {
 
     public void delete(Long idPet) throws RegistroNaoEncontradoException {
         petService.delete(idPet);
+    }
+
+    public List<PetResponseRelatorioDTO> listAllRelatorio() {
+        return petService.listAllRelatorio();
     }
 }

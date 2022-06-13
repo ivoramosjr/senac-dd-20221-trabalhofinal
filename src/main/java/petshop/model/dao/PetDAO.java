@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import petshop.filtros.FiltroPet;
 import petshop.model.dtos.request.PetRequestDTO;
 import petshop.model.dtos.response.PetResponseListagemDTO;
+import petshop.model.dtos.response.PetResponseRelatorioDTO;
 import petshop.model.entity.Pet;
 
 @Transactional
@@ -109,6 +110,14 @@ public class PetDAO extends GenericRepository{
 		String hql = "SELECT DISTINCT p.raca FROM Pet p WHERE p.ativo = true";
 
 		Query query = this.getEntityManager().createQuery(hql, String.class);
+
+		return query.getResultList();
+	}
+
+	public List<PetResponseRelatorioDTO> listAllRelatorio() {
+		String hql = "SELECT new petshop.model.dtos.response.PetResponseRelatorioDTO(p) FROM Pet p ";
+
+		Query query = this.getEntityManager().createQuery(hql, PetResponseRelatorioDTO.class);
 
 		return query.getResultList();
 	}

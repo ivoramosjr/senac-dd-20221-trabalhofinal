@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.Query;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +15,7 @@ import petshop.model.dao.PetDAO;
 import petshop.filtros.FiltroPet;
 import petshop.model.dtos.request.PetRequestDTO;
 import petshop.model.dtos.response.PetResponseListagemDTO;
+import petshop.model.dtos.response.PetResponseRelatorioDTO;
 import petshop.model.entity.Pet;
 
 @ApplicationScoped
@@ -173,4 +175,7 @@ public class PetBusiness {
 		this.petDAO.getEntityManager().getTransaction().begin();
 	}
 
+	public List<PetResponseRelatorioDTO> listAllRelatorio() {
+		return petDAO.listAllRelatorio();
+	}
 }

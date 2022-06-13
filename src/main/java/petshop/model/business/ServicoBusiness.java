@@ -2,16 +2,16 @@ package petshop.model.business;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import petshop.connection.JpaConnectionFactory;
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.RegistroNaoEncontradoException;
+import petshop.filtros.FiltroServico;
 import petshop.model.dao.ServicoDAO;
-import petshop.model.dtos.FiltroServicoDTO;
-import petshop.model.dtos.ServicoDTO;
+import petshop.model.dtos.request.ServicoRequestDTO;
+import petshop.model.dtos.response.ServicoResponseDTO;
+import petshop.model.dtos.response.ServicoResponseRelatorioDTO;
 import petshop.model.entity.Servico;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ServicoBusiness {
@@ -24,7 +24,7 @@ public class ServicoBusiness {
         this.servicoDAO = new ServicoDAO();
     }
 
-    public void save(ServicoDTO servicoDTO) throws SQLException, AtributosInvalidosException {
+    public void save(ServicoRequestDTO servicoDTO) throws SQLException, AtributosInvalidosException {
         LOG.info("Preparando para salvar o servico de nome: "+servicoDTO.getNome());
         validarAtributos(servicoDTO);
 
@@ -38,7 +38,7 @@ public class ServicoBusiness {
         LOG.info("Serviço adicionado com sucesso!");
     }
 
-    public void update(Long idServico, ServicoDTO servicoDTO) throws RegistroNaoEncontradoException, AtributosInvalidosException {
+    public void update(Long idServico, ServicoRequestDTO servicoDTO) throws RegistroNaoEncontradoException, AtributosInvalidosException {
         LOG.info("Preparando para atualizar o serviço de id: "+idServico);
 
         if(!servicoDAO.servicoExists(idServico)){
@@ -58,49 +58,27 @@ public class ServicoBusiness {
         LOG.info("Serviço atualizado com sucesso!");
     }
 
-    public List<ServicoDTO> listAll(){
+    public List<ServicoResponseDTO> listAll(){
         LOG.info("Procurando todos os serviços cadastrados");
-        List<Servico> servicosEntity = this.servicoDAO.findAll();
-        List<ServicoDTO> servicos = new ArrayList<>();
 
-        for(Servico servico : servicosEntity){
-            ServicoDTO servicoDTO = new ServicoDTO(servico);
-            servicoDTO
-                    .setQuantidadeAtendimentos(this.servicoDAO
-                            .getQuantidadeAtendimentosServico(servico.getIdServico()).intValue());
-            servicos.add(servicoDTO);
-        }
+        List<ServicoResponseDTO> servicos = this.servicoDAO.findAll();
 
-        LOG.info("Foram encontrados "+servicos.size()+" serviços.");
         return servicos;
     }
 
-    public List<ServicoDTO> getServices(){
+    public List<ServicoResponseRelatorioDTO> getServices(){
         LOG.info("Procurando todos os serviços cadastrados");
-        List<Servico> servicosEntity = this.servicoDAO.getServices();
-        List<ServicoDTO> servicos = new ArrayList<>();
-
-        for(Servico servico : servicosEntity){
-            ServicoDTO servicoDTO = new ServicoDTO(servico);
-            servicoDTO
-                    .setQuantidadeAtendimentos(this.servicoDAO
-                            .getQuantidadeAtendimentosServico(servico.getIdServico()).intValue());
-            servicos.add(servicoDTO);
-        }
-
-        LOG.info("Foram encontrados "+servicos.size()+" serviços.");
+        List<ServicoResponseRelatorioDTO> servicos = this.servicoDAO.getServices();
         return servicos;
     }
 
-    public List<ServicoDTO> findWithFilter(FiltroServicoDTO filtro){
+    public List<ServicoResponseDTO> findWithFilter(FiltroServico filtro){
         LOG.info("Preparando para pesquisar os serviços com filtro");
 
-        List<ServicoDTO> servicos = this.servicoDAO.findWithFilter(filtro);
+        List<ServicoResponseDTO> servicos = this.servicoDAO.findWithFilter(filtro);
 
         return servicos;
     }
-
-    //TODO fazer delete lógico do serviço
 
     public void delete(Long idServico) throws RegistroNaoEncontradoException {
         LOG.info("Preparando para deletar o serviço de id: "+idServico);
@@ -120,7 +98,7 @@ public class ServicoBusiness {
         LOG.info("Serviço deletado com sucesso!");
     }
 
-    private void setAtributosServico(ServicoDTO servicoDTO, Servico servico) {
+    private void setAtributosServico(ServicoRequestDTO servicoDTO, Servico servico) {
         if(servicoDTO.getNome() != null)
             servico.setNome(servicoDTO.getNome());
 
@@ -129,12 +107,9 @@ public class ServicoBusiness {
 
         if(servicoDTO.getValor() != null)
             servico.setValor(servicoDTO.getValor());
-
-        if(servicoDTO.getStatus() != null)
-            servico.setStatus(servicoDTO.getStatus());
     }
 
-    private void validarAtributos(ServicoDTO servico) throws AtributosInvalidosException {
+    private void validarAtributos(ServicoRequestDTO servico) throws AtributosInvalidosException {
         LOG.info("Validando os atributos do Serviço");
         String messages = "";
 
@@ -154,6 +129,19 @@ public class ServicoBusiness {
             LOG.error("Erro ao validar os atributos. Algum atributo inválido!\n");
             throw new AtributosInvalidosException(messages);
         }
+    }
+
+    public ServicoRequestDTO findByIdToEdit(Long idServico) throws AtributosInvalidosException, RegistroNaoEncontradoException {
+        LOG.info("Preparando para procurar serviço de ID: "+idServico);
+
+        if(idServico == null || idServico.equals(0))
+            throw new AtributosInvalidosException("Atributo inválido!");
+
+        if(!servicoDAO.servicoExists(idServico)){
+            throw new RegistroNaoEncontradoException("Serviço não encontrado na base de dados!");
+        }
+
+        return servicoDAO.findByIdToEdit(idServico);
     }
 
     private void commitarTransacaoBanco() {

@@ -1,41 +1,32 @@
 package petshop.model.services;
 
 import java.awt.Desktop;
-import java.awt.Graphics2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
 
-
-import com.itextpdf.awt.DefaultFontMapper;
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import petshop.model.business.AtendimentoBusiness;
 import petshop.model.business.PetBusiness;
 import petshop.model.business.ServicoBusiness;
-import petshop.model.dtos.AtendimentoDTO;
-import petshop.model.dtos.PetDTO;
-import petshop.model.dtos.ServicoDTO;
-import petshop.model.enums.StatusAtendimentoEnum;
+import petshop.model.controllers.PetController;
+import petshop.model.dtos.response.PetResponseRelatorioDTO;
+import petshop.model.dtos.response.ServicoResponseRelatorioDTO;
 
 public class PdfService {
 
         // Gerar PDF Pets cadastrado
         public void gerarRelatorioPets() {
-            PetBusiness petBusiness = new PetBusiness();
+            PetController petController = new PetController();
 
-            ArrayList<PetDTO> petsDTO = (ArrayList<PetDTO>) petBusiness.listAll();
+            //RelatorioPetDTO relatorioPet = petController.gerarRelatorio();
+
+            List<PetResponseRelatorioDTO> petsDTO = petController.listAllRelatorio();
             System.out.println(petsDTO);
 
             Document document = new Document();
@@ -53,7 +44,7 @@ public class PdfService {
 
                 Font FontPetTitle = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD, BaseColor.BLACK);
                 petsDTO.forEach((pet)->{
-                    Paragraph titlePet = new Paragraph(new Phrase(14F , "Pet - "+pet.getIdPet().toString(), FontPetTitle));
+                    Paragraph titlePet = new Paragraph(new Phrase(14F , "Pet - "+pet.getIdPet(), FontPetTitle));
                     try {
                         document.add(new Paragraph(" "));
                         document.add(titlePet);
@@ -112,7 +103,7 @@ public class PdfService {
     public void gerarRelatorioServicos() {
         ServicoBusiness servicoBusiness = new ServicoBusiness();
 
-        ArrayList<ServicoDTO> servicoDTOS = (ArrayList<ServicoDTO>) servicoBusiness.getServices();
+        ArrayList<ServicoResponseRelatorioDTO> servicoDTOS = (ArrayList<ServicoResponseRelatorioDTO>) servicoBusiness.getServices();
 
         Document document = new Document();
 
@@ -142,16 +133,12 @@ public class PdfService {
                     identation.setIndentationLeft(20);
                     document.add(identation);
 
-                    String status = (servico.getStatus())?"Ativo":"Inativo";
+                    String status = servico.getStatus();
                     identation = new Paragraph(("Status: "+status));
                     identation.setIndentationLeft(20);
                     document.add(identation);
 
-                    identation = new Paragraph(("Valor: "+formatarValor(servico.getValor())));
-                    identation.setIndentationLeft(20);
-                    document.add(identation);
-
-                    identation = new Paragraph(("Quantidade de atendimentos: "+servico.getQuantidadeAtendimentos()));
+                    identation = new Paragraph(("Valor: "+servico.getValor()));
                     identation.setIndentationLeft(20);
                     document.add(identation);
 
