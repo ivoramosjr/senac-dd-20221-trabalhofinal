@@ -29,6 +29,7 @@ public class AtendimentoDAO extends GenericRepository{
     }
 
     public List<Atendimento> findAll(){
+        //TODO retornar AtendimentoResponseListagemDTO
         return this.getEntityManager()
                 .createQuery("SELECT a FROM Atendimento a ")
                 .getResultList();
@@ -54,6 +55,7 @@ public class AtendimentoDAO extends GenericRepository{
     }
 
     public List<Atendimento> findWithFilter(FiltroAtendimento filtro){
+        //TODO retornar AtendimentoResponseListagemDTO
         String sql = geracaoSQL(filtro);
 
         Query query = this.getEntityManager().createNativeQuery(sql, Atendimento.class);

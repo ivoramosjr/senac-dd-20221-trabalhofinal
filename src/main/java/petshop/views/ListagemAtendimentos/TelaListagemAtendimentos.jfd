@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.5.4.420" Java: "11.0.15" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.5.4.420" Java: "11.0.14.1" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -40,7 +40,7 @@ new FormModel {
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 				"$layoutConstraints": "hidemode 3"
-				"$columnConstraints": "[grow,fill][grow,fill][grow,fill][grow,fill]"
+				"$columnConstraints": "[grow,fill][grow,fill][fill][grow,fill][grow,fill]"
 				"$rowConstraints": "[grow][grow]"
 			} ) {
 				name: "panelEntradas"
@@ -57,20 +57,31 @@ new FormModel {
 					"value": "cell 1 0,alignx left,growx 0"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "labelServico"
+					"text": "Serviço:"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 0"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "labelOrdemData"
 					"text": "Ordem data:"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 2 0,alignx left,growx 0"
+					"value": "cell 3 0,alignx left,growx 0"
 				} )
 				add( new FormComponent( "javax.swing.JTextField" ) {
 					name: "textFieldNome"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 1,growx"
 				} )
-				add( new FormComponent( "javax.swing.JTextField" ) {
-					name: "textFieldRaca"
+				add( new FormComponent( "javax.swing.JComboBox" ) {
+					name: "comboBoxRaca"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 1 1"
+				} )
+				add( new FormComponent( "javax.swing.JComboBox" ) {
+					name: "comboBoxServico"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 1"
 				} )
 				add( new FormComponent( "javax.swing.JComboBox" ) {
 					name: "comboBoxFiltro"
@@ -80,13 +91,13 @@ new FormModel {
 						addElement( "Decrescente" )
 					}
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 2 1,growx"
+					"value": "cell 3 1,growx"
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "buttonFiltrar"
 					"text": "Filtrar"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-					"value": "cell 3 1,alignx left,growx 0"
+					"value": "cell 4 1,alignx left,growx 0"
 				} )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 2"
@@ -99,17 +110,17 @@ new FormModel {
 						add( "Nome" )
 						add( "Raça" )
 						add( "Serviço" )
+						add( "Valor" )
 						add( "Data" )
 						add( "Horário" )
-						add( "Editar" )
-						add( "Apagar" )
+						add( "Status" )
 					}, new java.util.Vector {
 						add( class java.lang.String )
 						add( class java.lang.String )
 						add( class java.lang.String )
+						add( null )
 						add( class java.util.Date )
 						add( class java.lang.String )
-						add( null )
 						add( null )
 					}, new java.util.Vector {
 						add( null )
@@ -135,7 +146,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 600, 380 )
+			"size": new java.awt.Dimension( 690, 380 )
 		} )
 	}
 }

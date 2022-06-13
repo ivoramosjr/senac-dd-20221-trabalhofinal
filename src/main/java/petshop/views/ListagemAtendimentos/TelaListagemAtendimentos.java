@@ -28,9 +28,11 @@ public class TelaListagemAtendimentos extends JPanel {
         panelEntradas = new JPanel();
         labelNome = new JLabel();
         labelRaca = new JLabel();
+        labelServico = new JLabel();
         labelOrdemData = new JLabel();
         textFieldNome = new JTextField();
-        textFieldRaca = new JTextField();
+        comboBoxRaca = new JComboBox();
+        comboBoxServico = new JComboBox();
         comboBoxFiltro = new JComboBox<>();
         buttonFiltrar = new JButton();
         scrollPaneTabela = new JScrollPane();
@@ -79,6 +81,7 @@ public class TelaListagemAtendimentos extends JPanel {
                 // columns
                 "[grow,fill]" +
                 "[grow,fill]" +
+                "[fill]" +
                 "[grow,fill]" +
                 "[grow,fill]",
                 // rows
@@ -93,22 +96,27 @@ public class TelaListagemAtendimentos extends JPanel {
             labelRaca.setText("Ra\u00e7a:");
             panelEntradas.add(labelRaca, "cell 1 0,alignx left,growx 0");
 
+            //---- labelServico ----
+            labelServico.setText("Servi\u00e7o:");
+            panelEntradas.add(labelServico, "cell 2 0");
+
             //---- labelOrdemData ----
             labelOrdemData.setText("Ordem data:");
-            panelEntradas.add(labelOrdemData, "cell 2 0,alignx left,growx 0");
+            panelEntradas.add(labelOrdemData, "cell 3 0,alignx left,growx 0");
             panelEntradas.add(textFieldNome, "cell 0 1,growx");
-            panelEntradas.add(textFieldRaca, "cell 1 1");
+            panelEntradas.add(comboBoxRaca, "cell 1 1");
+            panelEntradas.add(comboBoxServico, "cell 2 1");
 
             //---- comboBoxFiltro ----
             comboBoxFiltro.setModel(new DefaultComboBoxModel<>(new String[] {
                 "Crescente",
                 "Decrescente"
             }));
-            panelEntradas.add(comboBoxFiltro, "cell 2 1,growx");
+            panelEntradas.add(comboBoxFiltro, "cell 3 1,growx");
 
             //---- buttonFiltrar ----
             buttonFiltrar.setText("Filtrar");
-            panelEntradas.add(buttonFiltrar, "cell 3 1,alignx left,growx 0");
+            panelEntradas.add(buttonFiltrar, "cell 4 1,alignx left,growx 0");
         }
         add(panelEntradas, "cell 0 2");
 
@@ -120,11 +128,11 @@ public class TelaListagemAtendimentos extends JPanel {
                 new Object[][] {
                 },
                 new String[] {
-                    "Nome", "Ra\u00e7a", "Servi\u00e7o", "Data", "Hor\u00e1rio", "Editar", "Apagar"
+                    "Nome", "Ra\u00e7a", "Servi\u00e7o", "Valor", "Data", "Hor\u00e1rio", "Status"
                 }
             ) {
                 Class<?>[] columnTypes = new Class<?>[] {
-                    String.class, String.class, String.class, Date.class, String.class, Object.class, Object.class
+                    String.class, String.class, String.class, Object.class, Date.class, String.class, Object.class
                 };
                 @Override
                 public Class<?> getColumnClass(int columnIndex) {
@@ -147,9 +155,11 @@ public class TelaListagemAtendimentos extends JPanel {
     private JPanel panelEntradas;
     private JLabel labelNome;
     private JLabel labelRaca;
+    private JLabel labelServico;
     private JLabel labelOrdemData;
     private JTextField textFieldNome;
-    private JTextField textFieldRaca;
+    private JComboBox comboBoxRaca;
+    private JComboBox comboBoxServico;
     private JComboBox<String> comboBoxFiltro;
     private JButton buttonFiltrar;
     private JScrollPane scrollPaneTabela;
