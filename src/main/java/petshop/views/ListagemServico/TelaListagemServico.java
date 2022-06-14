@@ -19,7 +19,6 @@ import petshop.model.controllers.ServicoController;
 import petshop.filtros.FiltroServico;
 import petshop.model.dtos.response.ServicoResponseDTO;
 import petshop.model.enums.OrdemPesquisa;
-import petshop.model.services.PdfService;
 
 /**
  * @author unknown
@@ -93,8 +92,7 @@ public class TelaListagemServico extends JPanel {
     }
 
     private void gerarRelatorioBtn(ActionEvent e) {
-        PdfService pdfService = new PdfService();
-        pdfService.gerarRelatorioServicos();
+        // TODO add your code here
     }
 
     private void initComponents() {

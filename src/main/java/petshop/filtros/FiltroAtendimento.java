@@ -3,25 +3,31 @@ package petshop.filtros;
 import petshop.model.enums.OrdemPesquisa;
 import petshop.model.enums.StatusAtendimentoEnum;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FiltroAtendimento {
 
     private String nomePet;
 
-    private String nomeServico;
+    private Long idServico;
+
+    private String raca;
 
     private OrdemPesquisa ordemData;
 
-    private StatusAtendimentoEnum statusAntedimento;
+    private List<StatusAtendimentoEnum> status = new ArrayList<>();
 
     public FiltroAtendimento(){
 
     }
 
-    public FiltroAtendimento(String nomePet, String nomeServico, OrdemPesquisa ordemData, StatusAtendimentoEnum statusAntedimento){
+    public FiltroAtendimento(String nomePet, Long idServico, String raca, OrdemPesquisa ordemData, List<StatusAtendimentoEnum> status) {
         this.nomePet = nomePet;
-        this.nomeServico = nomeServico;
+        this.idServico = idServico;
+        this.raca = raca;
         this.ordemData = ordemData;
-        this.statusAntedimento = statusAntedimento;
+        this.status = status;
     }
 
     public String getNomePet() {
@@ -32,12 +38,20 @@ public class FiltroAtendimento {
         this.nomePet = nomePet;
     }
 
-    public String getNomeServico() {
-        return nomeServico;
+    public Long getIdServico() {
+        return idServico;
     }
 
-    public void setNomeServico(String nomeServico) {
-        this.nomeServico = nomeServico;
+    public void setIdServico(Long idServico) {
+        this.idServico = idServico;
+    }
+
+    public String getRaca() {
+        return raca;
+    }
+
+    public void setRaca(String raca) {
+        this.raca = raca;
     }
 
     public OrdemPesquisa getOrdemData() {
@@ -48,11 +62,11 @@ public class FiltroAtendimento {
         this.ordemData = ordemData;
     }
 
-    public StatusAtendimentoEnum getStatusAntedimento() {
-        return statusAntedimento;
+    public List<StatusAtendimentoEnum> getStatus() {
+        return status;
     }
 
-    public void setStatusAntedimento(StatusAtendimentoEnum statusAntedimento) {
-        this.statusAntedimento = statusAntedimento;
+    public void setStatus(List<StatusAtendimentoEnum> status) {
+        this.status = status;
     }
 }

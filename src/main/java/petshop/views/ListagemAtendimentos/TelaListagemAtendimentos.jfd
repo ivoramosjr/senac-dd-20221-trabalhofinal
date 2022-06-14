@@ -29,7 +29,6 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JRadioButtonMenuItem" ) {
 					name: "radioButtonMenuItemAgendado"
 					"text": "Agendados"
-					"selected": true
 				} )
 				add( new FormComponent( "javax.swing.JRadioButtonMenuItem" ) {
 					name: "radioButtonMenuItemRealizados"
@@ -96,6 +95,7 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "buttonFiltrar"
 					"text": "Filtrar"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "filtrar", true ) )
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 4 1,alignx left,growx 0"
 				} )
@@ -106,7 +106,17 @@ new FormModel {
 				name: "scrollPaneTabela"
 				add( new FormComponent( "javax.swing.JTable" ) {
 					name: "tableListaAtendimentos"
-					"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector, new java.util.Vector {
+					"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
+						add( new java.util.Vector {
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+						} )
+					}, new java.util.Vector {
 						add( "Nome" )
 						add( "Raça" )
 						add( "Serviço" )
@@ -118,9 +128,9 @@ new FormModel {
 						add( class java.lang.String )
 						add( class java.lang.String )
 						add( class java.lang.String )
-						add( null )
-						add( class java.util.Date )
 						add( class java.lang.String )
+						add( class java.lang.Object )
+						add( class java.lang.Object )
 						add( null )
 					}, new java.util.Vector {
 						add( null )
