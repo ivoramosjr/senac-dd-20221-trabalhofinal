@@ -8,9 +8,9 @@ import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.dao.AtendimentoDAO;
 import petshop.model.dao.PetDAO;
 import petshop.model.dao.ServicoDAO;
-import petshop.model.dtos.AtendimentoDTO;
 import petshop.filtros.FiltroAtendimento;
 import petshop.model.dtos.request.AtendimentoRequestDTO;
+import petshop.model.dtos.response.AtendimentoResponseListagemDTO;
 import petshop.model.entity.Atendimento;
 import petshop.model.entity.Pet;
 import petshop.model.entity.Servico;
@@ -18,9 +18,7 @@ import petshop.model.entity.Servico;
 import javax.enterprise.context.ApplicationScoped;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class AtendimentoBusiness {
@@ -92,26 +90,17 @@ public class AtendimentoBusiness {
         LOG.info("Atendimento atualizado com sucesso!");
     }
 
-    public List<AtendimentoDTO> listAll(){
+    public List<AtendimentoResponseListagemDTO> listAll(){
         LOG.info("Procurando todos os atendimentos cadastrados");
-        List<Atendimento> atendimentosEntity = this.atendimentoDAO.findAll();
-        List<AtendimentoDTO> atendimentos = new ArrayList<>();
-
-        atendimentos = atendimentosEntity.stream().map(atendimento -> new AtendimentoDTO(atendimento)).collect(Collectors.toList());
-
-        LOG.info("Foram encontrados "+atendimentos.size()+" atendimentos.");
+        List<AtendimentoResponseListagemDTO> atendimentos = this.atendimentoDAO.findAll();
 
         return atendimentos;
     }
 
-    public List<AtendimentoDTO> findWithFilter(FiltroAtendimento filtro){
+    public List<AtendimentoResponseListagemDTO> findWithFilter(FiltroAtendimento filtro){
         LOG.info("Preparando para pesquisar os atendimentos com filtro");
 
-        List<Atendimento> atendimentosEntity = this.atendimentoDAO.findWithFilter(filtro);
-
-        List<AtendimentoDTO> atendimentos = atendimentosEntity.stream()
-                .map(a -> new AtendimentoDTO(a))
-                .collect(Collectors.toList());
+        List<AtendimentoResponseListagemDTO> atendimentos = this.atendimentoDAO.findWithFilter(filtro);
 
         return atendimentos;
 

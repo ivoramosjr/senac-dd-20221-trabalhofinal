@@ -5,10 +5,20 @@
 package petshop.views.ListagemAtendimentos;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.util.*;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.table.*;
 import net.miginfocom.swing.*;
+import petshop.filtros.FiltroAtendimento;
+import petshop.model.controllers.AtendimentoController;
+import petshop.model.controllers.PetController;
+import petshop.model.controllers.ServicoController;
+import petshop.model.dtos.response.AtendimentoResponseListagemDTO;
+import petshop.model.dtos.response.ServicoResponseDTO;
+import petshop.model.enums.OrdemPesquisa;
+import petshop.model.enums.StatusAtendimentoEnum;
 
 /**
  * @author unknown
@@ -16,6 +26,53 @@ import net.miginfocom.swing.*;
 public class TelaListagemAtendimentos extends JPanel {
     public TelaListagemAtendimentos() {
         initComponents();
+        loadServices();
+    }
+
+    private void filtrar(ActionEvent e) {
+        // TODO add your code here
+        FiltroAtendimento filtroAtendimento = new FiltroAtendimento();
+
+        filtroAtendimento.setNomePet(textFieldNome.getText());
+
+        String raca = (String) comboBoxRaca.getSelectedItem();
+
+        filtroAtendimento.setRaca(raca.equals("Todos") ? null: raca);
+
+        Long idServico;
+        try{
+            ServicoResponseDTO servico = (ServicoResponseDTO) comboBoxServico.getSelectedItem();
+            idServico = servico.getIdServico();
+        }catch (Exception ex){
+            idServico = 0L;
+        }
+
+        filtroAtendimento.setIdServico(idServico);
+
+        List<StatusAtendimentoEnum> status = new ArrayList<>();
+        if(radioButtonMenuItemAgendado.isSelected()){
+            status.add(StatusAtendimentoEnum.AGENDADO);
+        }
+        if(radioButtonMenuItemRealizados.isSelected()){
+            status.add(StatusAtendimentoEnum.REALIZADO);
+        }
+
+        filtroAtendimento.setStatus(status);
+
+        if(Objects.equals(comboBoxFiltro.getSelectedItem(), "Crescente")) {
+            filtroAtendimento.setOrdemData(OrdemPesquisa.ASC);
+        } else {
+            filtroAtendimento.setOrdemData(OrdemPesquisa.DESC);
+        }
+
+        atendimentos = atendimentoController.findWithFilter(filtroAtendimento);
+
+        DefaultTableModel tableModel = (DefaultTableModel) tableListaAtendimentos.getModel();
+        tableModel.setRowCount(0);
+
+        atendimentos.stream().forEach(a -> tableModel.addRow(
+                new Object[]{a.getPetNome(), a.getPetRaca(), a.getServicoNome(), a.getServicoValor(), a.getDataAtendimento(), a.getHoraAtendimento(), a.getStatusAtendimento()}
+        ));
     }
 
     private void initComponents() {
@@ -65,7 +122,6 @@ public class TelaListagemAtendimentos extends JPanel {
 
             //---- radioButtonMenuItemAgendado ----
             radioButtonMenuItemAgendado.setText("Agendados");
-            radioButtonMenuItemAgendado.setSelected(true);
             menuBarRealizadoAgendado.add(radioButtonMenuItemAgendado);
 
             //---- radioButtonMenuItemRealizados ----
@@ -116,6 +172,7 @@ public class TelaListagemAtendimentos extends JPanel {
 
             //---- buttonFiltrar ----
             buttonFiltrar.setText("Filtrar");
+            buttonFiltrar.addActionListener(e -> filtrar(e));
             panelEntradas.add(buttonFiltrar, "cell 4 1,alignx left,growx 0");
         }
         add(panelEntradas, "cell 0 2");
@@ -126,13 +183,14 @@ public class TelaListagemAtendimentos extends JPanel {
             //---- tableListaAtendimentos ----
             tableListaAtendimentos.setModel(new DefaultTableModel(
                 new Object[][] {
+                    {null, null, null, null, null, null, null},
                 },
                 new String[] {
                     "Nome", "Ra\u00e7a", "Servi\u00e7o", "Valor", "Data", "Hor\u00e1rio", "Status"
                 }
             ) {
                 Class<?>[] columnTypes = new Class<?>[] {
-                    String.class, String.class, String.class, Object.class, Date.class, String.class, Object.class
+                    String.class, String.class, String.class, String.class, Object.class, Object.class, Object.class
                 };
                 @Override
                 public Class<?> getColumnClass(int columnIndex) {
@@ -144,6 +202,28 @@ public class TelaListagemAtendimentos extends JPanel {
         }
         add(scrollPaneTabela, "cell 0 3,growx");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
+    }
+
+    private void loadServices() {
+        atendimentoController = new AtendimentoController();
+        atendimentos = atendimentoController.listAll();
+
+        DefaultTableModel tableModel = (DefaultTableModel) tableListaAtendimentos.getModel();
+        tableModel.setRowCount(0);
+
+        atendimentos.stream().forEach(a -> tableModel.addRow(
+                new Object[]{a.getPetNome(), a.getPetRaca(), a.getServicoNome(), a.getServicoValor(), a.getDataAtendimento(), a.getHoraAtendimento(), a.getStatusAtendimento()}
+        ));
+
+        petController = new PetController();
+        racas = petController.getRacas();
+        comboBoxRaca.addItem("Todos");
+        racas.stream().forEach(r -> comboBoxRaca.addItem(r));
+
+        servicoController = new ServicoController();
+        servicos = servicoController.listAll();
+        comboBoxServico.addItem("Todos");
+        servicos.stream().forEach(s->comboBoxServico.addItem(s));
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
@@ -165,4 +245,10 @@ public class TelaListagemAtendimentos extends JPanel {
     private JScrollPane scrollPaneTabela;
     private JTable tableListaAtendimentos;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
+    private List<AtendimentoResponseListagemDTO> atendimentos = new ArrayList<>();
+    private List<String> racas = new ArrayList<>();
+    private List<ServicoResponseDTO> servicos = new ArrayList<>();
+    private AtendimentoController atendimentoController;
+    private PetController petController;
+    private ServicoController servicoController;
 }

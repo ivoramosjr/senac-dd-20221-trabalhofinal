@@ -3,6 +3,7 @@ package petshop.model.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import petshop.filtros.FiltroAtendimento;
+import petshop.model.dtos.response.AtendimentoResponseListagemDTO;
 import petshop.model.entity.Atendimento;
 import petshop.model.enums.StatusAtendimentoEnum;
 
@@ -28,10 +29,13 @@ public class AtendimentoDAO extends GenericRepository{
         this.getEntityManager().persist(atendimento);
     }
 
-    public List<Atendimento> findAll(){
-        //TODO retornar AtendimentoResponseListagemDTO
+    public List<AtendimentoResponseListagemDTO> findAll(){
+        String hql = "SELECT new petshop.model.dtos.response.AtendimentoResponseListagemDTO(" +
+                "a.idAtendimento, a.pet.nome, a.pet.raca, a.dataAtendimento, a.servico.nome, a.servico.valor, a.statusAtendimento) " +
+                "FROM Atendimento a ";
+
         return this.getEntityManager()
-                .createQuery("SELECT a FROM Atendimento a ")
+                .createQuery(hql, AtendimentoResponseListagemDTO.class)
                 .getResultList();
     }
 
@@ -54,11 +58,10 @@ public class AtendimentoDAO extends GenericRepository{
         this.merge(atendimento);
     }
 
-    public List<Atendimento> findWithFilter(FiltroAtendimento filtro){
-        //TODO retornar AtendimentoResponseListagemDTO
+    public List<AtendimentoResponseListagemDTO> findWithFilter(FiltroAtendimento filtro){
         String sql = geracaoSQL(filtro);
 
-        Query query = this.getEntityManager().createNativeQuery(sql, Atendimento.class);
+        Query query = this.getEntityManager().createQuery(sql, AtendimentoResponseListagemDTO.class);
 
         montandoQuery(filtro, query);
 
@@ -71,36 +74,57 @@ public class AtendimentoDAO extends GenericRepository{
             query.setParameter("nomePet", nome);
         }
 
-        if(filtro.getNomeServico() != null && !filtro.getNomeServico().isEmpty()){
-            String nome = "%"+ filtro.getNomeServico().toLowerCase()+"%";
-            query.setParameter("nomeServico", nome);
+        if(filtro.getIdServico() != null && filtro.getIdServico() != 0){
+            query.setParameter("idServico", filtro.getIdServico());
         }
 
-        query.setParameter("statusAtendimento", filtro.getStatusAntedimento().getNome().toLowerCase());
+        if(filtro.getRaca() != null && !filtro.getRaca().isEmpty()){
+            query.setParameter("raca", filtro.getRaca().toLowerCase());
+        }
+
+        if(filtro.getStatus().contains(StatusAtendimentoEnum.AGENDADO)){
+            query.setParameter("statusAtendimentoAgendado", StatusAtendimentoEnum.AGENDADO);
+        }
+
+        if(filtro.getStatus().contains(StatusAtendimentoEnum.REALIZADO)){
+            query.setParameter("statusAtendimentoRealizado", StatusAtendimentoEnum.REALIZADO);
+        }
     }
 
     private String geracaoSQL(FiltroAtendimento filtro) {
-        String sql = "SELECT * FROM Atendimento a " +
-                "INNER JOIN Pet p ON " +
-                "a.ID_PET = p.ID_PET " +
-                "INNER JOIN Servico s ON " +
-                "a.ID_SERVICO = s.ID_SERVICO ";
+        String sql = "SELECT new petshop.model.dtos.response.AtendimentoResponseListagemDTO(" +
+                "a.idAtendimento, a.pet.nome, a.pet.raca, a.dataAtendimento, a.servico.nome, a.servico.valor, a.statusAtendimento) " +
+                "FROM Atendimento a ";
 
         String andOrWhere = "WHERE ";
 
         if(filtro.getNomePet() != null && !filtro.getNomePet().isEmpty()){
-            sql = sql.concat(andOrWhere).concat("LOWER(p.nome) like :nomePet ");
+            sql = sql.concat(andOrWhere).concat("LOWER(a.pet.nome) like :nomePet ");
             andOrWhere = "AND ";
         }
 
-        if(filtro.getNomeServico() != null && !filtro.getNomeServico().isEmpty()){
-            sql = sql.concat(andOrWhere).concat("LOWER(s.nome) like :nomeServico ");
+        if(filtro.getRaca() != null && !filtro.getRaca().isEmpty()){
+            sql = sql.concat(andOrWhere).concat("LOWER(a.pet.raca) like :raca ");
             andOrWhere = "AND ";
         }
 
-        sql = sql.concat(andOrWhere).concat("LOWER(a.statusAtendimento) = :statusAtendimento ");
+        if(filtro.getIdServico() != null && filtro.getIdServico() != 0){
+            sql = sql.concat(andOrWhere).concat("a.servico.idServico = :idServico ");
+            andOrWhere = "AND ";
+        }
 
-        sql = sql.concat("ORDER BY a.dataatendimento ").concat(filtro.getOrdemData().getDescricao());
+        if(filtro.getStatus().contains(StatusAtendimentoEnum.AGENDADO)){
+            sql = sql.concat(andOrWhere).concat("(a.statusAtendimento = :statusAtendimentoAgendado ");
+            andOrWhere = "OR ";
+        }
+
+        if(filtro.getStatus().contains(StatusAtendimentoEnum.REALIZADO)){
+            sql = sql.concat(andOrWhere).concat("a.statusAtendimento = :statusAtendimentoRealizado ");
+        }
+
+        sql = sql.concat(filtro.getStatus().contains(StatusAtendimentoEnum.AGENDADO)?") ":"")
+                .concat("ORDER BY a.dataAtendimento ")
+                .concat(filtro.getOrdemData().getDescricao());
 
         return sql;
     }
