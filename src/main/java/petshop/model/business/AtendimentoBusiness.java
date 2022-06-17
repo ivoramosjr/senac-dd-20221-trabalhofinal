@@ -5,12 +5,14 @@ import org.apache.logging.log4j.Logger;
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.HorarioJaMarcadoException;
 import petshop.exceptions.RegistroNaoEncontradoException;
+import petshop.filtros.FiltroRelatorioAtendimento;
 import petshop.model.dao.AtendimentoDAO;
 import petshop.model.dao.PetDAO;
 import petshop.model.dao.ServicoDAO;
 import petshop.filtros.FiltroAtendimento;
 import petshop.model.dtos.request.AtendimentoRequestDTO;
 import petshop.model.dtos.response.AtendimentoResponseListagemDTO;
+import petshop.model.dtos.response.RelatorioAtendimentoDTO;
 import petshop.model.entity.Atendimento;
 import petshop.model.entity.Pet;
 import petshop.model.entity.Servico;
@@ -167,5 +169,10 @@ public class AtendimentoBusiness {
 
     private void abrirConexaoBanco() {
         this.atendimentoDAO.getEntityManager().getTransaction().begin();
+    }
+
+    public RelatorioAtendimentoDTO gerarRelatorio(FiltroRelatorioAtendimento filtro) {
+        LOG.info("Gerando relatório.");
+        return atendimentoDAO.gerarRelatorio(filtro);
     }
 }

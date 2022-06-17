@@ -3,9 +3,13 @@ package petshop.model.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import petshop.filtros.FiltroAtendimento;
+import petshop.filtros.FiltroRelatorioAtendimento;
+import petshop.model.dtos.response.AtendimentoRelatorioDTO;
 import petshop.model.dtos.response.AtendimentoResponseListagemDTO;
+import petshop.model.dtos.response.RelatorioAtendimentoDTO;
 import petshop.model.entity.Atendimento;
 import petshop.model.enums.StatusAtendimentoEnum;
+import petshop.model.enums.TipoAnimal;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -13,6 +17,7 @@ import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -155,4 +160,73 @@ public class AtendimentoDAO extends GenericRepository{
         }
     }
 
+    public RelatorioAtendimentoDTO gerarRelatorio(FiltroRelatorioAtendimento filtro) {
+        Long numeroAtendimentos = getNumeroAtendimentos();
+        Long atendimentosAgendados = getNumeroAtendimentosSatus(StatusAtendimentoEnum.AGENDADO);
+        Long atendimentosRealizados = getNumeroAtendimentosSatus(StatusAtendimentoEnum.REALIZADO);
+        Long atendimentosCancelados = getNumeroAtendimentosSatus(StatusAtendimentoEnum.DESMARCADO);
+        LocalDateTime ultimoAtendimento = getDataUltimoAtendimentoRealizado();
+        TipoAnimal tipoAnimal = getTipoAnimalMaisAtendido();
+        Double valorTotal = getValorTotalAtendimentosRealizados();
+        List<AtendimentoRelatorioDTO> listaAtendimentos = new ArrayList<>();
+        if(filtro.isGerarTabela()){
+            listaAtendimentos = getAtendimentosRelatorio();
+        }
+        RelatorioAtendimentoDTO relatorioAtendimentoDTO = new RelatorioAtendimentoDTO(
+                numeroAtendimentos, atendimentosAgendados, atendimentosRealizados, atendimentosCancelados,
+                ultimoAtendimento, tipoAnimal, valorTotal, listaAtendimentos
+        );
+        return relatorioAtendimentoDTO;
+    }
+
+    private List<AtendimentoRelatorioDTO> getAtendimentosRelatorio() {
+        return this.getEntityManager()
+                .createQuery("SELECT new petshop.model.dtos.response.AtendimentoRelatorioDTO(a.pet.nome," +
+                        "a.pet.tipoAnimal, a.dataAtendimento, a.servico.nome, a.servico.valor, a.statusAtendimento) FROM Atendimento a", AtendimentoRelatorioDTO.class)
+                .getResultList();
+    }
+
+    private Double getValorTotalAtendimentosRealizados() {
+        return (Double) this.getEntityManager()
+                .createQuery("SELECT SUM(a.servico.valor) FROM Atendimento a WHERE a.statusAtendimento = :status")
+                .setParameter("status", StatusAtendimentoEnum.REALIZADO)
+                .getSingleResult();
+    }
+
+    private TipoAnimal getTipoAnimalMaisAtendido() {
+        //TODO testar mais vezes
+        try{
+            String sql = "SELECT a.pet.tipoAnimal, COUNT(a.pet.idPet) AS OCORRENCIA FROM Atendimento a WHERE a.statusAtendimento = :status " +
+                    "GROUP BY a.pet.tipoAnimal ORDER BY OCORRENCIA DESC";
+            Object[] result = (Object[]) this.getEntityManager()
+                            .createQuery(sql)
+                            .setParameter("status", StatusAtendimentoEnum.REALIZADO)
+                            .setMaxResults(1)
+                    .getSingleResult();
+            TipoAnimal tipoAnimal = (TipoAnimal) result[0];
+            return tipoAnimal;
+        }catch (NoResultException e){
+            return null;
+        }
+    }
+
+    private LocalDateTime getDataUltimoAtendimentoRealizado(){
+        return (LocalDateTime) this.getEntityManager()
+                .createQuery("SELECT a.dataAtendimento FROM Atendimento a ORDER BY a.idAtendimento DESC")
+                .setMaxResults(1)
+                .getSingleResult();
+    }
+
+    private Long getNumeroAtendimentosSatus(StatusAtendimentoEnum status) {
+        return (Long) this.getEntityManager()
+                .createQuery("SELECT COUNT(a) FROM Atendimento a WHERE a.statusAtendimento = :status")
+                .setParameter("status", status)
+                .getSingleResult();
+    }
+
+    private Long getNumeroAtendimentos() {
+        return (Long) this.getEntityManager()
+                .createQuery("SELECT COUNT(a) FROM Atendimento a")
+                .getSingleResult();
+    }
 }

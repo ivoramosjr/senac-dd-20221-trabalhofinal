@@ -4,9 +4,11 @@ import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.HorarioJaMarcadoException;
 import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.filtros.FiltroAtendimento;
+import petshop.filtros.FiltroRelatorioAtendimento;
 import petshop.model.business.AtendimentoBusiness;
 import petshop.model.dtos.request.AtendimentoRequestDTO;
 import petshop.model.dtos.response.AtendimentoResponseListagemDTO;
+import petshop.model.dtos.response.RelatorioAtendimentoDTO;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -29,5 +31,9 @@ public class AtendimentoService {
 
     public List<AtendimentoResponseListagemDTO> findWithFilter(FiltroAtendimento filtroAtendimento) {
         return atendimentoBusiness.findWithFilter(filtroAtendimento);
+    }
+
+    public RelatorioAtendimentoDTO gerarRelatorio(FiltroRelatorioAtendimento filtro) {
+        return atendimentoBusiness.gerarRelatorio(filtro);
     }
 }
