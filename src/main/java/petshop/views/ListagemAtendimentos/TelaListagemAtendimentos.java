@@ -19,6 +19,7 @@ import petshop.model.dtos.response.AtendimentoResponseListagemDTO;
 import petshop.model.dtos.response.ServicoResponseDTO;
 import petshop.model.enums.OrdemPesquisa;
 import petshop.model.enums.StatusAtendimentoEnum;
+import petshop.views.TelaRelatorioAtendimento.RelatorioAtendimento;
 
 /**
  * @author unknown
@@ -75,6 +76,12 @@ public class TelaListagemAtendimentos extends JPanel {
         ));
     }
 
+    private void gerarRelatorio(ActionEvent e) {
+        // TODO add your code here
+        RelatorioAtendimento relatorioAtendimento = new RelatorioAtendimento(null, this.atendimentoController);
+        relatorioAtendimento.setVisible(true);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         labelListaAtendimentos = new JLabel();
@@ -115,6 +122,7 @@ public class TelaListagemAtendimentos extends JPanel {
         //---- buttonGerarRelatorio ----
         buttonGerarRelatorio.setText("Gerar relat\u00f3rio");
         buttonGerarRelatorio.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+        buttonGerarRelatorio.addActionListener(e -> gerarRelatorio(e));
         add(buttonGerarRelatorio, "cell 0 1,alignx left,growx 0");
 
         //======== menuBarRealizadoAgendado ========
