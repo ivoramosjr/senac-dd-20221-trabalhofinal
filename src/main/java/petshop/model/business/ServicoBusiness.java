@@ -7,6 +7,7 @@ import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.filtros.FiltroServico;
 import petshop.model.dao.ServicoDAO;
 import petshop.model.dtos.request.ServicoRequestDTO;
+import petshop.model.dtos.response.RelatorioServicoDTO;
 import petshop.model.dtos.response.ServicoResponseDTO;
 import petshop.model.dtos.response.ServicoResponseRelatorioDTO;
 import petshop.model.entity.Servico;
@@ -66,10 +67,9 @@ public class ServicoBusiness {
         return servicos;
     }
 
-    public List<ServicoResponseRelatorioDTO> getServices(){
-        LOG.info("Procurando todos os serviços cadastrados");
-        List<ServicoResponseRelatorioDTO> servicos = this.servicoDAO.getServices();
-        return servicos;
+    public RelatorioServicoDTO gerarRelatorio(){
+        LOG.info("Preparando para gerar relatório");
+        return this.servicoDAO.gerarRelatorio();
     }
 
     public List<ServicoResponseDTO> findWithFilter(FiltroServico filtro){

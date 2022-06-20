@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -21,6 +20,7 @@ import petshop.model.business.ServicoBusiness;
 import petshop.model.controllers.PetController;
 import petshop.model.dtos.response.PetResponseRelatorioDTO;
 import petshop.model.dtos.response.RelatorioAtendimentoDTO;
+import petshop.model.dtos.response.RelatorioServicoDTO;
 import petshop.model.dtos.response.ServicoResponseRelatorioDTO;
 
 public class PdfService {
@@ -107,15 +107,11 @@ public class PdfService {
 
 
     // Gerar PDF Pets cadastrado
-    public void gerarRelatorioServicos() {
-        ServicoBusiness servicoBusiness = new ServicoBusiness();
-
-        ArrayList<ServicoResponseRelatorioDTO> servicoDTOS = (ArrayList<ServicoResponseRelatorioDTO>) servicoBusiness.getServices();
-
+    public void gerarRelatorioServicos(String path, RelatorioServicoDTO relatorio) {
         Document document = new Document();
 
         try {
-            PdfWriter.getInstance(document, new FileOutputStream("documento.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream(path+"//Relatório serviços - "+dtf.format(LocalDateTime.now())+".pdf", false));
             document.open();
             Font fontTitle = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.BLACK);
             Paragraph title = new Paragraph(new Phrase(14F , "Relatorio serviços cadastrados", fontTitle));
@@ -123,38 +119,61 @@ public class PdfService {
 
             document.add(title);
             document.add(new Paragraph(" "));
-            document.add(new Paragraph(("Total serviços cadastrados: "+servicoDTOS.size())));
+            document.add(new Paragraph("Número de serviços: "+relatorio.getNumeroServicos()));
+            document.add(new Paragraph("Número de serviços inativos: "+relatorio.getNumeroServicosInativos()));
+            document.add(new Paragraph("Nome do serviço mais barato: "+relatorio.getServicoMaisBarato()));
+            document.add(new Paragraph("Nome do serviço mais caro: "+relatorio.getServicoMaisCaro()));
+            document.add(new Paragraph("Nome do serviço mais utilizado: "+relatorio.getServicoMaisUtilizado()));
+            document.add(new Paragraph("Nome do último serviço cadastrado: "+relatorio.getUltimoServicoCadastrado()));
 
-            Font FontPetTitle = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD, BaseColor.BLACK);
-            servicoDTOS.forEach((servico)->{
-                Paragraph titlePet = new Paragraph(new Phrase(14F , "Serviço - "+servico.getIdServico().toString(), FontPetTitle));
-                try {
-                    document.add(new Paragraph(" "));
-                    document.add(titlePet);
+            try {
+                document.add(new Paragraph(" "));
+                Font fontTable = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
+                Paragraph tableTitle = new Paragraph(new Phrase(14F , "Lista de serviços", fontTable));
+                title.setAlignment(Element.ALIGN_CENTER);
+                document.add(tableTitle);
+                document.add(new Paragraph(" "));
+                AtomicInteger count = new AtomicInteger(1);
+                PdfPTable tabelaServicos = new PdfPTable(5);
+                tabelaServicos.setTotalWidth(new float[]{
+                        20, 120, 120, 140, 140
+                });
+                tabelaServicos.setLockedWidth(true);
 
-                    Paragraph identation = new Paragraph(("Nome: "+servico.getNome()));
-                    identation.setIndentationLeft(20);
-                    document.add(identation);
+                PdfPCell header1 = new PdfPCell(new Phrase("#"));
+                header1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                tabelaServicos.addCell(header1);
 
-                    identation = new Paragraph(("Descrição: "+servico.getDescricao()));
-                    identation.setIndentationLeft(20);
-                    document.add(identation);
+                PdfPCell header2 = new PdfPCell(new Phrase("Serviço"));
+                header1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                tabelaServicos.addCell(header2);
 
-                    String status = servico.getStatus();
-                    identation = new Paragraph(("Status: "+status));
-                    identation.setIndentationLeft(20);
-                    document.add(identation);
+                PdfPCell header3 = new PdfPCell(new Phrase("Valor"));
+                header1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                tabelaServicos.addCell(header3);
 
-                    identation = new Paragraph(("Valor: "+servico.getValor()));
-                    identation.setIndentationLeft(20);
-                    document.add(identation);
+                PdfPCell header4 = new PdfPCell(new Phrase("Descrição"));
+                header1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                tabelaServicos.addCell(header4);
+
+                PdfPCell header5 = new PdfPCell(new Phrase("Status"));
+                header1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                tabelaServicos.addCell(header5);
+
+                relatorio.getListaServicos().forEach(servico ->{
+                    tabelaServicos.addCell(count.toString());
+                    tabelaServicos.addCell(servico.getNome());
+                    tabelaServicos.addCell(servico.getValor());
+                    tabelaServicos.addCell(servico.getDescricao());
+                    tabelaServicos.addCell(servico.getStatus());
+                    count.getAndIncrement();
+                });
+                document.add(tabelaServicos);
 
 
-                } catch (DocumentException e) {
-                    throw new RuntimeException(e);
-                }
-
-            });
+            } catch (DocumentException e) {
+                throw new RuntimeException(e);
+            }
 
         } catch (FileNotFoundException e) {
 
@@ -163,13 +182,6 @@ public class PdfService {
             e.printStackTrace();
         } finally {
             document.close();
-        }
-
-        try {
-            Desktop.getDesktop().open(new File("documento.pdf"));
-        } catch (IOException e) {
-
-            e.printStackTrace();
         }
 
     }

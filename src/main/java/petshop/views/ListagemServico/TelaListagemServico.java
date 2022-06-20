@@ -17,8 +17,11 @@ import org.apache.logging.log4j.Logger;
 import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.controllers.ServicoController;
 import petshop.filtros.FiltroServico;
+import petshop.model.dtos.response.RelatorioServicoDTO;
 import petshop.model.dtos.response.ServicoResponseDTO;
+import petshop.model.dtos.response.ServicoResponseRelatorioDTO;
 import petshop.model.enums.OrdemPesquisa;
+import petshop.model.services.PdfService;
 
 /**
  * @author unknown
@@ -28,6 +31,7 @@ public class TelaListagemServico extends JPanel {
 
     ServicoController servicoController = new ServicoController();
     List<ServicoResponseDTO> servicesList = new ArrayList<>();
+    private PdfService pdfService;
 
     public TelaListagemServico() {
         initComponents();
@@ -41,6 +45,7 @@ public class TelaListagemServico extends JPanel {
                 verifyRowToEnableEditAndDeleteButtons();
             }
         });
+        this.pdfService = new PdfService();
     }
 
     private void filtrar(ActionEvent e) {
@@ -91,15 +96,30 @@ public class TelaListagemServico extends JPanel {
         }
     }
 
-    private void gerarRelatorioBtn(ActionEvent e) {
-        // TODO add your code here
+    private void gerarRelatorio(ActionEvent e) {
+        LOG.info("Preparando para gerar relatório de serviço.");
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.setDialogTitle("Escolha um diretório para salvar o relatório");
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        RelatorioServicoDTO relatorio = servicoController.gerarRelatorio();
+
+        if(userSelection == JFileChooser.APPROVE_OPTION) {
+            String path = fileChooser.getSelectedFile().getPath();
+            LOG.info("Diretório selecionado: "+path);
+            pdfService.gerarRelatorioServicos(path, relatorio);
+            JOptionPane.showMessageDialog(null, "Relatório salvo com sucesso!", "Relatório salvo!", JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }
 
     private void initComponents() {
         LOG.info("Abrindo a tela de listagem de serviços.");
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         labelListaServico = new JLabel();
-        gerarRelatorioBtn = new JButton();
+        button1 = new JButton();
         buttonCriarServico = new JButton();
         labelNome = new JLabel();
         labelOrdemValor = new JLabel();
@@ -137,11 +157,11 @@ public class TelaListagemServico extends JPanel {
         labelListaServico.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
         add(labelListaServico, "cell 0 0 4 1,align center center,grow 0 0");
 
-        //---- gerarRelatorioBtn ----
-        gerarRelatorioBtn.setText("Gerar relat\u00f3rio");
-        gerarRelatorioBtn.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-        gerarRelatorioBtn.addActionListener(e -> gerarRelatorioBtn(e));
-        add(gerarRelatorioBtn, "cell 0 2,alignx right,growx 0");
+        //---- button1 ----
+        button1.setText("Gerar relat\u00f3rio");
+        button1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+        button1.addActionListener(e -> gerarRelatorio(e));
+        add(button1, "cell 0 2,growx");
 
         //---- buttonCriarServico ----
         buttonCriarServico.setText("Criar Servi\u00e7o");
@@ -227,7 +247,7 @@ public class TelaListagemServico extends JPanel {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private JLabel labelListaServico;
-    private JButton gerarRelatorioBtn;
+    private JButton button1;
     private JButton buttonCriarServico;
     private JLabel labelNome;
     private JLabel labelOrdemValor;

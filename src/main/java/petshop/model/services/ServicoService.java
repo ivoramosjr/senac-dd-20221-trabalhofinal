@@ -5,6 +5,7 @@ import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.model.business.ServicoBusiness;
 import petshop.filtros.FiltroServico;
 import petshop.model.dtos.request.ServicoRequestDTO;
+import petshop.model.dtos.response.RelatorioServicoDTO;
 import petshop.model.dtos.response.ServicoResponseDTO;
 
 import java.sql.SQLException;
@@ -40,5 +41,9 @@ public class ServicoService {
 
     public ServicoRequestDTO findByIdToEdit(Long idServico) throws AtributosInvalidosException, RegistroNaoEncontradoException {
         return this.servicoBusiness.findByIdToEdit(idServico);
+    }
+
+    public RelatorioServicoDTO gerarRelatorio() {
+        return this.servicoBusiness.gerarRelatorio();
     }
 }

@@ -14,7 +14,6 @@ public class ServicoResponseRelatorioDTO implements Serializable {
     private final String valor;
     private final String descricao;
     private final String status;
-
     public ServicoResponseRelatorioDTO(Servico servico){
         this.idServico = servico.getIdServico();
         this.nome = servico.getNome();
