@@ -1,8 +1,11 @@
 package petshop.model.dao;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
@@ -10,10 +13,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import petshop.filtros.FiltroPet;
+import petshop.filtros.FiltroRelatorioPet;
 import petshop.model.dtos.request.PetRequestDTO;
-import petshop.model.dtos.response.PetResponseListagemDTO;
-import petshop.model.dtos.response.PetResponseRelatorioDTO;
+import petshop.model.dtos.response.*;
 import petshop.model.entity.Pet;
+import petshop.model.enums.StatusAtendimentoEnum;
+import petshop.model.enums.TipoAnimal;
 
 @Transactional
 public class PetDAO extends GenericRepository{
@@ -120,5 +125,69 @@ public class PetDAO extends GenericRepository{
 		Query query = this.getEntityManager().createQuery(hql, PetResponseRelatorioDTO.class);
 
 		return query.getResultList();
+	}
+
+    public RelatorioPetDTO gerarRelatorio(FiltroRelatorioPet filtro) {
+		Long numeroPetsInativos = getPetsInativos();
+		Long totalPetsCadastrados = getTotalPets();
+		System.out.println(numeroPetsInativos);
+		TipoAnimal tipoAnimal = getTipoMaisCadastrado();
+		System.out.println(tipoAnimal.toString());
+		String petComMaiorPontoDeFidelidade = getMaiorPontoDeFidelidade();
+		System.out.println(petComMaiorPontoDeFidelidade);
+
+		List<PetResponseRelatorioDTO> listaPets = new ArrayList<>();
+
+
+		if(filtro.isGerarTabela()){
+			listaPets = this.listAllRelatorio();
+		}
+		RelatorioPetDTO relatorioPetdto = new RelatorioPetDTO(
+				numeroPetsInativos, tipoAnimal, totalPetsCadastrados,petComMaiorPontoDeFidelidade, listaPets
+		);
+		return relatorioPetdto;
+    }
+
+	private Long getTotalPets() {
+		return (Long) this.getEntityManager()
+				.createQuery("SELECT COUNT(p) FROM Pet p")
+				.getSingleResult();
+	}
+
+	private String getMaiorPontoDeFidelidade() {
+		try{
+			String sql = "SELECT p.nome,p.pontosFidelidade AS pontos FROM Pet p ORDER BY pontos DESC";
+			Object[] result = (Object[]) this.getEntityManager()
+					.createQuery(sql)
+					.setMaxResults(1)
+					.getSingleResult();
+			String maiorFidelidade = (String) result[0];
+			return maiorFidelidade;
+		}catch (NoResultException e){
+			return null;
+		}
+	}
+
+	private TipoAnimal getTipoMaisCadastrado() {
+		try{
+			String sql = "SELECT p.tipoAnimal, COUNT(p.tipoAnimal) AS QUANTIDADE FROM Pet p " +
+					"GROUP BY p.tipoAnimal ORDER BY QUANTIDADE DESC";
+			Object[] result = (Object[]) this.getEntityManager()
+					.createQuery(sql)
+					.setMaxResults(1)
+					.getSingleResult();
+			TipoAnimal tipoAnimal = (TipoAnimal) result[0];
+			return tipoAnimal;
+		}catch (NoResultException e){
+			return null;
+		}
+	}
+
+	private Long getPetsInativos() {
+
+		return (Long) this.getEntityManager()
+				.createQuery("SELECT COUNT(p) FROM Pet p WHERE p.ativo = :ativo")
+				.setParameter("ativo", false)
+				.getSingleResult();
 	}
 }

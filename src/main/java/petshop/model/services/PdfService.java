@@ -18,28 +18,19 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import petshop.model.business.ServicoBusiness;
 import petshop.model.controllers.PetController;
-import petshop.model.dtos.response.PetResponseRelatorioDTO;
-import petshop.model.dtos.response.RelatorioAtendimentoDTO;
-import petshop.model.dtos.response.RelatorioServicoDTO;
-import petshop.model.dtos.response.ServicoResponseRelatorioDTO;
+import petshop.model.dtos.response.*;
 
 public class PdfService {
 
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         // Gerar PDF Pets cadastrado
-        public void gerarRelatorioPets() {
-            PetController petController = new PetController();
-
-            //RelatorioPetDTO relatorioPet = petController.gerarRelatorio();
-
-            List<PetResponseRelatorioDTO> petsDTO = petController.listAllRelatorio();
-            System.out.println(petsDTO);
+        public void gerarRelatorioPets(String path, RelatorioPetDTO relatorio) {
 
             Document document = new Document();
 
             try {
-                PdfWriter.getInstance(document, new FileOutputStream("documento.pdf"));
+                PdfWriter.getInstance(document, new FileOutputStream(path+"//Relatório pets - "+dtf.format(LocalDateTime.now())+".pdf", false));
                 document.open();
                 Font fontTitle = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.BLACK);
                 Paragraph title = new Paragraph(new Phrase(14F , "Relatorio pets cadastrados", fontTitle));
@@ -47,44 +38,73 @@ public class PdfService {
 
                 document.add(title);
                 document.add(new Paragraph(" "));
-                document.add(new Paragraph(("Total pets cadastrados: "+petsDTO.size())));
+                document.add(new Paragraph(("Total pets cadastrados: "+relatorio.getTotalPetsCadastrados())));
+                document.add(new Paragraph(("Pet com maior ponto de fidelidade: "+relatorio.getPetComMaiorPontoDeFidelidade())));
+                document.add(new Paragraph(("Quantidade de pets inativos: "+relatorio.getNumeroPetsInativos())));
+                document.add(new Paragraph(("Tipo de pet mais cadastrado: "+relatorio.getTipoMaisCadastrado())));
+                document.add(new Paragraph(" "));
 
-                Font FontPetTitle = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD, BaseColor.BLACK);
-                petsDTO.forEach((pet)->{
-                    Paragraph titlePet = new Paragraph(new Phrase(14F , "Pet - "+pet.getIdPet(), FontPetTitle));
-                    try {
-                        document.add(new Paragraph(" "));
-                        document.add(titlePet);
+                if(!relatorio.getListaPets().isEmpty()) {
+                    Font fontTable = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
+                    Paragraph tableTitle = new Paragraph(new Phrase(14F, "Lista de pets", fontTable));
+                    title.setAlignment(Element.ALIGN_CENTER);
+                    document.add(tableTitle);
+                    document.add(new Paragraph(" "));
+                    PdfPTable tabelaPets = new PdfPTable(9);
+                    tabelaPets.setTotalWidth(new float[]{
+                            20, 80, 80, 90, 60, 60, 60, 60, 60
+                    });
+                    tabelaPets.setLockedWidth(true);
 
-                        Paragraph identation = new Paragraph(("Nome: "+pet.getNome()));
-                        identation.setIndentationLeft(20);
-                        document.add(identation);
+                    PdfPCell header1 = new PdfPCell(new Phrase("ID"));
+                    header1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    tabelaPets.addCell(header1);
 
-                        identation = new Paragraph(("Nome do dono: "+pet.getNomeDono()));
-                        identation.setIndentationLeft(20);
-                        document.add(identation);
+                    PdfPCell header2 = new PdfPCell(new Phrase("NOME"));
+                    header1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    tabelaPets.addCell(header2);
 
-                        identation = new Paragraph(("Raça: "+pet.getRaca()));
-                        identation.setIndentationLeft(20);
-                        document.add(identation);
+                    PdfPCell header3 = new PdfPCell(new Phrase("DATA NASCIMENTO"));
+                    header1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    tabelaPets.addCell(header3);
 
-                        identation = new Paragraph(("Pontos de fidelidade: "+pet.getPontosFidelidade()));
-                        identation.setIndentationLeft(20);
-                        document.add(identation);
+                    PdfPCell header4 = new PdfPCell(new Phrase("NOME DONO"));
+                    header1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    tabelaPets.addCell(header4);
 
-                        identation = new Paragraph(("Tipo do animal: "+pet.getTipoAnimal()));
-                        identation.setIndentationLeft(20);
-                        document.add(identation);
+                    PdfPCell header5 = new PdfPCell(new Phrase("RAÇA"));
+                    header1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    tabelaPets.addCell(header5);
 
-                        identation = new Paragraph(("Data de nascimento: "+pet.getDataNascimento()));
-                        identation.setIndentationLeft(20);
-                        document.add(identation);
+                    PdfPCell header6 = new PdfPCell(new Phrase("TIPO ANIMAL"));
+                    header1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    tabelaPets.addCell(header6);
 
-                    } catch (DocumentException e) {
-                        throw new RuntimeException(e);
-                    }
+                    PdfPCell header7 = new PdfPCell(new Phrase("SEXO"));
+                    header1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    tabelaPets.addCell(header7);
 
-                });
+                    PdfPCell header8 = new PdfPCell(new Phrase("ATIVO"));
+                    header1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    tabelaPets.addCell(header8);
+
+                    PdfPCell header9 = new PdfPCell(new Phrase("PONTOS DE FIDELIDADE"));
+                    header1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    tabelaPets.addCell(header9);
+
+                    relatorio.getListaPets().forEach(pet -> {
+                        tabelaPets.addCell(pet.getIdPet().toString());
+                        tabelaPets.addCell(pet.getNome());
+                        tabelaPets.addCell(pet.getDataNascimento());
+                        tabelaPets.addCell(pet.getNomeDono());
+                        tabelaPets.addCell(pet.getRaca());
+                        tabelaPets.addCell(pet.getTipoAnimal());
+                        tabelaPets.addCell(pet.getSexo());
+                        tabelaPets.addCell(pet.getAtivo());
+                        tabelaPets.addCell(pet.getPontosFidelidade().toString());
+                    });
+                    document.add(tabelaPets);
+                }
 
             } catch (FileNotFoundException e) {
 
@@ -95,13 +115,13 @@ public class PdfService {
             } finally {
                 document.close();
             }
-
-            try {
-                Desktop.getDesktop().open(new File("documento.pdf"));
-            } catch (IOException e) {
-
-                e.printStackTrace();
-            }
+//
+//            try {
+//                Desktop.getDesktop().open(new File(path+"//Relatório pets - "+dtf.format(LocalDateTime.now())));
+//            } catch (IOException e) {
+//
+//                e.printStackTrace();
+//            }
 
         }
 
