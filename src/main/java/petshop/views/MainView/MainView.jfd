@@ -63,14 +63,6 @@ new FormModel {
 						"action": new FormReference( "renderizarCriarServicos" )
 					} )
 				} )
-				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
-					name: "menu4"
-					"text": "Ajuda"
-					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "menuItem8"
-						"text": "Sobre"
-					} )
-				} )
 			}
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 5, 0 )

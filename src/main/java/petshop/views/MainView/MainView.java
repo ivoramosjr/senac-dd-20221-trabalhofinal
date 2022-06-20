@@ -117,8 +117,6 @@ public class MainView extends JFrame {
         menu3 = new JMenu();
         menuItem6 = new JMenuItem();
         menuItem7 = new JMenuItem();
-        menu4 = new JMenu();
-        menuItem8 = new JMenuItem();
         panel1 = new JPanel();
         renderizarCadastrarPet = new RenderizarCadastrarPet();
         renderizarListagemPet = new RenderizarListagemPet();
@@ -191,16 +189,6 @@ public class MainView extends JFrame {
                 menu3.add(menuItem7);
             }
             menuBar1.add(menu3);
-
-            //======== menu4 ========
-            {
-                menu4.setText("Ajuda");
-
-                //---- menuItem8 ----
-                menuItem8.setText("Sobre");
-                menu4.add(menuItem8);
-            }
-            menuBar1.add(menu4);
         }
         setJMenuBar(menuBar1);
 
@@ -217,6 +205,7 @@ public class MainView extends JFrame {
         pack();
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
+        this.renderizarAgendarAtendimento();
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
@@ -231,8 +220,6 @@ public class MainView extends JFrame {
     private JMenu menu3;
     private JMenuItem menuItem6;
     private JMenuItem menuItem7;
-    private JMenu menu4;
-    private JMenuItem menuItem8;
     private JPanel panel1;
     private RenderizarCadastrarPet renderizarCadastrarPet;
     private RenderizarListagemPet renderizarListagemPet;
