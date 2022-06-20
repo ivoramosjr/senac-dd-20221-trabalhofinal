@@ -6,7 +6,6 @@ package petshop.views.ListagemPet;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
@@ -21,7 +20,7 @@ import petshop.model.controllers.PetController;
 import petshop.model.dtos.response.PetResponseListagemDTO;
 import petshop.model.enums.OrdemPesquisa;
 import petshop.model.enums.SexoEnum;
-import petshop.model.services.PdfService;
+import petshop.views.TelaRelatorioPets.TelaRelatorioPets;
 
 /**
  * @author unknown
@@ -103,8 +102,12 @@ public class ListagemPet extends JPanel {
     }
 
     private void gerarRelatorioBtn(ActionEvent e) {
-        PdfService pdfService = new PdfService();
-        pdfService.gerarRelatorioPets();
+        this.gerarRelatorio();
+    }
+
+    private void gerarRelatorio() {
+        TelaRelatorioPets telaRelatorioPets = new TelaRelatorioPets(null, this.petController);
+        telaRelatorioPets.setVisible(true);
     }
 
 

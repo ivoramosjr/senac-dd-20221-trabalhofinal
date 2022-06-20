@@ -2,11 +2,15 @@ package petshop.model.services;
 
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.RegistroNaoEncontradoException;
+import petshop.filtros.FiltroRelatorioAtendimento;
+import petshop.filtros.FiltroRelatorioPet;
 import petshop.model.business.PetBusiness;
 import petshop.filtros.FiltroPet;
 import petshop.model.dtos.request.PetRequestDTO;
 import petshop.model.dtos.response.PetResponseListagemDTO;
 import petshop.model.dtos.response.PetResponseRelatorioDTO;
+import petshop.model.dtos.response.RelatorioAtendimentoDTO;
+import petshop.model.dtos.response.RelatorioPetDTO;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -49,5 +53,9 @@ public class PetService {
 
     public List<PetResponseRelatorioDTO> listAllRelatorio() {
         return petBusiness.listAllRelatorio();
+    }
+
+    public RelatorioPetDTO gerarRelatorio(FiltroRelatorioPet filtro) {
+        return petBusiness.gerarRelatorio(filtro);
     }
 }

@@ -11,11 +11,13 @@ import org.apache.logging.log4j.Logger;
 
 import petshop.exceptions.AtributosInvalidosException;
 import petshop.exceptions.RegistroNaoEncontradoException;
+import petshop.filtros.FiltroRelatorioPet;
 import petshop.model.dao.PetDAO;
 import petshop.filtros.FiltroPet;
 import petshop.model.dtos.request.PetRequestDTO;
 import petshop.model.dtos.response.PetResponseListagemDTO;
 import petshop.model.dtos.response.PetResponseRelatorioDTO;
+import petshop.model.dtos.response.RelatorioPetDTO;
 import petshop.model.entity.Pet;
 
 @ApplicationScoped
@@ -178,4 +180,9 @@ public class PetBusiness {
 	public List<PetResponseRelatorioDTO> listAllRelatorio() {
 		return petDAO.listAllRelatorio();
 	}
+
+    public RelatorioPetDTO gerarRelatorio(FiltroRelatorioPet filtro) {
+		LOG.info("Gerando relatório.");
+		return petDAO.gerarRelatorio(filtro);
+    }
 }
