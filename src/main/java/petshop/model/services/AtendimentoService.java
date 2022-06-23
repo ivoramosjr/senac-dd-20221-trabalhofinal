@@ -7,6 +7,7 @@ import petshop.filtros.FiltroAtendimento;
 import petshop.filtros.FiltroRelatorioAtendimento;
 import petshop.model.business.AtendimentoBusiness;
 import petshop.model.dtos.request.AtendimentoRequestDTO;
+import petshop.model.dtos.response.AtendimentoRegistroDTO;
 import petshop.model.dtos.response.AtendimentoResponseListagemDTO;
 import petshop.model.dtos.response.RelatorioAtendimentoDTO;
 
@@ -35,5 +36,17 @@ public class AtendimentoService {
 
     public RelatorioAtendimentoDTO gerarRelatorio(FiltroRelatorioAtendimento filtro) {
         return atendimentoBusiness.gerarRelatorio(filtro);
+    }
+
+    public List<AtendimentoRegistroDTO> listAllRegistrar() {
+        return atendimentoBusiness.listAllRegistrar();
+    }
+
+    public void finalizarAtendimento(Long idAtendimento) throws RegistroNaoEncontradoException {
+        atendimentoBusiness.finalizarAtendimento(idAtendimento);
+    }
+
+    public void deletarAtendimento(Long idAtendimento) throws RegistroNaoEncontradoException {
+        atendimentoBusiness.deletarAtendimento(idAtendimento);
     }
 }

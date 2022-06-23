@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.5.4.420" Java: "11.0.15" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.5.4.420" Java: "11.0.14.1" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -66,7 +66,7 @@ new FormModel {
 			}
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 5, 0 )
-			"size": new java.awt.Dimension( 530, 380 )
+			"size": new java.awt.Dimension( 610, 380 )
 		} )
 		add( new FormNonVisual( "javax.swing.AbstractAction" ) {
 			name: "renderizarCadastrarPet"

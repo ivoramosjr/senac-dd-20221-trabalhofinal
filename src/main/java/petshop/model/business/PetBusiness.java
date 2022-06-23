@@ -140,11 +140,11 @@ public class PetBusiness {
 		String messages = "";
 
 		if(pet.getNome() == null || pet.getNome().isBlank() || pet.getNome().length() > 100){
-			messages = messages.concat("Nome não pode estar em branco,nulo ou maior que 100 caracteres!\n");
+			messages = messages.concat("Nome não pode estar em branco ou maior que 100 caracteres!\n");
 		}
 
 		if(pet.getNomeDono() == null || pet.getNomeDono().isBlank() || pet.getNomeDono().length() > 100){
-			messages = messages.concat("Nome do dono não pode estar em branco,nulo ou maior que 100 caracteres!\n");
+			messages = messages.concat("Nome do dono não pode estar em branco ou maior que 100 caracteres!\n");
 		}
 
 		if(pet.getDataNascimento() == null){
@@ -152,7 +152,7 @@ public class PetBusiness {
 		}
 
 		if(pet.getRaca() == null || pet.getRaca().isBlank() || pet.getRaca().length() > 50){
-			messages = messages.concat("Raça não pode estar em branco,nulo ou maior que 50 caracteres!!\n");
+			messages = messages.concat("Raça não pode estar em branco ou maior que 50 caracteres!!\n");
 		}
 
 		if(pet.getTipoAnimal() == null){

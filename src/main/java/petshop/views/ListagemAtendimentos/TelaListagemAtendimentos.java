@@ -31,7 +31,6 @@ public class TelaListagemAtendimentos extends JPanel {
     }
 
     private void filtrar(ActionEvent e) {
-        // TODO add your code here
         FiltroAtendimento filtroAtendimento = new FiltroAtendimento();
 
         filtroAtendimento.setNomePet(textFieldNome.getText());
@@ -77,7 +76,6 @@ public class TelaListagemAtendimentos extends JPanel {
     }
 
     private void gerarRelatorio(ActionEvent e) {
-        // TODO add your code here
         RelatorioAtendimento relatorioAtendimento = new RelatorioAtendimento(null, this.atendimentoController);
         relatorioAtendimento.setVisible(true);
     }

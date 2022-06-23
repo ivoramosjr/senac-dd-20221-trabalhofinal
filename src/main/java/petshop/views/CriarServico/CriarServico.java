@@ -30,19 +30,22 @@ public class CriarServico extends JPanel {
         try {
             servicoRequest.setNome(nameServiceField.getText());
 
-            if(valueServiceField.getText().isEmpty()) {
+            if(valueServiceField.getText().isEmpty() || valueServiceField.getText().isBlank()) {
                 servicoRequest.setValor(null);
             } else {
                 servicoRequest.setValor(Double.parseDouble(valueServiceField.getText()));
             }
 
             servicoRequest.setDescricao(descriptionServiceField.getText());
+
             servicoController.save(servicoRequest);
 
             JOptionPane.showMessageDialog(null, "Serviço cadastrado com sucesso", "Salvar serviço.",JOptionPane.INFORMATION_MESSAGE);
             clearInputs();
-        } catch (SQLException | AtributosInvalidosException ex) {
+        } catch (SQLException | AtributosInvalidosException ex ) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro ao salvar serviço.",JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "Por favor informe um valor válido!", "Erro ao salvar serviço.",JOptionPane.ERROR_MESSAGE);
         }
     }
 

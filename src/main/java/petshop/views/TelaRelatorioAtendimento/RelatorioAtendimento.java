@@ -34,7 +34,6 @@ public class RelatorioAtendimento extends JDialog {
     }
 
     private void gerarRelatorio(ActionEvent e) {
-        // TODO finalizar função de relatório
         LOG.info("Preparando para gerar o relatório.");
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);

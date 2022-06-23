@@ -113,16 +113,16 @@ public class ServicoBusiness {
         LOG.info("Validando os atributos do Serviço");
         String messages = "";
 
-        if(servico.getNome() == null || servico.getNome().isBlank()){
-            messages = messages.concat("Nome não pode estar em branco ou nulo!\n");
+        if(servico.getNome() == null || servico.getNome().isBlank() || servico.getNome().length() > 100){
+            messages = messages.concat("Nome não pode estar em branco ou ter mais que 100 caracteres!\n");
         }
 
-        if(servico.getValor() == null || servico.getValor() <= 0){
-            messages = messages.concat("Valor não pode ser nulo ou menor que zero!\n");
+        if(servico.getValor() == null || servico.getValor().toString().isEmpty() || servico.getValor() <= 0){
+            messages = messages.concat("Valor não pode estar em branco ou menor que zero!\n");
         }
 
-        if(servico.getDescricao() == null || servico.getDescricao().isBlank()){
-            messages = messages.concat("Descrição não pode estar em branco ou nulo!\n");
+        if(servico.getDescricao() == null || servico.getDescricao().isBlank() || servico.getDescricao().length() > 255){
+            messages = messages.concat("Descrição não pode estar em branco ou ter mais que 255 caracteres!\n");
         }
 
         if(!messages.isEmpty()){

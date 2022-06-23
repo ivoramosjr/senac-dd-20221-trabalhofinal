@@ -130,11 +130,8 @@ public class PetDAO extends GenericRepository{
     public RelatorioPetDTO gerarRelatorio(FiltroRelatorioPet filtro) {
 		Long numeroPetsInativos = getPetsInativos();
 		Long totalPetsCadastrados = getTotalPets();
-		System.out.println(numeroPetsInativos);
 		TipoAnimal tipoAnimal = getTipoMaisCadastrado();
-		System.out.println(tipoAnimal.toString());
 		String petComMaiorPontoDeFidelidade = getMaiorPontoDeFidelidade();
-		System.out.println(petComMaiorPontoDeFidelidade);
 
 		List<PetResponseRelatorioDTO> listaPets = new ArrayList<>();
 
@@ -156,7 +153,7 @@ public class PetDAO extends GenericRepository{
 
 	private String getMaiorPontoDeFidelidade() {
 		try{
-			String sql = "SELECT p.nome,p.pontosFidelidade AS pontos FROM Pet p ORDER BY pontos DESC";
+			String sql = "SELECT p.nome,p.pontosFidelidade AS pontos FROM Pet p WHERE p.pontosFidelidade > 0 ORDER BY pontos DESC";
 			Object[] result = (Object[]) this.getEntityManager()
 					.createQuery(sql)
 					.setMaxResults(1)
@@ -164,7 +161,7 @@ public class PetDAO extends GenericRepository{
 			String maiorFidelidade = (String) result[0];
 			return maiorFidelidade;
 		}catch (NoResultException e){
-			return null;
+			return "Nenhum";
 		}
 	}
 

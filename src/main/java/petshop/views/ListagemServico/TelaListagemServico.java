@@ -41,7 +41,6 @@ public class TelaListagemServico extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                System.out.println(tableServicos.getSelectedRow());
                 verifyRowToEnableEditAndDeleteButtons();
             }
         });
