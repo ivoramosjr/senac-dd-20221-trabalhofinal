@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import petshop.model.enums.SexoEnum;
 import petshop.model.enums.TipoAnimal;
 
 @Entity
@@ -33,7 +34,15 @@ public class Pet {
 	@Enumerated(EnumType.STRING)
 	private TipoAnimal tipoAnimal;
 
+	@Enumerated(EnumType.STRING)
+	private SexoEnum sexo;
+
+	private boolean ativo = true;
+
+	private Integer pontosFidelidade = 0;
+
 	public Pet() {
+		this.pontosFidelidade = 0;
 	}
 
 	public Long getIdPet() {
@@ -84,4 +93,44 @@ public class Pet {
 		this.tipoAnimal = tipoAnimal;
 	}
 
+	public int getPontosFidelidade() {
+		return pontosFidelidade;
+	}
+
+	public void setPontosFidelidade(int pontosFidelidade) {
+		this.pontosFidelidade = pontosFidelidade;
+	}
+
+	public SexoEnum getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(SexoEnum sexo) {
+		this.sexo = sexo;
+	}
+
+	public void setPontosFidelidade(Integer pontosFidelidade) {
+		this.pontosFidelidade = pontosFidelidade;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+
+	@Override
+	public String toString() {
+		return "Pet{" +
+				"idPet=" + idPet +
+				", nome='" + nome + '\'' +
+				", dataNascimento=" + dataNascimento +
+				", nomeDono='" + nomeDono + '\'' +
+				", raca='" + raca + '\'' +
+				", tipoAnimal=" + tipoAnimal +
+				", pontosFidelidade=" + pontosFidelidade +
+				'}';
+	}
 }

@@ -151,12 +151,13 @@ fabric.properties
 # Ignore everything but code style settings and run configurations
 # that are supposed to be shared within teams.
 
-.idea/*
-
+/.idea
+petshop.iml
 !.idea/codeStyles
 !.idea/runConfigurations
 
 ### Maven ###
+target/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -172,6 +173,7 @@ buildNumber.properties
 # Eclipse Core
 .project
 # JDT-specific (Eclipse Java Development Tools)
+.classpath
 
 # End of https://www.toptal.com/developers/gitignore/api/maven,eclipse,intellij+all
 /target/

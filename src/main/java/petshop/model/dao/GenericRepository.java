@@ -1,16 +1,16 @@
 package petshop.model.dao;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
+import petshop.connection.JpaConnectionFactory;
 
-@Transactional
-@RequestScoped
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 public class GenericRepository {
+
+	@PersistenceContext(unitName = "petshop")
+	private EntityManager entityManager = new JpaConnectionFactory().getEntityManager();
 	
-	@Inject
-	private EntityManager entityManager;
+	public GenericRepository() {}
 	
 	public <T> T find(Class<T> clazz, Object pk) {
         return entityManager.find(clazz, pk);
@@ -44,4 +44,11 @@ public class GenericRepository {
         entityManager.clear();
     }
 	
+    public EntityManager getEntityManager() {
+    	return this.entityManager;
+    }
+    
+    public void setEntityManager(EntityManager entityManager) {
+    	this.entityManager = entityManager;
+    }
 }
