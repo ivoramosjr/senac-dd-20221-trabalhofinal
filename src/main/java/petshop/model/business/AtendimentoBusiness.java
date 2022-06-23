@@ -11,6 +11,7 @@ import petshop.model.dao.PetDAO;
 import petshop.model.dao.ServicoDAO;
 import petshop.filtros.FiltroAtendimento;
 import petshop.model.dtos.request.AtendimentoRequestDTO;
+import petshop.model.dtos.response.AtendimentoRegistroDTO;
 import petshop.model.dtos.response.AtendimentoResponseListagemDTO;
 import petshop.model.dtos.response.RelatorioAtendimentoDTO;
 import petshop.model.entity.Atendimento;
@@ -62,34 +63,6 @@ public class AtendimentoBusiness {
         commitarTransacaoBanco();
 
         LOG.info("Atendimento salvo com sucesso!");
-    }
-
-    public void update(Long idAtendimento, AtendimentoRequestDTO atendimentoDTO) throws RegistroNaoEncontradoException, HorarioJaMarcadoException, SQLException {
-        LOG.info("Preparando para atualizar o atendimento");
-
-        if(!atendimentoDAO.atendimentoExist(idAtendimento)){
-            throw new RegistroNaoEncontradoException("Atendimento de ID: "
-                    +idAtendimento+" não encontrado na base de dados!");
-        }
-
-        verificarPetServico(atendimentoDTO);
-
-        verificarHorarioAtendimento(atendimentoDTO);
-
-        Atendimento atendimento = atendimentoDAO.find(Atendimento.class, atendimentoDTO.getIdAtendimento());
-        setAtributosAtendimento(atendimentoDTO, atendimento);
-
-        abrirConexaoBanco();
-
-//        Pet pet = petDAO.find(Pet.class, atendimentoDTO.getPet().getIdPet());
-//        Servico servico = servicoDAO.find(Servico.class, atendimentoDTO.getServico().getIdServico());
-//
-//        atendimento.setPet(pet);
-//        atendimento.setServico(servico);
-        atendimentoDAO.merge(atendimento);
-        commitarTransacaoBanco();
-
-        LOG.info("Atendimento atualizado com sucesso!");
     }
 
     public List<AtendimentoResponseListagemDTO> listAll(){
@@ -174,5 +147,42 @@ public class AtendimentoBusiness {
     public RelatorioAtendimentoDTO gerarRelatorio(FiltroRelatorioAtendimento filtro) {
         LOG.info("Gerando relatório.");
         return atendimentoDAO.gerarRelatorio(filtro);
+    }
+
+    public List<AtendimentoRegistroDTO> listAllRegistrar() {
+        LOG.info("Buscando todos os atendimentos agendados!");
+        return atendimentoDAO.listAllRegistrar();
+    }
+
+    public void finalizarAtendimento(Long idAtendimento) throws RegistroNaoEncontradoException {
+        LOG.info("Iniciando a finalização do atendimento.");
+
+        LOG.info("Verificando se o id do atendimento existe");
+        boolean existe = atendimentoDAO.atendimentoExist(idAtendimento);
+
+        if(!existe)
+            throw new RegistroNaoEncontradoException("Atendimento não existe!");
+
+        abrirConexaoBanco();
+        atendimentoDAO.finalizarAtendimento(idAtendimento);
+        commitarTransacaoBanco();
+
+        LOG.info("Atendimento finalizado com sucesso!");
+    }
+
+    public void deletarAtendimento(Long idAtendimento) throws RegistroNaoEncontradoException {
+        LOG.info("Iniciando o cancelamento do atendimento.");
+
+        LOG.info("Verificando se o id do atendimento existe");
+        boolean existe = atendimentoDAO.atendimentoExist(idAtendimento);
+
+        if(!existe)
+            throw new RegistroNaoEncontradoException("Atendimento não existe!");
+
+        abrirConexaoBanco();
+        atendimentoDAO.delete(idAtendimento);
+        commitarTransacaoBanco();
+
+        LOG.info("Atendimento deletado com sucesso!");
     }
 }

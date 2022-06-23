@@ -4,10 +4,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import petshop.filtros.FiltroAtendimento;
 import petshop.filtros.FiltroRelatorioAtendimento;
+import petshop.model.dtos.response.AtendimentoRegistroDTO;
 import petshop.model.dtos.response.AtendimentoRelatorioDTO;
 import petshop.model.dtos.response.AtendimentoResponseListagemDTO;
 import petshop.model.dtos.response.RelatorioAtendimentoDTO;
 import petshop.model.entity.Atendimento;
+import petshop.model.entity.Pet;
 import petshop.model.enums.StatusAtendimentoEnum;
 import petshop.model.enums.TipoAnimal;
 
@@ -136,7 +138,7 @@ public class AtendimentoDAO extends GenericRepository{
 
     public boolean horarioEstaMarcado(Long idAtendimento, LocalDateTime dataAtendimento) {
         String sql = "SELECT ID_ATENDIMENTO FROM Atendimento " +
-                "WHERE dataAtendimento = :dataAtendimento ";
+                "WHERE dataAtendimento = :dataAtendimento AND statusAtendimento <> 'DESMARCADO'";
 
         if(idAtendimento != null)
             sql = sql.concat("AND ID_ATENDIMENTO = :idAtendimento");
@@ -194,7 +196,6 @@ public class AtendimentoDAO extends GenericRepository{
     }
 
     private TipoAnimal getTipoAnimalMaisAtendido() {
-        //TODO testar mais vezes
         try{
             String sql = "SELECT a.pet.tipoAnimal, COUNT(a.pet.idPet) AS OCORRENCIA FROM Atendimento a WHERE a.statusAtendimento = :status " +
                     "GROUP BY a.pet.tipoAnimal ORDER BY OCORRENCIA DESC";
@@ -211,10 +212,14 @@ public class AtendimentoDAO extends GenericRepository{
     }
 
     private LocalDateTime getDataUltimoAtendimentoRealizado(){
-        return (LocalDateTime) this.getEntityManager()
-                .createQuery("SELECT a.dataAtendimento FROM Atendimento a ORDER BY a.idAtendimento DESC")
-                .setMaxResults(1)
-                .getSingleResult();
+        try{
+            return (LocalDateTime) this.getEntityManager()
+                    .createQuery("SELECT a.dataAtendimento FROM Atendimento a ORDER BY a.idAtendimento DESC")
+                    .setMaxResults(1)
+                    .getSingleResult();
+        }catch (NoResultException e){
+            return null;
+        }
     }
 
     private Long getNumeroAtendimentosSatus(StatusAtendimentoEnum status) {
@@ -228,5 +233,25 @@ public class AtendimentoDAO extends GenericRepository{
         return (Long) this.getEntityManager()
                 .createQuery("SELECT COUNT(a) FROM Atendimento a")
                 .getSingleResult();
+    }
+
+    public List<AtendimentoRegistroDTO> listAllRegistrar() {
+        String sql = "SELECT new petshop.model.dtos.response.AtendimentoRegistroDTO(a.idAtendimento, a.pet.nome, a.dataAtendimento, a.servico.nome, a.servico.valor) " +
+                "FROM Atendimento a WHERE a.statusAtendimento = :status";
+        Query query = this.getEntityManager().createQuery(sql, AtendimentoRegistroDTO.class).setParameter("status", StatusAtendimentoEnum.AGENDADO);
+        return query.getResultList();
+    }
+
+    public void finalizarAtendimento(Long idAtendimento) {
+        LOG.info("Finalizando atendimento de id: "+idAtendimento);
+        Atendimento atendimento = find(Atendimento.class, idAtendimento);
+
+        atendimento.setStatusAtendimento(StatusAtendimentoEnum.REALIZADO);
+
+        Pet pet = this.find(Pet.class, atendimento.getPet().getIdPet());
+        pet.setPontosFidelidade(pet.getPontosFidelidade()+1);
+
+        this.merge(atendimento);
+        this.merge(pet);
     }
 }

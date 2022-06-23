@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class AtendimentoRegistroDTO implements Serializable {
-    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     private static final DecimalFormat df = new DecimalFormat("R$ 0.00");
 
     private final Long idAtendimento;

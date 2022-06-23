@@ -6,6 +6,7 @@ import petshop.exceptions.RegistroNaoEncontradoException;
 import petshop.filtros.FiltroAtendimento;
 import petshop.filtros.FiltroRelatorioAtendimento;
 import petshop.model.dtos.request.AtendimentoRequestDTO;
+import petshop.model.dtos.response.AtendimentoRegistroDTO;
 import petshop.model.dtos.response.AtendimentoResponseListagemDTO;
 import petshop.model.dtos.response.RelatorioAtendimentoDTO;
 import petshop.model.services.AtendimentoService;
@@ -35,5 +36,17 @@ public class AtendimentoController {
 
     public RelatorioAtendimentoDTO gerarRelatorio(FiltroRelatorioAtendimento filtro) {
         return atendimentoService.gerarRelatorio(filtro);
+    }
+
+    public List<AtendimentoRegistroDTO> listAllRegistrar() {
+        return atendimentoService.listAllRegistrar();
+    }
+
+    public void finalizarAtendimento(Long idAtendimento) throws RegistroNaoEncontradoException {
+        atendimentoService.finalizarAtendimento(idAtendimento);
+    }
+
+    public void deletarAtendimento(Long idAtendimento) throws RegistroNaoEncontradoException {
+        atendimentoService.deletarAtendimento(idAtendimento);
     }
 }

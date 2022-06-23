@@ -152,7 +152,7 @@ public class ServicoDAO extends GenericRepository{
                 .setMaxResults(1)
                 .getResultList();
 
-        String nomeServico = (String) resultList.get(0)[0];
+        String nomeServico = resultList.isEmpty()?"":(String) resultList.get(0)[0];
         return nomeServico;
     }
 

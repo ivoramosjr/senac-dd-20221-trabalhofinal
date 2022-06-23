@@ -14,7 +14,7 @@ public class RelatorioPetDTO {
     private final Long numeroPetsInativos;
 
     private final Long totalPetsCadastrados;
-    private final TipoAnimal tipoMaisCadastrado;
+    private final String tipoMaisCadastrado;
     private final String petComMaiorPontoDeFidelidade;
     private final List<PetResponseRelatorioDTO> listaPets;
 
@@ -22,7 +22,7 @@ public class RelatorioPetDTO {
                            Long totalPetsCadastrados, String petComMaiorPontoDeFidelidade,
                            List<PetResponseRelatorioDTO> listaPets){
         this.numeroPetsInativos = numeroPetsInativos;
-        this.tipoMaisCadastrado = tipoMaisCadastrado;
+        this.tipoMaisCadastrado = tipoMaisCadastrado == null?"Nenhum cadastrado":tipoMaisCadastrado.getNome();
         this.petComMaiorPontoDeFidelidade = petComMaiorPontoDeFidelidade;
         this.totalPetsCadastrados = totalPetsCadastrados;
         this.listaPets = listaPets;
@@ -32,7 +32,7 @@ public class RelatorioPetDTO {
         return numeroPetsInativos;
     }
 
-    public TipoAnimal getTipoMaisCadastrado() {
+    public String getTipoMaisCadastrado() {
         return tipoMaisCadastrado;
     }
 

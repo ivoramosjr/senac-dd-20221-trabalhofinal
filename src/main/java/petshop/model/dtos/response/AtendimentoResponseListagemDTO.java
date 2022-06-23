@@ -10,6 +10,7 @@ import java.util.Objects;
 
 public class AtendimentoResponseListagemDTO implements Serializable {
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter tf = DateTimeFormatter.ofPattern("HH:mm");
     private static final DecimalFormat df = new DecimalFormat("R$ 0.00");
 
     private final Long idAtendimento;
@@ -26,7 +27,7 @@ public class AtendimentoResponseListagemDTO implements Serializable {
         this.petNome = petNome;
         this.petRaca = petRaca;
         this.dataAtendimento = dtf.format(dataAtendimento);
-        this.horaAtendimento = dataAtendimento.getHour()+":"+dataAtendimento.getMinute();
+        this.horaAtendimento = tf.format(dataAtendimento);
         this.servicoNome = servicoNome;
         this.servicoValor = df.format(servicoValor);
         this.statusAtendimento = statusAtendimento.getNome();

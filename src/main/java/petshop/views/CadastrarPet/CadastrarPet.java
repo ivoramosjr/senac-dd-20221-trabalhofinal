@@ -47,7 +47,6 @@ public class CadastrarPet extends JPanel {
     }
 
     private void petNameField(ActionEvent e) {
-        // TODO add your code here
     }
 
     private void petNameFieldKeyPressed(KeyEvent e) {

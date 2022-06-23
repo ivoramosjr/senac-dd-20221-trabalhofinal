@@ -55,7 +55,7 @@ public class EditarServico extends JPanel {
         try {
             servicoEdit.setNome(nameServiceField.getText());
 
-            if(valueServiceField.getText().isEmpty()) {
+            if(valueServiceField.getText().isEmpty() || valueServiceField.getText().isBlank()) {
                 servicoEdit.setValor(null);
             } else {
                 servicoEdit.setValor(Double.parseDouble(valueServiceField.getText()));
@@ -67,6 +67,8 @@ public class EditarServico extends JPanel {
             JOptionPane.showMessageDialog(null, "Serviço editado com sucesso", "Editar serviço.",JOptionPane.INFORMATION_MESSAGE);
         } catch (RegistroNaoEncontradoException | AtributosInvalidosException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro ao editar serviço.",JOptionPane.ERROR_MESSAGE);
+        }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "Por favor informe um valor válido!", "Erro ao editar serviço.",JOptionPane.ERROR_MESSAGE);
         }
     }
 
