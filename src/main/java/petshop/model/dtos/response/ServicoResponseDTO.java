@@ -52,6 +52,6 @@ public class ServicoResponseDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "Nome: "+nome+" - valor: R$"+valor;
+        return "Nome: "+nome+" - valor: "+valor;
     }
 }
