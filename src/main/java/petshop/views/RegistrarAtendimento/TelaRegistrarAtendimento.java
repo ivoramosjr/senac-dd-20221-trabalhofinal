@@ -187,7 +187,7 @@ public class TelaRegistrarAtendimento extends JPanel {
         add(labelDtAtendimentoValor, "cell 0 6 2 1,alignx left,growx 0");
 
         //---- buttonConfimar ----
-        buttonConfimar.setText("Confirmar");
+        buttonConfimar.setText("Finalizar");
         buttonConfimar.setEnabled(false);
         buttonConfimar.addActionListener(e -> confimar(e));
         add(buttonConfimar, "cell 0 8 2 1,alignx left,growx 0");
