@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.5.4.420" Java: "11.0.14.1" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.5.4.420" Java: "11.0.15" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -140,12 +140,6 @@ new FormModel {
 				name: "deletBtn"
 				"text": "Deletar"
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "delete", true ) )
-			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 2 5"
-			} )
-			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "buttonMaisInformacoes"
-				"text": "+ Informações"
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 2 5"
 			} )

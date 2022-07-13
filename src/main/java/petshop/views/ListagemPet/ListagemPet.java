@@ -130,7 +130,6 @@ public class ListagemPet extends JPanel {
         petTable = new JTable();
         editarBtn = new JButton();
         deletBtn = new JButton();
-        buttonMaisInformacoes = new JButton();
 
         //======== this ========
         setLayout(new MigLayout(
@@ -240,10 +239,6 @@ public class ListagemPet extends JPanel {
         deletBtn.setText("Deletar");
         deletBtn.addActionListener(e -> delete(e));
         add(deletBtn, "cell 2 5");
-
-        //---- buttonMaisInformacoes ----
-        buttonMaisInformacoes.setText("+ Informa\u00e7\u00f5es");
-        add(buttonMaisInformacoes, "cell 2 5");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
 
         loadServices();
@@ -282,7 +277,6 @@ public class ListagemPet extends JPanel {
     private void habilitarBotoes(boolean b) {
         editarBtn.setEnabled(b);
         deletBtn.setEnabled(b);
-        buttonMaisInformacoes.setEnabled(b);
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
@@ -303,7 +297,6 @@ public class ListagemPet extends JPanel {
     private JTable petTable;
     private JButton editarBtn;
     private JButton deletBtn;
-    private JButton buttonMaisInformacoes;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
     List<PetResponseListagemDTO> pets;
     PetController petController = new PetController();
