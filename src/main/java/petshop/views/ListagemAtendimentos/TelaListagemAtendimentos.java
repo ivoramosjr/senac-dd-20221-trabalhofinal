@@ -50,10 +50,10 @@ public class TelaListagemAtendimentos extends JPanel {
         filtroAtendimento.setIdServico(idServico);
 
         List<StatusAtendimentoEnum> status = new ArrayList<>();
-        if(radioButtonMenuItemAgendado.isSelected()){
+        if(checkboxMenuItemAgendados.isSelected()){
             status.add(StatusAtendimentoEnum.AGENDADO);
         }
-        if(radioButtonMenuItemRealizados.isSelected()){
+        if(checkboxMenuItemRealizados.isSelected()){
             status.add(StatusAtendimentoEnum.REALIZADO);
         }
 
@@ -85,8 +85,8 @@ public class TelaListagemAtendimentos extends JPanel {
         labelListaAtendimentos = new JLabel();
         buttonGerarRelatorio = new JButton();
         menuBarRealizadoAgendado = new JMenuBar();
-        radioButtonMenuItemAgendado = new JRadioButtonMenuItem();
-        radioButtonMenuItemRealizados = new JRadioButtonMenuItem();
+        checkboxMenuItemAgendados = new JCheckBox();
+        checkboxMenuItemRealizados = new JCheckBox();
         panelEntradas = new JPanel();
         labelNome = new JLabel();
         labelRaca = new JLabel();
@@ -126,13 +126,13 @@ public class TelaListagemAtendimentos extends JPanel {
         //======== menuBarRealizadoAgendado ========
         {
 
-            //---- radioButtonMenuItemAgendado ----
-            radioButtonMenuItemAgendado.setText("Agendados");
-            menuBarRealizadoAgendado.add(radioButtonMenuItemAgendado);
+            //---- checkboxMenuItemAgendados ----
+            checkboxMenuItemAgendados.setText("Agendados");
+            menuBarRealizadoAgendado.add(checkboxMenuItemAgendados);
 
-            //---- radioButtonMenuItemRealizados ----
-            radioButtonMenuItemRealizados.setText("Realizados");
-            menuBarRealizadoAgendado.add(radioButtonMenuItemRealizados);
+            //---- checkboxMenuItemRealizados ----
+            checkboxMenuItemRealizados.setText("Realizados");
+            menuBarRealizadoAgendado.add(checkboxMenuItemRealizados);
         }
         add(menuBarRealizadoAgendado, "cell 0 1,alignx right,growx 0");
 
@@ -236,8 +236,8 @@ public class TelaListagemAtendimentos extends JPanel {
     private JLabel labelListaAtendimentos;
     private JButton buttonGerarRelatorio;
     private JMenuBar menuBarRealizadoAgendado;
-    private JRadioButtonMenuItem radioButtonMenuItemAgendado;
-    private JRadioButtonMenuItem radioButtonMenuItemRealizados;
+    private JCheckBox checkboxMenuItemAgendados;
+    private JCheckBox checkboxMenuItemRealizados;
     private JPanel panelEntradas;
     private JLabel labelNome;
     private JLabel labelRaca;

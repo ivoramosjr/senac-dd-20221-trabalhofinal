@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.5.4.420" Java: "11.0.14.1" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.5.4.420" Java: "11.0.15" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -27,12 +27,12 @@ new FormModel {
 			} )
 			add( new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
 				name: "menuBarRealizadoAgendado"
-				add( new FormComponent( "javax.swing.JRadioButtonMenuItem" ) {
-					name: "radioButtonMenuItemAgendado"
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "checkboxMenuItemAgendados"
 					"text": "Agendados"
 				} )
-				add( new FormComponent( "javax.swing.JRadioButtonMenuItem" ) {
-					name: "radioButtonMenuItemRealizados"
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "checkboxMenuItemRealizados"
 					"text": "Realizados"
 				} )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
