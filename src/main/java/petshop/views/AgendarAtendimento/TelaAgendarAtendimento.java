@@ -114,8 +114,6 @@ public class TelaAgendarAtendimento extends JPanel {
         data = new DateTimePicker(dateSettings, null);
 
         data.setBounds(2, 3, 540, 45);
-        data.setBackground(new java.awt.Color(60, 63, 65));
-        data.setForeground(new java.awt.Color(187, 187, 187));
 
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         label1 = new JLabel();
