@@ -56,6 +56,10 @@ public class TelaListagemAtendimentos extends JPanel {
         if(checkboxMenuItemRealizados.isSelected()){
             status.add(StatusAtendimentoEnum.REALIZADO);
         }
+        if(checkboxMenuItemDesmarcados.isSelected()){
+            status.add(StatusAtendimentoEnum.DESMARCADO);
+        }
+
 
         filtroAtendimento.setStatus(status);
 
@@ -86,6 +90,7 @@ public class TelaListagemAtendimentos extends JPanel {
         buttonGerarRelatorio = new JButton();
         menuBarRealizadoAgendado = new JMenuBar();
         checkboxMenuItemAgendados = new JCheckBox();
+        checkboxMenuItemDesmarcados = new JCheckBox();
         checkboxMenuItemRealizados = new JCheckBox();
         panelEntradas = new JPanel();
         labelNome = new JLabel();
@@ -129,6 +134,10 @@ public class TelaListagemAtendimentos extends JPanel {
             //---- checkboxMenuItemAgendados ----
             checkboxMenuItemAgendados.setText("Agendados");
             menuBarRealizadoAgendado.add(checkboxMenuItemAgendados);
+
+            //---- checkboxMenuItemDesmarcados ----
+            checkboxMenuItemDesmarcados.setText("Desmarcados");
+            menuBarRealizadoAgendado.add(checkboxMenuItemDesmarcados);
 
             //---- checkboxMenuItemRealizados ----
             checkboxMenuItemRealizados.setText("Realizados");
@@ -237,6 +246,7 @@ public class TelaListagemAtendimentos extends JPanel {
     private JButton buttonGerarRelatorio;
     private JMenuBar menuBarRealizadoAgendado;
     private JCheckBox checkboxMenuItemAgendados;
+    private JCheckBox checkboxMenuItemDesmarcados;
     private JCheckBox checkboxMenuItemRealizados;
     private JPanel panelEntradas;
     private JLabel labelNome;

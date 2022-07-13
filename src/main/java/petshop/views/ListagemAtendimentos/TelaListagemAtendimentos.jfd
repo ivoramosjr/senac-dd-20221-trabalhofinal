@@ -32,6 +32,10 @@ new FormModel {
 					"text": "Agendados"
 				} )
 				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "checkboxMenuItemDesmarcados"
+					"text": "Desmarcados"
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
 					name: "checkboxMenuItemRealizados"
 					"text": "Realizados"
 				} )

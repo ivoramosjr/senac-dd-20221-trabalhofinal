@@ -67,6 +67,7 @@ public class AtendimentoDAO extends GenericRepository{
 
     public List<AtendimentoResponseListagemDTO> findWithFilter(FiltroAtendimento filtro){
         String sql = geracaoSQL(filtro);
+        System.out.println(sql);
 
         Query query = this.getEntityManager().createQuery(sql, AtendimentoResponseListagemDTO.class);
 
@@ -95,6 +96,10 @@ public class AtendimentoDAO extends GenericRepository{
 
         if(filtro.getStatus().contains(StatusAtendimentoEnum.REALIZADO)){
             query.setParameter("statusAtendimentoRealizado", StatusAtendimentoEnum.REALIZADO);
+        }
+
+        if(filtro.getStatus().contains(StatusAtendimentoEnum.DESMARCADO)){
+            query.setParameter("statusAtendimentoDesmarcado", StatusAtendimentoEnum.DESMARCADO);
         }
     }
 
@@ -127,6 +132,10 @@ public class AtendimentoDAO extends GenericRepository{
 
         if(filtro.getStatus().contains(StatusAtendimentoEnum.REALIZADO)){
             sql = sql.concat(andOrWhere).concat("a.statusAtendimento = :statusAtendimentoRealizado ");
+        }
+
+        if(filtro.getStatus().contains(StatusAtendimentoEnum.DESMARCADO)){
+            sql = sql.concat(andOrWhere).concat("a.statusAtendimento = :statusAtendimentoDesmarcado ");
         }
 
         sql = sql.concat(filtro.getStatus().contains(StatusAtendimentoEnum.AGENDADO)?") ":"")
